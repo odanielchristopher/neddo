@@ -13,8 +13,10 @@ export const Container = styled.div`
 export const ContentContainer = styled.div`
   background-color: #fff;
   border-radius: .4rem;
+  box-shadow: 0rem .4rem .8rem -.3rem rgba(0,0,0,0.1);
   padding: 1.6rem;
-  width: 46.0rem;
+  width: 45.0rem;
+  margin-right: .8rem;
 
   header {
     strong {
