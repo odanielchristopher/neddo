@@ -1,0 +1,55 @@
+# default: &default
+#   adapter: postgresql
+#   encoding: unicode
+#   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+
+# development:
+#   <<: *default
+#   database: neddo_development
+
+# test:
+#   <<: *default
+#   database: neddo_test
+
+# production:
+#   primary: &primary_production
+#     <<: *default
+#     database: neddo_production
+#     username: neddo
+#     password: <%= ENV["NEDDO_DATABASE_PASSWORD"] %>
+#   cache:
+#     <<: *primary_production
+#     database: neddo_production_cache
+#     migrations_paths: db/cache_migrate
+#   queue:
+#     <<: *primary_production
+#     database: neddo_production_queue
+#     migrations_paths: db/queue_migrate
+#   cable:
+#     <<: *primary_production
+#     database: neddo_production_cable
+#     migrations_paths: db/cable_migrate
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: <%= ENV.fetch("DB_HOST") { "localhost" } %> # Para conectar ao container
+  port: <%= ENV.fetch("DB_PORT") { 5432 } %>
+  username: <%= ENV.fetch("DB_USERNAME") { "root" } %>
+  password: <%= ENV.fetch("DB_PASSWORD") { "root" } %>
+
+development:
+  <<: *default
+  database: <%= ENV.fetch("DB_NAME_DEVELOPMENT") { "neddo_development" } %>
+
+test:
+  <<: *default
+  database: <%= ENV.fetch("DB_NAME_TEST") { "neddo_test" } %>
+
+production:
+  <<: *default
+  database: <%= ENV.fetch("DB_NAME_PRODUCTION") { "neddo_production" } %>
+  username: <%= ENV.fetch("DB_USERNAME_PRODUCTION") { "root" } %>
+  password: <%= ENV["DB_PASSWORD_PRODUCTION"] %>
