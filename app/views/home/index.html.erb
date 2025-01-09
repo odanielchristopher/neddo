@@ -16,7 +16,7 @@
                 <%= image_tag("pencil.svg", alt: "Edit list", class: "edit-icon") %>
               <% end %>
 
-              <%= button_to list_path(list), method: :delete, class: "actions-btn" , data: { confirm: "Tem certeza de que deseja deletar esta lista?" } do %>
+              <%= button_to list_path(list), method: :delete, class: "actions-btn", data: { confirm: "Tem certeza de que deseja deletar esta lista?", turbo: false }, remote: true do %>
                 <%= image_tag("trash.svg", alt: "Delete list", class: "delete-icon") %>
               <% end %>
             </div>

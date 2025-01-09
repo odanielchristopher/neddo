@@ -1,8 +1,8 @@
 <div class="component input">
-  <!-- Campo de input com erro condicional -->
+  <!-- Campo de input -->
   <input type="text" 
          id="<%= id %>" 
-         name="<%= id %>" 
+         name="<%= form.object_name %>[<%= id %>]" 
          class="input <%= 'error' if error.present? %>" 
          placeholder=" " 
          value="<%= value %>" />
