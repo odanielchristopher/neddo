@@ -1,27 +1,17 @@
-<%= form_with(model: list) do |form| %>
-  <% if list.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(list.errors.count, "error") %> prohibited this list from being saved:</h2>
+<%= form_with(model: list, class: "form-main") do |form| %>
+  <%= render 'shared/input', 
+      id: 'title', 
+      label: 'Título', 
+      value: @list.title, 
+      error: @list.errors[:title].first %>
 
-      <ul>
-        <% list.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render 'shared/input', 
+      id: 'color', 
+      label: 'Cor', 
+      value: @list.title, 
+      error: @list.errors[:title].first %>
 
-  <div>
-    <%= form.label :title, style: "display: block" %>
-    <%= form.text_field :title %>
-  </div>
-
-  <div>
-    <%= form.label :color, style: "display: block" %>
-    <%= form.text_field :color %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+  <div class="form-footer">
+    <button type="submit" class="button">Adicionar nova lista</button>
   </div>
 <% end %>
