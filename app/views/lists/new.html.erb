@@ -2,8 +2,8 @@
 
 <div class="form-container">
   <div class="form">
-    <%= render "shared/form_header" %>
+    <%= render "shared/form_header", title: "Nova lista" %>
 
-    <%= render "form", list: @list %>
+    <%= render "form_list", list: @list, button_text: "Adicionar nova lista" %>
   </div>
 </div>
