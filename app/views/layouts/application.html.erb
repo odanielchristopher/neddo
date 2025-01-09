@@ -23,8 +23,14 @@
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
-    
+
+    <% component_javascripts = [
+      "home/index"
+    ] %>
+
     <%= javascript_importmap_tags %>
+    <%= javascript_include_tag(*component_javascripts, type: "module", defer: true) %>
+    
   </head>
 
   <body>

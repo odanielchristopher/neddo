@@ -19,8 +19,8 @@
   font-weight: 600;
   line-height: 22px;
   padding: 4px 10px;
-
   transition: all ease-in .2s;
+  text-decoration: none;
 }
 
 .home-container .section .section-header .section-header_btn:hover {

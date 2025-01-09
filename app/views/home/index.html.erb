@@ -1,17 +1,39 @@
 <div class="home-container">
   <section class="section todos">
     <header class="section-header">
-      <h2>0 Listas</h2>
-
-      <button class="section-header_btn">Nova lista</button>
+      <h2><%= pluralize(@lists.count, 'Lista') %></h2>
+      <%= link_to "Nova lista", new_list_path, class: "section-header_btn" %>
     </header>
+
+    <ul class="lists">
+      <% @lists.each do |list| %>
+        <li class="lists-item">
+          <!-- Link para selecionar uma lista -->
+          <%= link_to list.title, home_index_path(list_id: list.id), class: "list-button" %>
+        </li>
+      <% end %>
+    </ul>
   </section>
+
   <div class="line"></div>
-  <section class="section tasks">
-    <header class="section-header">
-      <h2>0 Tarefas</h2>
 
-      <button class="section-header_btn">Nova tarefa</button>
-    </header>
-  </section>
+  <% if @selected_list %>
+    <section class="section tasks">
+      <header class="section-header">
+          <h2><%= pluralize(@tasks.count, 'Tarefa') %></h2>
+
+        <%= link_to "Nova tarefa", new_list_task_path(@selected_list), class: "section-header_btn" if @selected_list %>
+      </header>
+
+      <ul>
+        <% @tasks.each do |task| %>
+          <li>
+            <strong><%= task.title %></strong> - <%= task.descrption %>
+          </li>
+        <% end %>
+      </ul>
+    </section>
+  <% else %>
+        <%# <h2>Nenhuma Lista Selecionada</h2> %>
+  <% end %>
 </div>
