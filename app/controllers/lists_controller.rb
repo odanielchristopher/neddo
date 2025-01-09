@@ -26,11 +26,12 @@ class ListsController < ApplicationController
 
     respond_to do |format|
       if @list.save
-        format.html { redirect_to @list, notice: "List was successfully created." }
-        format.json { render :show, status: :created, location: @list }
+        format.html { redirect_to root_path, notice: "List was successfully created." }
+        format.json { render json: { message: "List created successfully" }, status: :created }
       else
+        Rails.logger.error @list.errors.full_messages
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @list.errors, status: :unprocessable_entity }
+        format.json { render json: { errors: @list.errors.full_messages }, status: :unprocessable_entity }
       end
     end
   end
@@ -39,7 +40,7 @@ class ListsController < ApplicationController
   def update
     respond_to do |format|
       if @list.update(list_params)
-        format.html { redirect_to @list, notice: "List was successfully updated." }
+        format.html { redirect_to root_path, notice: "List was successfully updated." }
         format.json { render :show, status: :ok, location: @list }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -50,11 +51,13 @@ class ListsController < ApplicationController
 
   # DELETE /lists/1 or /lists/1.json
   def destroy
-    @list.destroy!
+    @list = List.find(params[:id])
+    @list.destroy
 
+    # Resposta em AJAX
     respond_to do |format|
-      format.html { redirect_to lists_path, status: :see_other, notice: "List was successfully destroyed." }
-      format.json { head :no_content }
+      format.html { redirect_to root_path, notice: "Lista deletada com sucesso." }
+      format.js   { render js: "document.getElementById('#{dom_id(@list)}').remove();" }
     end
   end
 
@@ -66,6 +69,6 @@ class ListsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def list_params
-      params.expect(list: [ :title, :color ])
+      params.require(:list).permit(:title, :color)
     end
 end
