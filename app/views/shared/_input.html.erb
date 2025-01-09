@@ -1,0 +1,20 @@
+<div class="component input">
+  <!-- Campo de input com erro condicional -->
+  <input type="text" 
+         id="<%= id %>" 
+         name="<%= id %>" 
+         class="input <%= 'error' if error.present? %>" 
+         placeholder=" " 
+         value="<%= value %>" />
+
+  <!-- Label para o campo -->
+  <label for="<%= id %>" class="label"><%= label %></label>
+
+  <!-- Exibição do erro se existir -->
+  <% if error.present? %>
+    <div class="error-span">
+      <%= image_tag("cross-circle.svg", alt: "error circle", class: "circle-icon") %>
+      <span><%= error %></span>
+    </div>
+  <% end %>
+</div>

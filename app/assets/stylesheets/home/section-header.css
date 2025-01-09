@@ -1,0 +1,12 @@
+.home-container .section .section-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.home-container .section .section-header h2 {
+  font-size: 24px;
+  font-weight: 600;
+}
+
