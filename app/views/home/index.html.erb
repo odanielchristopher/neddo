@@ -8,7 +8,6 @@
     <ul class="lists">
       <% @lists.each do |list| %>
         <li class="lists-item">
-          <!-- Link para selecionar uma lista -->
           <%= link_to list.title, home_index_path(list_id: list.id), class: "list-button" %>
         </li>
       <% end %>
