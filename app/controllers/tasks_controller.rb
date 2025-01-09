@@ -1,9 +1,11 @@
 class TasksController < ApplicationController
   before_action :set_task, only: %i[ show edit update destroy ]
+  before_action :set_list, only: %i[new create]  # Adicionando callback para garantir que @list esteja disponível
 
   # GET /tasks or /tasks.json
   def index
-    @tasks = Task.all
+    @tasks = Task.where(list_id: params[:list_id])
+    render json: @tasks  # Corrigido para @tasks, não @lists
   end
 
   # GET /tasks/1 or /tasks/1.json
@@ -21,7 +23,7 @@ class TasksController < ApplicationController
 
   # POST /tasks or /tasks.json
   def create
-    @task = Task.new(task_params)
+    @task = @list.tasks.build(task_params)  # Corrigido para usar @list
 
     respond_to do |format|
       if @task.save
@@ -60,11 +62,15 @@ class TasksController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_task
-      @task = Task.find(params.expect(:id))
+      @task = Task.find(params[:id])  # Corrigido para usar params[:id]
     end
 
     # Only allow a list of trusted parameters through.
     def task_params
-      params.expect(task: [ :title, :description, :hour, :list_id, :category_id ])
+      params.require(:task).permit(:titulo, :descricao, :horario, :list_id, :categoria_id)  # Corrigido para usar permit
+    end
+
+    def set_list
+      @list = List.find(params[:list_id])  # Certifique-se de que @list é setado para o create e new
     end
 end
