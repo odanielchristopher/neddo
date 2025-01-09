@@ -1,17 +1,37 @@
 <div class="home-container">
   <section class="section todos">
+  <% if @lists.length > 0 %>
     <header class="section-header">
       <h2><%= pluralize(@lists.count, 'Lista') %></h2>
-      <%= link_to "Nova lista", new_list_path, class: "section-header_btn" %>
+      <%= link_to "Nova lista", new_list_path, class: "section-link" %>
     </header>
 
     <ul class="lists">
       <% @lists.each do |list| %>
         <li class="lists-item">
           <%= link_to list.title, home_index_path(list_id: list.id), class: "list-button" %>
+
+          <div>
+            <%= link_to edit_list_path(list) do %>
+              <%= image_tag("pencil.svg", alt: "Edit list", class: "edit-icon") %>
+            <% end %>
+
+            <%= button_to list_path(list), method: :delete, data: { confirm: "Tem certeza de que deseja deletar esta lista?" } do %>
+              <%= image_tag("trash.svg", alt: "Delete list", class: "delete-icon") %>
+            <% end %>
+          </div>
         </li>
       <% end %>
     </ul>
+  <% else %>
+    <div class="no-content-list--container">
+      <%= link_to "Nova lista", new_list_path, class: "section-link" %>
+      <div class="no-content-lists--img">
+        <%= image_tag("add-notes.svg", alt: "No content lists") %>
+        <span>Você não possui nenhuma lista.</span>
+      </div>
+    </div>
+  <% end %>
   </section>
 
   <div class="line"></div>
@@ -21,18 +41,21 @@
       <header class="section-header">
           <h2><%= pluralize(@tasks.count, 'Tarefa') %></h2>
 
-        <%= link_to "Nova tarefa", new_list_task_path(@selected_list), class: "section-header_btn" if @selected_list %>
+        <%= link_to "Nova tarefa", new_list_task_path(@selected_list), class: "section-link" if @selected_list %>
       </header>
 
       <ul>
         <% @tasks.each do |task| %>
           <li>
-            <strong><%= task.title %></strong> - <%= task.descrption %>
+            <strong><%= task.title %></strong> - <%= task.description %>
           </li>
         <% end %>
       </ul>
     </section>
   <% else %>
-        <%# <h2>Nenhuma Lista Selecionada</h2> %>
+    <div class="unselected-list--img">
+      <%= image_tag("clipboard.svg", alt: "Empty tasks") %>
+      <span>Nenhuma lista selecionada.</span>
+    </div>
   <% end %>
 </div>

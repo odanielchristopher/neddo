@@ -10,25 +10,3 @@
   font-weight: 600;
 }
 
-.home-container .section .section-header .section-header_btn {
-  background: transparent;
-  border: 2px solid var(--green-7);
-  border-radius: 4px;
-  color: var(--green-7);
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 22px;
-  padding: 4px 10px;
-  transition: all ease-in .2s;
-  text-decoration: none;
-}
-
-.home-container .section .section-header .section-header_btn:hover {
-  background: var(--green-7);
-  color: var(--white);
-}
-.home-container .section .section-header .section-header_btn:active {
-  background: var(--green-8);
-  border-color: var(--green-8);
-  color: var(--white);
-}
