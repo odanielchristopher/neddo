@@ -1,0 +1,26 @@
+.home-container {
+  display: flex;
+
+  gap: 24px;
+  height: 100vh;
+  max-height: 380px;
+  width: 100%;
+}
+
+.home-container .line {
+  max-height: 380px;
+  width: 4px;
+  background-color: var(--gray-4);
+}
+
+.home-container .todos {
+  padding-block: 12px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.home-container .tasks {
+  padding-block: 12px;
+  width: 100%;
+  max-width: 500px;
+}
