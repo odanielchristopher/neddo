@@ -8,3 +8,58 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
+:root {
+  --background: #F6F5FC;
+  --black: #222222;
+  --green-3: #D7FFC9;
+  --green-4: #61A947;
+  --green-5: #1D6204;
+  --green-7: #5D841E;
+  --green-8: #4d612e;
+  --gray-4: #BCBCBC;
+  --gray-5: #ABD5BD;
+  --gray-7: #485057;
+  --red: #C92A2A;
+  --white: #f0f0f1;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "DM Sans", serif;
+}
+
+button {
+  cursor: pointer;
+}
+
+body {
+  align-items: center;
+  background-color: var(--background);
+  color: var(--black);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  height: 100vh;
+  justify-content: center;
+  width: 100%;
+}
+
+.app-header .title {
+  font-size: 40px;
+  font-weight: 500;
+}
+
+.app-header .title .ned {
+  color: var(--green-7);
+}
+
+.app-main {
+  border-top: 2px solid var(--gray-4);
+  padding-top: 24px;
+  padding-inline: 12px;
+  max-width: 872px;
+  width: 95%;
+}
