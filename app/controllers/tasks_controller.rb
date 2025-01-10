@@ -44,14 +44,25 @@ class TasksController < ApplicationController
 
   # PATCH/PUT /tasks/1 or /tasks/1.json
   def update
-    if params[:task] && params[:task].key?(:completed) # Verifica se o parâmetro 'completed' foi enviado
+    if params[:task] && params[:task].key?(:completed)
       completed = ActiveModel::Type::Boolean.new.cast(params[:task][:completed])
-      @task.update(completed: completed)
-    end
-
-    respond_to do |format|
-      format.json { render json: { completed: @task.completed } }
-      format.html { redirect_to home_index_path(list_id: @task.list_id), notice: "Task was successfully updated." }
+      if @task.update(completed: completed)
+        respond_to do |format|
+          format.json { render json: { completed: @task.completed } }
+          format.html { redirect_to home_index_path(list_id: @task.list_id), notice: "Task was successfully updated." }
+        end
+      else
+        render :edit
+      end
+    else
+      if @task.update(task_params)
+        respond_to do |format|
+          format.json { render json: { task: @task } }
+          format.html { redirect_to home_index_path(list_id: @task.list_id), notice: "Task was successfully updated." }
+        end
+      else
+        render :edit
+      end
     end
   end
 
