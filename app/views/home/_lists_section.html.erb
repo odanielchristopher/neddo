@@ -1,0 +1,18 @@
+<section class="section todos">
+  <% if @lists.length > 0 %>
+    <header class="section-header">
+      <h2><%= pluralize(@lists.count, 'Lista') %></h2>
+      <%= link_to "Nova lista", new_list_path, class: "section-link" %>
+    </header>
+
+    <%= render "lists/index" %>
+  <% else %>
+    <div class="no-content-list--container">
+      <%= link_to "Nova lista", new_list_path, class: "section-link" %>
+      <div class="no-content-lists--img">
+        <%= image_tag("add-notes.svg", alt: "No content lists") %>
+        <span>Você não possui nenhuma lista.</span>
+      </div>
+    </div>
+  <% end %>
+</section>
