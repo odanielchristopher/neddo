@@ -1,0 +1,83 @@
+.component.select {
+  position: relative;
+}
+
+.component.select + .component.select {
+  margin-top: 12px;
+}
+
+.component.select select {
+  appearance: none;
+  background: #FFF;
+  border: 2px solid var(--gray-4);
+  border-radius: 6px;
+  box-shadow: 0px 4px 10px 0px #0000000A;
+  font-size: 16px;
+  height: 48px;
+  outline: none;
+  padding: 12px;
+  width: 100%;
+  transition: border-color 0.2s ease-in;
+}
+
+.component.select .arrow {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.component.select select:focus {
+  border-color: var(--green-7);
+}
+
+.component.select select:disabled {
+  background-color: #f2f2f2;
+  border-color: transparent;
+}
+
+/* Aplica estilo ao select quando data-filled não está presente */
+.component.select select.filled {
+  padding-top: 20px;
+}
+
+/* Aplica estilo ao label quando data-filled está presente */
+.component.select select:not(.filled) ~ label {
+  font-size: 16px;
+  top: 14px;
+}
+
+option {
+  position: absolute;
+  z-index: 10;
+}
+
+.component.select select.error {
+  color: var(--red);
+  border-color: var(--red) !important;
+}
+
+.component.select select.error:valid ~ label {
+  color: var(--red) !important;
+}
+
+.component.select label {
+  color: var(--gray-7);
+  font-size: 14px;
+  left: 13px;
+  position: absolute;
+  pointer-events: none;
+  top: 4px;
+  transition: all ease-in 100ms;
+}
+
+.component.select .error-span {
+  align-items: center;
+  color: var(--red);
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.component.select .error-span {
+  font-size: 14px;
+}
