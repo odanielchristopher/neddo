@@ -21,15 +21,8 @@ class ListsController < ApplicationController
   end
   # POST /lists or /lists.json
   def create
-    Rails.logger.debug "Parâmetros recebidos: #{params.inspect}"
-
-    # Verificando se o valor de color foi recebido corretamente
-    Rails.logger.debug "Cor recebida: #{params[:color]}"
-
     @list = List.new(list_params)
 
-    # Adicionando um log antes de salvar
-    # Rails.logger.debug "Color antes de salvar: #{@list.color}"
     respond_to do |format|
       if @list.save
         format.html { redirect_to root_path, notice: "List was successfully created." }
@@ -76,6 +69,7 @@ class ListsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def list_params
     # Permitir o title dentro de list e color diretamente
-    params.require(:list).permit(:title).merge(color: params[:color])
+    # params.require(:list).permit(:title).merge(color: params[:color])
+    params.require(:list).permit(:title, :color)
   end
 end
