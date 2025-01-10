@@ -1,0 +1,37 @@
+.home-container .unselected-list--info {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 14px;
+  height: 100%;
+  width: 100%;
+}
+
+.home-container .unselected-list--info span {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.home-container .no-content-tasks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.home-container .no-content-tasks--info {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 300px;
+}
+
+.home-container .no-content-tasks--info img {
+  width: 200px;
+}
+
+.home-container .no-content-tasks--info span {
+  text-align: center;
+}

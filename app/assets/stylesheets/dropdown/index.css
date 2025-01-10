@@ -1,0 +1,103 @@
+/* Container do dropdown */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.dropdown .label {
+  position: absolute;
+  left: 16px;
+  top: 4px;
+
+  font-size: 14px;
+  color: var(--gray-7);
+
+  transition: all ease-in .05s;
+}
+
+.dropdown-button:not(.filled) ~ .label {
+  font-size: 16px;
+  top: 14px;
+}
+
+.dropdown-button.error ~ .label {
+  color: var(--red);
+}
+
+.dropdown .icon {
+  position: absolute;
+  right: 14px;
+  top: 12px;
+}
+
+.dropdown-button {
+  background-color: #fff;
+  border: 2px solid var(--gray-4);
+  border-radius: 6px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  padding: 16px 14px 10px;
+  text-align: left;
+  transition: all ease-in 0.2s;
+  width: 100%;
+  height: 48px;
+}
+
+.dropdown-button:focus {
+  border-color: var(--green-4);
+}
+
+.dropdown-button.error {
+  border-color: var(--red);
+  color: var(--red);
+  pointer-events: auto;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  border: 2px solid var(--gray-4);
+  border-radius: 6px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  margin: 5px 0 0;
+  padding: 0;
+  z-index: 1000;
+}
+
+.dropdown-menu.active {
+  display: block;
+}
+
+.dropdown-item {
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s;
+}
+
+.dropdown-item:hover {
+  background-color: var(--gray-5);
+}
+
+.dropdown-item.selected {
+  background-color: var(--green-4);
+}
+
+.dropdown .error-span {
+  align-items: center;
+  color: var(--red);
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.dropdown .error-span {
+  font-size: 14px;
+}

@@ -1,12 +1,9 @@
 <% content_for :title, "Editing list" %>
 
-<h1>Editing list</h1>
+<div class="form-container">
+  <div class="form">
+    <%= render "shared/form_header", title: "Editar lista" %>
 
-<%= render "form", list: @list %>
-
-<br>
-
-<div>
-  <%= link_to "Show this list", @list %> |
-  <%= link_to "Back to lists", lists_path %>
+    <%= render "form_list", list: @list, button_text: "Salvar alterações" %>
+  </div>
 </div>

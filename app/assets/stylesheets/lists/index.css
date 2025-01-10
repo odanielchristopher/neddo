@@ -39,3 +39,31 @@
   background-color: transparent;
   border: none;
 }
+
+.no-content-list--container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+}
+
+.home-container .no-content-lists--img {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  height: 100%;
+}
+
+.home-container .no-content-lists--img span {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.home-container .no-content-lists--img img {
+  width: 120px;
+}

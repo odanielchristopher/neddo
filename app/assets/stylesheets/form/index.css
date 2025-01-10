@@ -1,0 +1,80 @@
+.form-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.form-container .form {
+  width: 100%;
+  max-width: 380px;
+}
+
+.form-container .form .form-main {
+  margin-top: 20px;
+}
+
+.form-container .form .form-footer {
+  margin-top: 24px;
+}
+
+.button {
+  background: var(--green-7);
+  border: 2px solid transparent;
+  border-radius: 6px;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.04);
+  color: var(--white);
+  font-size: 18px;
+  font-weight: 600;
+  padding: 14px;
+  transition: all .2s ease-in;
+  width: 100%;
+}
+
+.button:hover {
+  background: var(--green-5);
+}
+
+.button:focus {
+  outline: 2px solid var(--green-4);
+  background: var(--green-5);
+}
+
+.button:active {
+  background: var(--green-8);
+}
+
+.button:disabled {
+  background: var(--gray-4) !important;
+  cursor: default !important;
+}
+
+.button.danger {
+  background: var(--red);
+}
+
+.button.danger:hover {
+  background: var(--red-3);
+}
+
+.button.danger:active {
+  background: var(--red-7);
+}
+
+/* 
+
+&[disabled] {
+  background: ${({ theme }) => theme.colors.gray.lighter} !important;
+  cursor: default !important;
+}
+
+${({ theme, $danger }) => $danger && css`
+  background: ${theme.colors.red.main};
+
+  &:hover {
+    background: ${theme.colors.red.light};
+  }
+
+  &:active {
+    background: ${theme.colors.red.dark};
+  }
+`}; */
