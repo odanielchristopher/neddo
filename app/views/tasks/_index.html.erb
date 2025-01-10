@@ -1,8 +1,16 @@
 <ul class="tasks-list">
   <% @tasks.each do |task| %>
     <li class="tasks-item">
-      <label class="task <% 'completed' if task.completed %>" data-task-id="<%= task.id %>" data-completed=<%= 'true' if task.completed %> data-list-id="<%= @selected_list.id %>">
-        <input type="checkbox" id="<%= task.id %>" class="checkbox" <%= 'checked' if task.completed %> />
+      <label 
+        class="task <%= 'completed' if task.completed %>" 
+        data-task-id="<%= task.id %>" 
+        data-completed="<%= task.completed ? 'true' : 'false' %>" 
+        data-list-id="<%= @selected_list.id %>">
+        <input 
+          type="checkbox" 
+          id="<%= task.id %>" 
+          class="checkbox" 
+          <%= 'checked' if task.completed %> />
         <div class="checkbox-custom"></div>
         <div class="infos">
           <header class="header">
@@ -28,5 +36,3 @@
     </li>
   <% end %>
 </ul>
-
-

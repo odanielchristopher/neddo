@@ -6,6 +6,8 @@ class TasksController < ApplicationController
   def index
     @tasks = @list.tasks # Filtra tarefas pertencentes à lista
     render json: @tasks  # Retorna todas as tarefas como JSON (ou ajuste para HTML se necessário)
+    @selected_list = List.find(params[:list_id]) if params[:list_id].present?
+    Rails.logger.debug "Selected list: #{@selected_list.inspect}"
   end
 
   # GET /tasks/1 or /tasks/1.json
@@ -42,12 +44,13 @@ class TasksController < ApplicationController
 
   # PATCH/PUT /tasks/1 or /tasks/1.json
   def update
-    if params[:task] && params[:task][:completed] # Verifica se o parâmetro 'completed' foi enviado
-      @task.update(completed: params[:task][:completed])
+    if params[:task] && params[:task].key?(:completed) # Verifica se o parâmetro 'completed' foi enviado
+      completed = ActiveModel::Type::Boolean.new.cast(params[:task][:completed])
+      @task.update(completed: completed)
     end
 
     respond_to do |format|
-      format.json { render json: { completed: @task.completed } }  # Retorna o status atual de completed
+      format.json { render json: { completed: @task.completed } }
       format.html { redirect_to home_index_path(list_id: @task.list_id), notice: "Task was successfully updated." }
     end
   end

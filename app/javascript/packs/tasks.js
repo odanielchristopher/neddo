@@ -1,15 +1,13 @@
-document.addEventListener("DOMContentLoaded", function () {
-  // Pegando todos os labels com a classe 'task'
+document.addEventListener("turbo:load", function () {
   const labels = document.querySelectorAll('.task');
 
   labels.forEach(label => {
     label.addEventListener('click', function () {
       const taskId = label.getAttribute('data-task-id');
-      const listId = label.getAttribute('data-list-id'); // Pegando o list_id
-      let completed = !Boolean(label.getAttribute('data-completed'));
-      console.log({ completed });
+      const listId = label.getAttribute('data-list-id');
+      let completed = label.getAttribute('data-completed') === 'true' ? false : true;
 
-      fetch(`/lists/${listId}/tasks/${taskId}`, {  // URL ajustada para incluir o list_id
+      fetch(`/lists/${listId}/tasks/${taskId}`, {
         method: 'PATCH',
         headers: {
           'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content,
@@ -26,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
           label.classList.remove('completed');
         }
-        // Atualiza o atributo 'data-completed' para refletir o novo estado
+        
         label.setAttribute('data-completed', data.completed);
       })
       .catch(error => console.error('Erro ao atualizar a tarefa:', error));
