@@ -1,0 +1,32 @@
+<div class="dropdown">
+  <button type="button" class="dropdown-button <%= 'error' if error %> <%= 'filled' if value %>" aria-haspopup="true" aria-expanded="false">
+  <% if value %>
+    <%= options.find { |option| option[:value] == value }[:label] %>
+  <% end %>
+</button>
+
+  <ul class="dropdown-menu" role="listbox" aria-hidden="true">
+    <% options.each do |option| %>
+      <li class="dropdown-item <%= 'selected' if option[:value] == value %>" data-value="<%= option[:value] %>">
+        <%= option[:label] %>
+      </li>
+    <% end %>
+  </ul>
+
+  <input type="hidden" name="<%= id %>" id="<%= id %>" class="input" value="<%= value %>">
+  
+  <span class="label"><%= label %></span>
+
+  <span class="icon">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M18 9L12 15L6 9" stroke="#343A40" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </span>
+
+  <% if error %>
+    <div class="error-span">
+      <%= image_tag("cross-circle.svg", alt: "error circle", class: "circle-icon") %>
+      <span><%= error %></span>
+    </div>
+  <% end %>
+</div>
