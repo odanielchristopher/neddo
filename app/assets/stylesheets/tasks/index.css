@@ -35,3 +35,125 @@
 .home-container .no-content-tasks--info span {
   text-align: center;
 }
+
+.tasks-list {
+  margin-top: 20px;
+}
+
+.tasks-list .tasks-item {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.tasks-list .tasks-item .task {
+  display: flex;
+  background: #FFF;
+  border-radius: 6px;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  padding: 16px;
+  position: relative;
+  width: 460px;
+}
+
+.tasks-list .tasks-item .task .checkbox {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+.tasks-list .tasks-item .task .infos {
+  width: 90%;
+}
+
+.tasks-list .tasks-item .task .infos .header {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.tasks-list .tasks-item .task .infos .header .category {
+  background: var(--green-3);
+  border-radius: 4px;
+  color: var(--green-4);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 6px;
+  text-transform: uppercase;
+}
+
+.tasks-list .tasks-item .task .infos .description {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--gray-7);
+}
+
+.tasks-list .tasks-item .actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.tasks-list .tasks-item .actions .actions-btn {
+  background-color: transparent;
+  border: none;
+}
+
+/* Estilos quando a tarefa estiver completada */
+
+.tasks-list .tasks-item .task[data-completed="true"] .checkbox ~ .infos .header .title-container {
+  text-decoration: line-through;
+}
+
+
+/* Esconde o checkbox original */
+.tasks-list .tasks-item .checkbox {
+  display: none;
+}
+
+/* Caixa do checkbox personalizada */
+.tasks-list .tasks-item .checkbox-custom {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background-color: #fff;
+  transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+}
+
+/* Estilo do checkbox quando marcado */
+.tasks-list .tasks-item .checkbox:checked + .checkbox-custom {
+  background-color: var(--green-4);
+  border-color: var(--green-4);
+  transform: scale(1.1); /* Um pequeno efeito de "expansão" */
+}
+
+/* Adicionando o "check" (tick) dentro do checkbox quando marcado */
+.tasks-list .tasks-item .checkbox:checked + .checkbox-custom::before {
+  content: '\2714'; /* Símbolo de "check" */
+  position: absolute;
+  top: 0px;
+  left: 3px;
+  color: var(--white);
+  font-size: 14px;
+  transition: opacity 0.2s ease;
+}
+
+/* Efeito de hover sobre o checkbox */
+.tasks-list .tasks-item .checkbox-custom:hover {
+  border-color: var(--green-4);
+}
+
+/* Animação de transição suave para o checkbox */
+.tasks-list .tasks-item .checkbox:checked ~ .infos .header .title-container {
+  text-decoration: line-through;
+}
