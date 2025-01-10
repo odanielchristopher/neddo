@@ -25,6 +25,15 @@
   --red-4: #D73035;
   --red-7: #F63131;
   --white: #f0f0f1;
+
+  /* Cores customizadas das lists */
+  --purple: #7950F2;
+  --yellow: #FAB005;
+  --orange: #FD7E14;
+  --blue: #4C6EF5;
+  --gray: #868E96;
+  --ocean: #15AABF;
+  --pink: #BE4BDB;
 }
 
 * {

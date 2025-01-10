@@ -9,6 +9,10 @@
   justify-content: space-between;
 }
 
+.lists-item + .lists-item {
+  margin-top: 12px;
+}
+
 .home-container .section .lists .lists-item .list-button {
   align-items: center;
   border: 2px solid transparent;
@@ -22,8 +26,9 @@
   font-weight: 400;
   padding: 12px;
   text-decoration: none;
-  width: 250px;
+  width: 272px;
 }
+
 
 .home-container .section .lists .lists-item .list-button:hover {
   border: 2px solid var(--green-7);
@@ -31,8 +36,9 @@
 
 .home-container .section .lists .lists-item .actions {
   display: flex;
-  gap: 4px;
   flex-direction: column;
+  gap: 2px;
+  justify-content: space-between;
 }
 
 .home-container .section .lists .lists-item .actions .actions-btn {
@@ -66,4 +72,44 @@
 
 .home-container .no-content-lists--img img {
   width: 120px;
+}
+
+.home-container .section .lists .lists-item .list-button.green {
+  background-color: var(--green-4);
+  color: var(--black);
+}
+
+.home-container .section .lists .lists-item .list-button.purple {
+  background-color: var(--purple);
+  color: var(--white);
+}
+
+.home-container .section .lists .lists-item .list-button.yellow {
+  background-color: var(--yellow);
+  color: var(--black);
+}
+
+.home-container .section .lists .lists-item .list-button.orange {
+  background-color: var(--orange);
+  color: var(--black);
+}
+
+.home-container .section .lists .lists-item .list-button.blue {
+  background-color: var(--blue);
+  color: var(--white);
+}
+
+.home-container .section .lists .lists-item .list-button.gray {
+  background-color: var(--gray);
+  color: var(--black);
+}
+
+.home-container .section .lists .lists-item .list-button.ocean {
+  background-color: var(--ocean);
+  color: var(--black);
+}
+
+.home-container .section .lists .lists-item .list-button.pink {
+  background-color: var(--pink);
+  color: var(--black);
 }

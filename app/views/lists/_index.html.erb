@@ -1,7 +1,7 @@
 <ul class="lists">
   <% @lists.each do |list| %>
     <li id="<% dom_id(list) %>" class="lists-item">
-      <%= link_to list.title, home_index_path(list_id: list.id), class: "list-button" %>
+      <%= link_to list.title, home_index_path(list_id: list.id), class: "list-button #{list.color}" %>
 
       <div class="actions">
         <%= link_to edit_list_path(list), class: "actions-btn" do %>
