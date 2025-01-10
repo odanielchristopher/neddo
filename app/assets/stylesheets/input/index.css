@@ -1,6 +1,9 @@
 .component.input {
   position: relative;
-  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.04);
+}
+
+.component.input + .component.input {
+  margin-top: 12px;
 }
 
 .component.input input {

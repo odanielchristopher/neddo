@@ -25,7 +25,10 @@
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
 
     <% component_javascripts = [
-      "home/index"
+      "home/index",
+      "packs/tasks",
+      "dropdown/index",
+      "checkbox/index",
     ] %>
 
     <%= javascript_importmap_tags %>
@@ -39,7 +42,6 @@
         <span class="ned">Ned</span><span class="do">do</span>
       </h1>
     </header>
-
 
     <main class="app-main">
       <%= yield %>

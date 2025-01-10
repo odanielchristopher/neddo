@@ -1,0 +1,31 @@
+<%= form_with(model: list, class: "form-main") do |form| %>
+
+  <%= render 'shared/input', 
+    form: form,
+    id: 'title', 
+    label: 'Título', 
+    value: @list.title, 
+    error: @list.errors[:title].first %>
+
+  <%= render "shared/dropdown", 
+    form: form, 
+    id: 'color', 
+    label: 'Cor', 
+    options: [
+      { value: 'green', label: 'Verde' },
+      { value: 'purple', label: 'Roxo'},
+      { value: 'yellow', label: 'Amarelo'},
+      { value: 'orange', label: 'Laranja'},
+      { value: 'blue', label: 'Azul'},
+      { value: 'gray', label: 'Cinza'},
+      { value: 'ocean', label: 'Ciano'},
+      { value: 'pink', label: 'Rosa'},
+    ], 
+    value: @list.color, 
+    error: @list.errors[:color].first %>
+
+  <div class="form-footer">
+    <button type="submit" class="button"><%= button_text %></button>
+  </div>
+<% end %>
+

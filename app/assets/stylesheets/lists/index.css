@@ -1,0 +1,116 @@
+.home-container .section .lists {
+  margin-top: 20px;
+  list-style: none;
+}
+
+.home-container .section .lists .lists-item {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.lists-item + .lists-item {
+  margin-top: 12px;
+}
+
+.home-container .section .lists .lists-item .list-button {
+  align-items: center;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.10);
+  display: flex;
+  background: var(--green-4);
+  justify-content: space-between;
+  color: var(--black);
+  font-size: 18px;
+  font-weight: 400;
+  padding: 12px;
+  text-decoration: none;
+  max-width: 272px;
+  width: 100%;
+}
+
+
+.home-container .section .lists .lists-item .list-button:hover {
+  border: 2px solid var(--green-7);
+}
+
+.home-container .section .lists .lists-item .actions {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  justify-content: space-between;
+}
+
+.home-container .section .lists .lists-item .actions .actions-btn {
+  background-color: transparent;
+  border: none;
+}
+
+.no-content-list--container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+}
+
+.home-container .no-content-lists--img {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  height: 100%;
+}
+
+.home-container .no-content-lists--img span {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.home-container .no-content-lists--img img {
+  width: 120px;
+}
+
+.home-container .section .lists .lists-item .list-button.green {
+  background-color: var(--green-4);
+  color: var(--black);
+}
+
+.home-container .section .lists .lists-item .list-button.purple {
+  background-color: var(--purple);
+  color: var(--white);
+}
+
+.home-container .section .lists .lists-item .list-button.yellow {
+  background-color: var(--yellow);
+  color: var(--black);
+}
+
+.home-container .section .lists .lists-item .list-button.orange {
+  background-color: var(--orange);
+  color: var(--black);
+}
+
+.home-container .section .lists .lists-item .list-button.blue {
+  background-color: var(--blue);
+  color: var(--white);
+}
+
+.home-container .section .lists .lists-item .list-button.gray {
+  background-color: var(--gray);
+  color: var(--black);
+}
+
+.home-container .section .lists .lists-item .list-button.ocean {
+  background-color: var(--ocean);
+  color: var(--black);
+}
+
+.home-container .section .lists .lists-item .list-button.pink {
+  background-color: var(--pink);
+  color: var(--black);
+}

@@ -1,0 +1,26 @@
+<section class="section tasks">
+  <% if @selected_list %>
+      <% if @tasks.any? %>
+        <header class="section-header">
+            <h2><%= pluralize(@tasks.count, 'Tarefa') %></h2>
+
+          <%= link_to "Nova tarefa", new_list_task_path(@selected_list), class: "section-link" if @selected_list %>
+        </header>
+
+        <%= render "tasks/index" %>
+      <% else %>
+        <div class="no-content-tasks" >
+          <%= link_to "Nova tarefa", new_list_task_path(@selected_list), class: "section-link" if @selected_list %>
+          <div class="no-content-tasks--info">
+            <%= image_tag("add-notes.svg", alt: "Empty tasks") %>
+            <span>Você não possui nenhuma tarefa cadastrada. Adicione uma <b>"nova tarefa"</b> no botão acima.</span>
+          </div>
+          </div>
+      <% end %>
+  <% else %>
+    <div class="unselected-list--info">
+      <%= image_tag("clipboard.svg", alt: "Empty tasks") %>
+      <span>Nenhuma lista selecionada.</span>
+    </div>
+  <% end %>
+</section>

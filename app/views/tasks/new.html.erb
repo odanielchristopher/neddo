@@ -1,11 +1,10 @@
-<% content_for :title, "New task" %>
+<% content_for :title, "New list" %>
 
-<h1>New task</h1>
+<div class="form-container">
+  <div class="form">
+    <%= render "shared/form_header", title: "Nova Tarefa" %>
 
-<%= render "form", task: @task %>
-
-<br>
-
-<div>
-  <%= link_to "Back to tasks", home_index_path(list_id: @list.id) %>
+    <%= render "form_task", task: @task, button_text: "Adicionar nova tarefa" %>
+  </div>
 </div>
+
