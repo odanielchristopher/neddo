@@ -19,11 +19,17 @@ class ListsController < ApplicationController
   # GET /lists/1/edit
   def edit
   end
-
   # POST /lists or /lists.json
   def create
+    Rails.logger.debug "Parâmetros recebidos: #{params.inspect}"
+
+    # Verificando se o valor de color foi recebido corretamente
+    Rails.logger.debug "Cor recebida: #{params[:color]}"
+
     @list = List.new(list_params)
 
+    # Adicionando um log antes de salvar
+    # Rails.logger.debug "Color antes de salvar: #{@list.color}"
     respond_to do |format|
       if @list.save
         format.html { redirect_to root_path, notice: "List was successfully created." }
@@ -67,8 +73,9 @@ class ListsController < ApplicationController
       @list = List.find(params.expect(:id))
     end
 
-    # Only allow a list of trusted parameters through.
-    def list_params
-      params.require(:list).permit(:title, :color)
-    end
+  # Only allow a list of trusted parameters through.
+  def list_params
+    # Permitir o title dentro de list e color diretamente
+    params.require(:list).permit(:title).merge(color: params[:color])
+  end
 end

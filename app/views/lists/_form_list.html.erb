@@ -7,14 +7,19 @@
     value: @list.title, 
     error: @list.errors[:title].first %>
 
-  <%= render 'shared/input', 
-      form: form,
-      id: 'color', 
-      label: 'Cor', 
-      value: @list.color, 
-      error: @list.errors[:color].first %>
+  <%= render "shared/dropdown", 
+    form: form, 
+    id: 'color', 
+    label: 'Cor', 
+    options: [
+      { value: 'branco', label: 'Branco'},
+      { value: 'verde', label: 'Verde'},
+      { value: 'amarelo', label: 'Amarelo'},
+      { value: 'preto', label: 'Preto'},
+    ], 
+    value: @list.color || 'verde', 
+    error: @list.errors[:color].first %>
 
-  <%= render "shared/select" %>
   <div class="form-footer">
     <button type="submit" class="button"><%= button_text %></button>
   </div>
