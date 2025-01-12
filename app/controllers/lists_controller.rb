@@ -25,10 +25,12 @@ class ListsController < ApplicationController
 
     respond_to do |format|
       if @list.save
-        format.html { redirect_to root_path, notice: "List was successfully created." }
+        flash[:notice] = "Lista criada com sucesso."
+        format.html { redirect_to root_path, notice: "Nova lista criada." }
         format.json { render json: { message: "List created successfully" }, status: :created }
       else
         Rails.logger.error @list.errors.full_messages
+        flash[:alert] = "Ocorreu um erro ao criar sua lista."
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: { errors: @list.errors.full_messages }, status: :unprocessable_entity }
       end
@@ -39,9 +41,11 @@ class ListsController < ApplicationController
   def update
     respond_to do |format|
       if @list.update(list_params)
-        format.html { redirect_to root_path, notice: "List was successfully updated." }
+        flash[:notice] = "Lista editada com sucesso."
+        format.html { redirect_to root_path }
         format.json { render :show, status: :ok, location: @list }
       else
+        flash[:alert] = "Ocorreu um erro ao editar a lista."
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @list.errors, status: :unprocessable_entity }
       end
@@ -50,13 +54,16 @@ class ListsController < ApplicationController
 
   # DELETE /lists/1 or /lists/1.json
   def destroy
-    @list = List.find(params[:id])
-    @list.destroy
-
-    # Resposta em AJAX
-    respond_to do |format|
-      format.html { redirect_to root_path, notice: "Lista deletada com sucesso." }
-      format.js   { render js: "document.getElementById('#{dom_id(@list)}').remove();" }
+    if @list.destroy
+      flash[:notice] = "Lista excluída com sucesso."
+      respond_to do |format|
+        format.js   { render js: "document.getElementById('list-#{@list.id}').remove();" }
+      end
+    else
+      respond_to do |format|
+        flash[:alert] = "Ocorreu um erro ao excluir a lista."
+        format.js   { render js: "alert('Failed to delete the list.');" }
+      end
     end
   end
 

@@ -29,14 +29,21 @@
       "packs/tasks",
       "dropdown/index",
       "checkbox/index",
+      "modal/index",
     ] %>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
 
     <%= javascript_importmap_tags %>
     <%= javascript_include_tag(*component_javascripts, type: "module", defer: true) %>
     
   </head>
 
-  <body>
+  <body data-notice="<%= flash[:notice] %>" data-alert="<%= flash[:alert] %>">
     <header class="app-header">
       <h1 class="title">
         <span class="ned">Ned</span><span class="do">do</span>
