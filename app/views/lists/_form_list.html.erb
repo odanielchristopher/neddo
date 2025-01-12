@@ -21,7 +21,7 @@
       { value: 'ocean', label: 'Ciano'},
       { value: 'pink', label: 'Rosa'},
     ], 
-    value: @list.color, 
+    value: @list.color || 'green', 
     error: @list.errors[:color].first %>
 
   <div class="form-footer">
