@@ -1,3 +1,21 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    scale: 0.8;
+  }
+  to {
+    scale: 1;
+  }
+}
+
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -14,16 +32,42 @@
 
 .modal-backdrop.show {
   display: flex; 
+  animation: fadeIn 200ms forwards;
+}
+
+.modal-backdrop.show .modal {
+  animation: scaleIn 200ms forwards;
 }
 
 .modal {
   background: #fff;
-  padding: 20px;
+  padding: 24px;
   border-radius: 8px;
-  max-width: 500px;
+  max-width: 450px;
   width: 90%;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 1000;
+}
+
+.modal .answer strong {
+  color: var(--red);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.modal .answer p {
+  color: var(--black);
+  font-size: 16px;
+  font-weight: 400;
+  margin-top: 6px;
+}
+
+.modal-footer {
+  display: flex;
+  width: 100%;
+  margin-top: 12px;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .modal-footer button {
@@ -31,15 +75,25 @@
   margin: 5px;
   border: none;
   border-radius: 4px;
-  cursor: pointer;
 }
 
 .modal-footer .btn-secondary {
-  background-color: #ccc;
-  color: #000;
+  color: var(--gray-7,);
+  text-align: center;
+  font-size: 16px;
+  font-weight: 400;
+  background-color: transparent;
 }
 
 .modal-footer .btn-danger {
+  background-color: var(--red);
+  color: var(--white);
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  transition: all ease-in .2s;
+}
+
+.modal-footer .btn-danger:hover {
   background-color: #e74c3c;
-  color: #fff;
 }

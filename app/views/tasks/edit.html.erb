@@ -1,12 +1,10 @@
 <% content_for :title, "Editing task" %>
 
-<h1>Editing task</h1>
+<div class="form-container">
+  <div class="form">
+    <%= render "shared/form_header", title: "Editar Tarefa" %>
 
-<%= render "form", task: @task %>
-
-<br>
-
-<div>
-  <%= link_to "Show this task", @task %> |
-  <%= link_to "Back to tasks", tasks_path %>
+    <%= render "form_task", task: @task, button_text: "Salvar alterações" %>
+  </div>
 </div>
+
