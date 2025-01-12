@@ -61,7 +61,7 @@ Neddo é uma aplicação desenvolvida em Ruby on Rails para gestão de listas pe
    Se estiver configurando manualmente, atualize as credenciais no arquivo `config/database.yml` e execute:
 
    ```bash
-   rails db:create db:migrate
+   rails db:create db:migrate db:seed
    ```
 
 4. **Inicie o Servidor**
