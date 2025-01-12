@@ -1,52 +1,34 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const dropdowns = document.querySelectorAll(".dropdown");
+import "@hotwired/turbo-rails";
+import "controllers";
 
-  dropdowns.forEach((dropdown) => {
-    const menu = dropdown.querySelector(".dropdown-menu");
-    const items = dropdown.querySelectorAll(".dropdown-item");
-    const hiddenInput = dropdown.querySelector(".input");
+document.addEventListener("turbo:load", () => {
+  const noticeMessage = document.body.dataset.notice;
+  const alertMessage = document.body.dataset.alert;
 
-    // Abrir e fechar o menu com delegação de eventos
-    dropdown.addEventListener("click", (e) => {
-      const button = e.target.closest(".dropdown-button"); // Verifica o botão clicado
-      if (button) {
-        const isOpen = menu.classList.contains("active");
-        menu.classList.toggle("active", !isOpen);
-        button.setAttribute("aria-expanded", String(!isOpen));
-      }
-    });
+  toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": true,
+    "progressBar": true,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "3000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  };
 
-    // Selecionar um item
-    items.forEach((item) => {
-      item.addEventListener("click", (e) => {
-        // Atualizar o texto do botão
-        const button = dropdown.querySelector(".dropdown-button");
-        button.textContent = item.textContent;
-        button.classList.add("filled");
+  // Mostrar toast de sucesso
+  if (noticeMessage) {
+    toastr.success(noticeMessage);
+  }
 
-        // Atualizar o valor do input oculto
-        hiddenInput.value = item.getAttribute("data-value");
-
-        console.log({ value: hiddenInput.value });
-
-        // Adicionar estilo ao item selecionado
-        items.forEach((i) => i.classList.remove("selected"));
-        item.classList.add("selected");
-
-        // Fechar o menu
-        menu.classList.remove("active");
-        button.setAttribute("aria-expanded", "false");
-
-        e.stopPropagation(); // Impede que o evento se propague
-      });
-    });
-
-    // Fechar o dropdown ao clicar fora
-    document.addEventListener("click", (e) => {
-      if (!dropdown.contains(e.target)) {
-        menu.classList.remove("active");
-        dropdown.querySelector(".dropdown-button").setAttribute("aria-expanded", "false");
-      }
-    });
-  });
+  // Mostrar toast de erro
+  if (alertMessage) {
+    toastr.error(alertMessage);
+  }
 });

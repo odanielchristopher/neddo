@@ -7,3 +7,13 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+Category.create([
+  { name: 'Estudos' },
+  { name: 'Trabalho' },
+  { name: 'Faculdade' },
+  { name: 'Execício' },
+  { name: 'Evento' }
+])
+
+puts "Categorias criadas com sucesso!"
