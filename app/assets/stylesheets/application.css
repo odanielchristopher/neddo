@@ -34,6 +34,15 @@
   --gray: #868E96;
   --ocean: #15AABF;
   --pink: #BE4BDB;
+
+  /* Cores customizadas das categorias */
+  --purple-bg: #d2c4fc;
+  --yellow-bg: #ffebbb;
+  --orange-bg: #ffd3af;
+  --blue-bg: #b3c2ff;
+  --gray-bg: #d8d8d8;
+  --ocean-bg: #e1fafd;
+  --pink-bg: #f3d1fc;
 }
 
 * {

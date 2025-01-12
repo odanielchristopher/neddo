@@ -6,22 +6,33 @@
         data-task-id="<%= task.id %>" 
         data-completed="<%= task.completed ? 'true' : 'false' %>" 
         data-list-id="<%= @selected_list.id %>">
+
         <input 
           type="checkbox" 
           id="<%= task.id %>" 
           class="checkbox" 
           <%= 'checked' if task.completed %> />
+
         <div class="checkbox-custom"></div>
+
         <div class="infos">
+
           <header class="header">
             <div class="title-container">
               <strong class="title"><%= task.title %></strong> - <%= task.hour %>
             </div>
-            <span class="category">
+            <span class="category <%= @selected_list.color %>">
               <%= task.category.name %>
             </span>
           </header>
-          <p class="description"><%= task.description %></p>
+
+          <p class="description">
+            <% if task.description? %>
+              <%= truncate(task.description, length: 40, omission: "...") %>
+            <% else %>
+              Nenhuma descrição...
+            <% end %>
+          </p>
         </div>
       </label>
       <div class="actions">

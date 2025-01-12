@@ -14,7 +14,7 @@
     value: task.description, 
     error: task.errors[:description].first %>
 
-  <%= render 'shared/input', 
+  <%= render 'shared/input_hour', 
     form: form,
     id: 'hour', 
     label: 'Hora', 
@@ -26,7 +26,7 @@
     id: 'category_id', 
     label: 'Categoria', 
     options: @categories.map { |category| { value: category.id, label: category.name } }, 
-    value: task.category_id, 
+    value: task.category_id || 5, 
     error: task.errors[:category_id].first %>
 
   <div class="form-footer">
