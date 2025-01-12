@@ -57,6 +57,7 @@
   border-radius: 6px;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.04);
   cursor: pointer;
+  height: 80px;
   max-width: 460px;
   padding: 16px;
   position: relative;
@@ -83,13 +84,51 @@
 }
 
 .tasks-list .tasks-item .task .infos .header .category {
-  background: var(--green-3);
   border-radius: 4px;
-  color: var(--green-4);
   font-size: 12px;
   font-weight: 700;
   padding: 2px 6px;
   text-transform: uppercase;
+}
+
+.tasks-list .tasks-item .task .infos .header .category.green {
+  background-color: var(--green-3);
+  color: var(--green-4);
+}
+
+.tasks-list .tasks-item .task .infos .header .category.purple {
+  background-color: var(--purple-bg);
+  color: var(--purple);
+}
+
+.tasks-list .tasks-item .task .infos .header .category.yellow {
+  background-color: var(--yellow-bg);
+  color: var(--yellow);
+}
+
+.tasks-list .tasks-item .task .infos .header .category.orange {
+  background-color: var(--orange-bg);
+  color: var(--orange);
+}
+
+.tasks-list .tasks-item .task .infos .header .category.blue {
+  background-color: var(--blue-bg);
+  color: var(--blue);
+}
+
+.tasks-list .tasks-item .task .infos .header .category.gray {
+  background-color: var(--gray-bg);
+  color: var(--gray-7);
+}
+
+.tasks-list .tasks-item .task .infos .header .category.ocean {
+  background-color: var(--ocean-bg);
+  color: var(--ocean);
+}
+
+.tasks-list .tasks-item .task .infos .header .category.pink {
+  background-color: var(--pink-bg);
+  color: var(--pink);
 }
 
 .tasks-list .tasks-item .task .infos .description {
