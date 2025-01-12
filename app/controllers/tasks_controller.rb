@@ -1,11 +1,13 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: %i[ show edit update destroy ]
-  before_action :set_list, only: %i[new create]  # Adicionando callback para garantir que @list esteja disponível
+  before_action :set_list
+  before_action :set_task, only: %i[show edit update destroy]
 
   # GET /tasks or /tasks.json
   def index
-    @tasks = Task.where(list_id: params[:list_id])
-    render json: @tasks  # Corrigido para @tasks, não @lists
+    @tasks = @list.tasks # Filtra tarefas pertencentes à lista
+    render json: @tasks  # Retorna todas as tarefas como JSON (ou ajuste para HTML se necessário)
+    @selected_list = List.find(params[:list_id]) if params[:list_id].present?
+    Rails.logger.debug "Selected list: #{@selected_list.inspect}"
   end
 
   # GET /tasks/1 or /tasks/1.json
@@ -14,20 +16,24 @@ class TasksController < ApplicationController
 
   # GET /tasks/new
   def new
-    @task = Task.new
+    @task = @list.tasks.new
+    @categories = Category.all # Carrega todas as categorias
+    puts @categories.inspect
   end
 
   # GET /tasks/1/edit
   def edit
+    @categories = Category.all
   end
 
   # POST /tasks or /tasks.json
   def create
-    @task = @list.tasks.build(task_params)  # Corrigido para usar @list
+    @task = @list.tasks.build(task_params)
+    @categories = Category.all
 
     respond_to do |format|
       if @task.save
-        format.html { redirect_to @task, notice: "Task was successfully created." }
+        format.html { redirect_to home_index_path(list_id: @list.id), notice: "Task was successfully created." }
         format.json { render :show, status: :created, location: @task }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,13 +44,24 @@ class TasksController < ApplicationController
 
   # PATCH/PUT /tasks/1 or /tasks/1.json
   def update
-    respond_to do |format|
-      if @task.update(task_params)
-        format.html { redirect_to @task, notice: "Task was successfully updated." }
-        format.json { render :show, status: :ok, location: @task }
+    if params[:task] && params[:task].key?(:completed)
+      completed = ActiveModel::Type::Boolean.new.cast(params[:task][:completed])
+      if @task.update(completed: completed)
+        respond_to do |format|
+          format.json { render json: { completed: @task.completed } }
+          format.html { redirect_to home_index_path(list_id: @task.list_id), notice: "Task was successfully updated." }
+        end
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @task.errors, status: :unprocessable_entity }
+        render :edit
+      end
+    else
+      if @task.update(task_params)
+        respond_to do |format|
+          format.json { render json: { task: @task } }
+          format.html { redirect_to home_index_path(list_id: @task.list_id), notice: "Task was successfully updated." }
+        end
+      else
+        render :edit
       end
     end
   end
@@ -54,23 +71,22 @@ class TasksController < ApplicationController
     @task.destroy!
 
     respond_to do |format|
-      format.html { redirect_to tasks_path, status: :see_other, notice: "Task was successfully destroyed." }
+      format.html { redirect_to home_index_path(list_id: @list.id), status: :see_other, notice: "Task was successfully destroyed." }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_task
-      @task = Task.find(params[:id])  # Corrigido para usar params[:id]
-    end
 
-    # Only allow a list of trusted parameters through.
-    def task_params
-      params.require(:task).permit(:titulo, :descricao, :horario, :list_id, :categoria_id)  # Corrigido para usar permit
-    end
+  def set_task
+    @task = @list.tasks.find(params[:id]) # Garante que a tarefa pertence à lista
+  end
 
-    def set_list
-      @list = List.find(params[:list_id])  # Certifique-se de que @list é setado para o create e new
-    end
+  def set_list
+    @list = List.find(params[:list_id]) # Garante que a lista é carregada
+  end
+
+  def task_params
+    params.require(:task).permit(:title, :description, :hour, :list_id, :category_id, :completed)
+  end
 end

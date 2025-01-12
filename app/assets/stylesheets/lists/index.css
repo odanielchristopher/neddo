@@ -1,5 +1,5 @@
 .home-container .section .lists {
-  margin-top: 40px;
+  margin-top: 20px;
   list-style: none;
 }
 
@@ -26,7 +26,8 @@
   font-weight: 400;
   padding: 12px;
   text-decoration: none;
-  width: 272px;
+  max-width: 272px;
+  width: 100%;
 }
 
 
