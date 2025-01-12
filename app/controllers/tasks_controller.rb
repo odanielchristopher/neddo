@@ -5,9 +5,8 @@ class TasksController < ApplicationController
   # GET /tasks or /tasks.json
   def index
     @tasks = @list.tasks # Filtra tarefas pertencentes à lista
-    render json: @tasks  # Retorna todas as tarefas como JSON (ou ajuste para HTML se necessário)
+    render json: @tasks
     @selected_list = List.find(params[:list_id]) if params[:list_id].present?
-    Rails.logger.debug "Selected list: #{@selected_list.inspect}"
   end
 
   # GET /tasks/1 or /tasks/1.json
@@ -33,7 +32,8 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       if @task.save
-        format.html { redirect_to home_index_path(list_id: @list.id), notice: "Task was successfully created." }
+        flash[:notice] = "Tarefa criada com sucesso."
+        format.html { redirect_to home_index_path(list_id: @list.id) }
         format.json { render :show, status: :created, location: @task }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -49,7 +49,7 @@ class TasksController < ApplicationController
       if @task.update(completed: completed)
         respond_to do |format|
           format.json { render json: { completed: @task.completed } }
-          format.html { redirect_to home_index_path(list_id: @task.list_id), notice: "Task was successfully updated." }
+          format.html { redirect_to home_index_path(list_id: @task.list_id) }
         end
       else
         render :edit
@@ -57,8 +57,9 @@ class TasksController < ApplicationController
     else
       if @task.update(task_params)
         respond_to do |format|
+          flash[:notice] = "Tarefa editada com sucesso."
           format.json { render json: { task: @task } }
-          format.html { redirect_to home_index_path(list_id: @task.list_id), notice: "Task was successfully updated." }
+          format.html { redirect_to home_index_path(list_id: @task.list_id) }
         end
       else
         render :edit
@@ -71,7 +72,8 @@ class TasksController < ApplicationController
     @task.destroy!
 
     respond_to do |format|
-      format.html { redirect_to home_index_path(list_id: @list.id), status: :see_other, notice: "Task was successfully destroyed." }
+      flash[:notice] = "Tarefa excluída com sucesso."
+      format.html { redirect_to home_index_path(list_id: @list.id), status: :see_other }
       format.json { head :no_content }
     end
   end
@@ -79,11 +81,11 @@ class TasksController < ApplicationController
   private
 
   def set_task
-    @task = @list.tasks.find(params[:id]) # Garante que a tarefa pertence à lista
+    @task = @list.tasks.find(params[:id])
   end
 
   def set_list
-    @list = List.find(params[:list_id]) # Garante que a lista é carregada
+    @list = List.find(params[:list_id])
   end
 
   def task_params

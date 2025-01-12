@@ -1,9 +1,9 @@
 <div class="dropdown">
   <button type="button" class="dropdown-button <%= 'error' if error %> <%= 'filled' if value.present? %>" aria-haspopup="true" aria-expanded="false">
-  <% if value.present? %>
-    <%= options.find { |option| option[:value] == value }[:label] %>
-  <% end %>
-</button>
+    <% if value.present? %>
+      <%= options.find { |option| option[:value] == value }[:label] %>
+    <% end %>
+  </button>
 
   <ul class="dropdown-menu" role="listbox" aria-hidden="true">
     <% options.each do |option| %>
