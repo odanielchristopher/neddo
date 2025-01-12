@@ -50,13 +50,14 @@ class ListsController < ApplicationController
 
   # DELETE /lists/1 or /lists/1.json
   def destroy
-    @list = List.find(params[:id])
-    @list.destroy
-
-    # Resposta em AJAX
-    respond_to do |format|
-      format.html { redirect_to root_path, notice: "Lista deletada com sucesso." }
-      format.js   { render js: "document.getElementById('#{dom_id(@list)}').remove();" }
+    if @list.destroy
+      respond_to do |format|
+        format.js   { render js: "document.getElementById('list-#{@list.id}').remove();" }
+      end
+    else
+      respond_to do |format|
+        format.js   { render js: "alert('Failed to delete the list.');" }
+      end
     end
   end
 
