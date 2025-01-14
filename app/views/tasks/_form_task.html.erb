@@ -26,7 +26,7 @@
     id: 'category_id', 
     label: 'Categoria', 
     options: @categories.map { |category| { value: category.id, label: category.name } }, 
-    value: task.category_id || 5, 
+    value: task.category_id, 
     error: task.errors[:category_id].first %>
 
   <div class="form-footer">

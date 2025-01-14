@@ -3,6 +3,11 @@ document.addEventListener("turbo:load", () => {
   setDefaultTime();
 });
 
+document.addEventListener("turbo:render", () => {
+  applyTimeMask();
+  setDefaultTime();
+});
+
 function applyTimeMask() {
   const timeInputs = document.querySelectorAll('.input[data-type="hour"]');
 
