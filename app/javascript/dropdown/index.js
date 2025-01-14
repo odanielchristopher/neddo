@@ -1,4 +1,4 @@
-document.addEventListener("turbo:load", () => {
+document.addEventListener("turbo:render", () => {
   initializeDropdowns();
 });
 

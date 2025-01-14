@@ -44,6 +44,9 @@ class TasksController < ApplicationController
 
   # PATCH/PUT /tasks/1 or /tasks/1.json
   def update
+    @categories = Category.all
+    
+    # Lógica específica para atualizar o campo `completed`
     if params[:task] && params[:task].key?(:completed)
       completed = ActiveModel::Type::Boolean.new.cast(params[:task][:completed])
       if @task.update(completed: completed)
@@ -52,9 +55,11 @@ class TasksController < ApplicationController
           format.html { redirect_to home_index_path(list_id: @task.list_id) }
         end
       else
-        render :edit
+        flash.now[:alert] = "Erro ao atualizar o status da tarefa."
+        render :edit, status: :unprocessable_entity
       end
     else
+      # Atualização de outros campos da tarefa
       if @task.update(task_params)
         respond_to do |format|
           flash[:notice] = "Tarefa editada com sucesso."
@@ -62,7 +67,12 @@ class TasksController < ApplicationController
           format.html { redirect_to home_index_path(list_id: @task.list_id) }
         end
       else
-        render :edit
+        # Renderiza erros caso as validações falhem
+        respond_to do |format|
+          flash.now[:alert] = "Erro ao atualizar a tarefa."
+          format.json { render json: @task.errors, status: :unprocessable_entity }
+          format.html { render :edit, status: :unprocessable_entity }
+        end
       end
     end
   end

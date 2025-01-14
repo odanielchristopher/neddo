@@ -19,7 +19,7 @@
 
           <header class="header">
             <div class="title-container">
-              <strong class="title"><%= task.title %></strong> - <%= task.hour %>
+              <strong class="title"><%= truncate(task.title, length: 24, omission: "...") %></strong> - <%= task.hour %>
             </div>
             <span class="category <%= @selected_list.color %>">
               <%= task.category.name %>
