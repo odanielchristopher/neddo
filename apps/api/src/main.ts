@@ -9,6 +9,7 @@ import FastifySocketIO from 'fastify-socket.io';
 import { ZodError } from 'zod';
 
 const fastify = Fastify();
+
 fastify.register(FastifyCors);
 fastify.register(FastifySocketIO);
 fastify.register(FastifyJwt, {
