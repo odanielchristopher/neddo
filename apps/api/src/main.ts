@@ -18,7 +18,7 @@ fastify.register(FastifyJwt, {
   }
 });
 
-fastify.get('/hello', () => {
+fastify.get('/', () => {
   return 'Hello from neddo';
 });
 
