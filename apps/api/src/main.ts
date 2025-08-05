@@ -8,8 +8,10 @@ import Fastify from 'fastify';
 import FastifySocketIO from 'fastify-socket.io';
 import { ZodError } from 'zod';
 
-const fastify = Fastify();
+import { initializeWebSockets } from './server/adapters/socketAdapter';
+import { routes } from './server/routes';
 
+const fastify = Fastify();
 fastify.register(FastifyCors);
 fastify.register(FastifySocketIO);
 fastify.register(FastifyJwt, {
@@ -19,9 +21,7 @@ fastify.register(FastifyJwt, {
   },
 });
 
-fastify.get('/', () => {
-  return 'Hello from neddo';
-});
+fastify.register(routes);
 
 fastify.setErrorHandler((error, request, reply) => {
   if (error instanceof ZodError) {
@@ -35,6 +35,10 @@ fastify.setErrorHandler((error, request, reply) => {
 
   console.log(error);
   return reply.code(500).send({ error: 'Internal Server Error' });
+});
+
+fastify.addHook('onReady', () => {
+  initializeWebSockets(fastify.server);
 });
 
 fastify

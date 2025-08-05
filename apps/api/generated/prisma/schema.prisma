@@ -1,0 +1,78 @@
+model Leads {
+  id             String @id @default(uuid()) @db.Uuid
+  organizationId String @map("organization_id") @db.Uuid
+  name           String
+  email          String
+  phone          String
+
+  organization Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  interactions Interactions[]
+
+  @@map("leads")
+}
+
+model Interactions {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  leadId         String   @map("lead_id") @db.Uuid
+  message        String
+  createdAt      DateTime @map("created_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  lead         Leads        @relation(fields: [leadId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("Interactions")
+}
+
+model Organization {
+  id   String @id @default(uuid()) @db.Uuid
+  name String
+
+  users        OrganizationUser[]
+  leads        Leads[]
+  interactions Interactions[]
+
+  @@map("organizations")
+}
+
+enum OrganizationRole {
+  OWNER
+  ADMIN
+  MEMBER
+  READONLY
+
+  @@map("organization_role")
+}
+
+model OrganizationUser {
+  userId         String           @map("user_id") @db.Uuid
+  organizationId String           @map("organization_id") @db.Uuid
+  role           OrganizationRole @default(MEMBER)
+
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@id([userId, organizationId])
+  @@map("user_organization")
+}
+
+model User {
+  id       String @id @default(uuid()) @db.Uuid
+  name     String
+  email    String @unique
+  password String
+
+  organizations OrganizationUser[]
+
+  @@map("users")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
