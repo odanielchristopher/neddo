@@ -1,13 +1,15 @@
 // eslint.config.mjs (raiz do monorepo)
 import js from '@eslint/js';
 import eslintConfigPrettier from 'eslint-config-prettier';
+// eslint-disable-next-line import/order
+import { defineConfig } from 'eslint/config';
 // @ts-expect-error: eslint-plugin-import doesn't provide types
 import importPlugin from 'eslint-plugin-import';
 import eslintPluginPrettier from 'eslint-plugin-prettier';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
-export default [
+export default defineConfig([
   {
     files: ['**/*.{js,mjs,cjs,ts,mts,cts,tsx}'],
     plugins: {
@@ -88,4 +90,4 @@ export default [
     },
   },
   eslintConfigPrettier,
-];
+]);

@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "ci:lint": "pnpm -r run ci:lint",
+    "typecheck": "pnpm -r run typecheck",
+    "test:ci": "pnpm -r run test:ci"
   },
   "keywords": [],
   "author": "",

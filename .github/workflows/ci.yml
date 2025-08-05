@@ -1,0 +1,32 @@
+name: Neddo CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22.x'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm ci
+
+      - name: Linting
+        run: pnpm ci:lint
+
+      - name: Typechecking
+        run: pnpm typecheck
+
+      - name: Tests
+        run: pnpm test:ci

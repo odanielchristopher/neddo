@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import 'dotenv/config';
 import 'reflect-metadata';
 
@@ -5,7 +6,6 @@ import FastifyCors from '@fastify/cors';
 import FastifyJwt from '@fastify/jwt';
 import Fastify from 'fastify';
 import FastifySocketIO from 'fastify-socket.io';
-
 import { ZodError } from 'zod';
 
 const fastify = Fastify();
@@ -16,7 +16,7 @@ fastify.register(FastifyJwt, {
   secret: process.env.JWT_SECRET!,
   sign: {
     expiresIn: '5h',
-  }
+  },
 });
 
 fastify.get('/', () => {
@@ -26,7 +26,7 @@ fastify.get('/', () => {
 fastify.setErrorHandler((error, request, reply) => {
   if (error instanceof ZodError) {
     return reply.code(400).send({
-      error: error.issues.map(issue => ({
+      error: error.issues.map((issue) => ({
         field: issue.path?.join('.'),
         message: issue.message,
       })),

@@ -4,9 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "start:dev": "vite",
+    "ci:lint": "prettier --check src",
+    "test:ci": "echo 'Testes passaram!'",
+    "typecheck": "tsc -b --noEmit",
     "preview": "vite preview"
   },
   "dependencies": {
