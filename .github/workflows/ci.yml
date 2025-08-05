@@ -19,6 +19,8 @@ jobs:
           node-version: '22.x'
           cache: 'pnpm'
 
+      - run: npm pkg delete scripts.prepare
+
       - name: Install dependencies
         run: pnpm ci
 
