@@ -28,7 +28,7 @@ jobs:
       - run: npm pkg delete scripts.prepare
 
       - name: Install dependencies
-        run: pnpm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Linting
         run: pnpm ci:lint
