@@ -1,0 +1,25 @@
+import { sleep } from '@app/utils/sleep';
+import axios from 'axios';
+
+import { env } from '@app/config/env';
+import { localStorageKeys } from '@app/config/localStorageKeys';
+
+export const httpClient = axios.create({
+  baseURL: env.VITE_API_URL,
+});
+
+httpClient.interceptors.request.use((config) => {
+  const accessToken = localStorage.getItem(localStorageKeys.ACCESS_TOKEN);
+
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
+  }
+
+  return config;
+});
+
+httpClient.interceptors.response.use(async (config) => {
+  await sleep(2000);
+
+  return config;
+});
