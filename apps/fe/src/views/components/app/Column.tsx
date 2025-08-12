@@ -1,9 +1,10 @@
 // Column.tsx
-import { useDroppable } from '@dnd-kit/core';
+import { useDroppable } from '@dnd-kit/react';
 import { PlusIcon } from 'lucide-react';
 import { AnimatePresence } from 'motion/react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
+import { cn } from '@app/lib/utils';
 import type { DashboardData } from '@views/pages/Dashboard';
 
 import { Button } from '../ui/Button';
@@ -18,24 +19,27 @@ interface IColumnProps {
 export function Column({ title, columnIndex }: IColumnProps) {
   const { control } = useFormContext<DashboardData>();
 
-  const { fields, append } = useFieldArray({
+  const cards = useFieldArray({
     control,
     name: `columns.${columnIndex}.cards`,
   });
 
-  const { setNodeRef, isOver } = useDroppable({
+  const { ref, isDropTarget } = useDroppable({
     id: `col-${columnIndex}`,
     data: {
-      columnIndex,
+      id: columnIndex,
+      title,
+      cards: cards.fields,
     },
   });
 
   return (
     <div
-      ref={setNodeRef}
-      className={`bg-card flex flex-col rounded-2xl border shadow-sm transition-colors ${
-        isOver ? 'border-primary' : ''
-      }`}
+      ref={ref}
+      className={cn(
+        'bg-card } flex flex-col rounded-2xl border shadow-sm transition-colors',
+        isDropTarget && 'border-primary',
+      )}
     >
       {/* Header */}
       <div className="flex items-center justify-between border-b p-4">
@@ -44,9 +48,7 @@ export function Column({ title, columnIndex }: IColumnProps) {
           type="button"
           variant="ghost"
           className="size-8"
-          onClick={() =>
-            append({ identifier: Date.now().toString(), title: 'Novo Card' })
-          }
+          onClick={() => cards.append({ title: 'Novo Card' })}
         >
           <PlusIcon />
         </Button>
@@ -55,12 +57,8 @@ export function Column({ title, columnIndex }: IColumnProps) {
       {/* Cards */}
       <div className="flex flex-col gap-3 p-4">
         <AnimatePresence>
-          {fields.map((card) => (
-            <DraggableCard
-              key={card.identifier}
-              columnIndex={columnIndex}
-              {...card}
-            />
+          {cards.fields.map((card) => (
+            <DraggableCard key={card.id} columnIndex={columnIndex} {...card} />
           ))}
         </AnimatePresence>
       </div>

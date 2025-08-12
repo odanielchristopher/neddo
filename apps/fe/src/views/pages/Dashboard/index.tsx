@@ -1,20 +1,26 @@
 // Dashboard.tsx
-import { DndContext, type DragEndEvent } from '@dnd-kit/core';
+import { DragDropProvider } from '@dnd-kit/react';
 import { PlusIcon } from 'lucide-react';
+import { useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 
 import { Column } from '@views/components/app/Column';
 import { Button } from '@views/components/ui/Button';
 
+type CardData = {
+  id?: string;
+  title: string;
+};
+
+type GrabCard = CardData & { columnIndex: number; id: string };
+
+type ColumnData = {
+  title: string;
+  cards: CardData[];
+};
+
 export type DashboardData = {
-  columns: {
-    id: number;
-    title: string;
-    cards: {
-      identifier: string;
-      title: string;
-    }[];
-  }[];
+  columns: ColumnData[];
 };
 
 export function Dashboard() {
@@ -22,86 +28,57 @@ export function Dashboard() {
     defaultValues: {
       columns: [
         {
-          id: 0,
           title: 'A Fazer',
           cards: [
-            { identifier: '1', title: 'Configurar API' },
-            { identifier: '2', title: 'Criar Login' },
-            { identifier: '3', title: 'Montar ERD' },
+            { title: 'Configurar API' },
+            { title: 'Criar Login' },
+            { title: 'Montar ERD' },
           ],
         },
         {
-          id: 1,
           title: 'Em Progresso',
-          cards: [
-            { identifier: '4', title: 'Tela de Projetos' },
-            { identifier: '5', title: 'Config Kanban' },
-          ],
+          cards: [{ title: 'Tela de Projetos' }, { title: 'Config Kanban' }],
         },
         {
-          id: 2,
           title: 'Concluído',
-          cards: [{ identifier: '6', title: 'Setup Monorepo' }],
+          cards: [{ title: 'Setup Monorepo' }],
         },
       ],
     },
   });
-
+  const [dragOriginColumn, setDragOriginColumn] = useState<
+    (ColumnData & { id: number }) | null
+  >(null);
   const columns = useFieldArray({
     control: form.control,
     name: 'columns',
   });
 
-  function handleDragEnd(event: DragEndEvent) {
-    const { active, over } = event;
-    if (!over) return;
-
-    const fromColumnIndex = active.data.current?.columnIndex;
-    const toColumnIndex = over.data.current?.columnIndex;
-
-    const cardId = active.id as string;
-
-    if (fromColumnIndex === undefined || toColumnIndex === undefined) return;
-
-    // Estado mais atualizado do form
-    const allColumns = form.getValues('columns');
-    const fromColumn = allColumns[fromColumnIndex];
-    const toColumn = allColumns[toColumnIndex];
-
-    // Ache o card
-    const cardIndex = fromColumn.cards.findIndex(
-      (c) => c.identifier === cardId,
-    );
-    if (cardIndex === -1) return;
-
-    const [movedCard] = fromColumn.cards.splice(cardIndex, 1);
-
-    if (fromColumnIndex === toColumnIndex) {
-      // reorder dentro da mesma coluna
-      const overCardId = over.id as string;
-      const overIndex = toColumn.cards.findIndex(
-        (c) => c.identifier === overCardId,
-      );
-
-      // Se soltar fora de um card, joga no final
-      const targetIndex = overIndex >= 0 ? overIndex : toColumn.cards.length;
-
-      toColumn.cards.splice(targetIndex, 0, movedCard);
-      columns.update(fromColumnIndex, { ...toColumn });
-    } else {
-      // move para outra coluna
-      const overCardId = over.id as string;
-      const overIndex = toColumn.cards.findIndex(
-        (c) => c.identifier === overCardId,
-      );
-      const targetIndex = overIndex >= 0 ? overIndex : toColumn.cards.length;
-
-      toColumn.cards.splice(targetIndex, 0, movedCard);
-
-      columns.update(fromColumnIndex, { ...fromColumn });
-      columns.update(toColumnIndex, { ...toColumn });
+  function handleColumns(
+    card: GrabCard,
+    toColumn?: ColumnData & { id: number },
+  ) {
+    console.log({ card, toColumn, dragOriginColumn });
+    if (!toColumn || !dragOriginColumn) {
+      setDragOriginColumn(null);
+      return;
     }
 
+    if (toColumn.id === dragOriginColumn?.id) return;
+
+    const newToColumnCards = [...toColumn.cards, card];
+
+    const newOriginColumnCards = dragOriginColumn.cards.filter(
+      (c) => c.id !== card.id,
+    );
+
+    columns.update(dragOriginColumn.id, {
+      ...dragOriginColumn,
+      cards: newOriginColumnCards,
+    });
+    columns.update(toColumn.id, { ...toColumn, cards: newToColumnCards });
+
+    setDragOriginColumn(null);
     handleSubmit();
   }
 
@@ -120,7 +97,6 @@ export function Dashboard() {
           className="rounded-full !px-4"
           onClick={() =>
             columns.append({
-              id: Date.now(),
               title: 'Nova Coluna',
               cards: [],
             })
@@ -132,7 +108,17 @@ export function Dashboard() {
       </header>
 
       {/* KANBAN */}
-      <DndContext onDragEnd={handleDragEnd}>
+      <DragDropProvider
+        onDragEnd={({ operation: { source, target } }) => {
+          handleColumns(
+            source?.data as GrabCard,
+            target?.data as ColumnData & { id: number },
+          );
+        }}
+        onDragStart={({ operation: { target } }) => {
+          setDragOriginColumn(target?.data as ColumnData & { id: number });
+        }}
+      >
         <FormProvider {...form}>
           <form
             onSubmit={handleSubmit}
@@ -143,7 +129,7 @@ export function Dashboard() {
             ))}
           </form>
         </FormProvider>
-      </DndContext>
+      </DragDropProvider>
     </div>
   );
 }
