@@ -42,7 +42,7 @@
 
   /* Custom Animations */
 
-  --animate-wiggle: wiggle 1s ease-in-out infinite;
+  --animate-wiggle: wiggle 2s ease-in-out infinite;
 
   @keyframes wiggle {
     0%,
@@ -274,10 +274,20 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   button {
     @apply cursor-pointer;
+  }
+
+  .scroll-custom {
+    @apply [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500 [&::-webkit-scrollbar-track]:bg-gray-100 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-2
+  }
+
+  .scroll-hidden {
+    @apply [&::-webkit-scrollbar]:hidden
   }
 }
