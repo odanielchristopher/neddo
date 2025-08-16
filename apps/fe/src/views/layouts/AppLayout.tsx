@@ -17,9 +17,9 @@ export function AppLayout() {
         </header>
 
         <div className="scroll-hidden mt-6 space-y-2 overflow-y-auto">
-          <div className="bg-primary-600 size-12 rounded-full" />
-          <div className="bg-primary-600 size-12 rounded-full" />
-          <div className="bg-primary-600 size-12 rounded-full" />
+          <div className="bg-primary size-12 rounded-full" />
+          <div className="bg-primary size-12 rounded-full" />
+          <div className="bg-primary size-12 rounded-full" />
         </div>
 
         <div className="flex flex-1 pt-6">
