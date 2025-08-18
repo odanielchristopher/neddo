@@ -1,8 +1,8 @@
-import { sleep } from '@app/utils/sleep';
 import axios from 'axios';
 
 import { env } from '@app/config/env';
 import { localStorageKeys } from '@app/config/localStorageKeys';
+import { sleep } from '@app/utils/sleep';
 
 export const httpClient = axios.create({
   baseURL: env.VITE_API_URL,

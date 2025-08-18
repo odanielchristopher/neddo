@@ -5,18 +5,28 @@ import { motion } from 'motion/react';
 import { cn } from '@app/lib/utils';
 import { Button } from '@views/components/ui/Button';
 
+export type TaskData = {
+  id: string;
+  index: number;
+  title: string;
+  group: string;
+  columnIndex: number;
+};
+
 export function Task({
   id,
   title,
   group,
   index,
+  columnIndex,
 }: {
   title: string;
   id: string;
   index: number;
+  columnIndex: number;
   group: string;
 }) {
-  const { handleRef, ref, isDragging } = useSortable({
+  const { handleRef, ref, isDragging } = useSortable<TaskData>({
     id,
     index,
     type: 'task',
@@ -26,6 +36,8 @@ export function Task({
       id,
       title,
       group,
+      index,
+      columnIndex,
     },
   });
 

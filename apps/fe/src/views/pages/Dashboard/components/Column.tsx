@@ -7,17 +7,25 @@ import type React from 'react';
 import { cn } from '@app/lib/utils';
 import { Button } from '@views/components/ui/Button';
 
+export type ColumnData = {
+  index: number;
+  title: string;
+};
+
 export function Column({
   title,
+  index,
   children,
 }: {
   title: string;
+  index: number;
   children: React.ReactNode;
 }) {
-  const { isDropTarget, ref } = useDroppable({
+  const { isDropTarget, ref } = useDroppable<ColumnData>({
     id: title,
     type: 'column',
     accept: 'task',
+    data: { title, index },
     collisionPriority: CollisionPriority.Low,
   });
 

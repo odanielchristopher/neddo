@@ -2,5 +2,16 @@
   "me": {
     "name": "Daniel",
     "email": "dani@mail.com"
-  }
+  },
+  "dashboard": {
+      "columns": {
+        "A Fazer": [
+          { "id": "1", "title": "Title 1" },
+          { "id": "4", "title": "Title 2" }
+        ],
+        "Concluido": [{ "id": "3", "title": "Titulo 4" }],
+        "Fazendo": [{ "id": "2", "title": "Titulo 3" }]
+      },
+      "order": ["A Fazer", "Fazendo", "Concluido"]
+    }
 }
