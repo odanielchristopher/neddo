@@ -1,6 +1,6 @@
-import type { FormData } from '@views/pages/Dashboard/schema';
+import type { BoardData } from '@views/pages/Dashboard/schema';
 
-export const todos: FormData['columns'] = {
+export const todos: BoardData['columns'] = {
   'A Fazer': [
     { id: '1', title: 'Title 1' },
     { id: '4', title: 'Title 2' },
