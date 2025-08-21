@@ -18,6 +18,8 @@ export default defineConfig([
   {
     rules: {
       'react/react-in-jsx-scope': 'off',
+      'no-undef': 'off',
+      'no-redeclare': 'off',
     },
   },
 ]);

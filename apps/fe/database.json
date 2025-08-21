@@ -1,17 +1,57 @@
 {
   "me": {
     "name": "Daniel",
-    "email": "dani@mail.com"
+    "email": "dani@mail.com",
+    "organizations": [
+      {
+        "id": "1",
+        "name": "AvanteTech",
+        "pathname": "avantetech",
+        "imagePath": "https://media.licdn.com/dms/image/v2/D4E0BAQELxWY3RFWbIw/img-crop_100/img-crop_100/0/1738346828116?e=1758758400&v=beta&t=ejUH4bapiC19rfbZAw2NWULuYx9y4orRHgmK_klFv7U"
+      },
+      {
+        "id": "2",
+        "name": "Tempero-da-Baiana",
+        "pathname": "tempero-da-baiana",
+        "imagePath": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmHqFWoVoG85Su1RedNZFdi5pI83o_rYas2A&s"
+      },
+      {
+        "id": "3",
+        "name": "Figma",
+        "pathname": "figma",
+        "imagePath": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHVIL5HpOsOFQWomhpmB5b8lTVQ9rIVnV9fg&s"
+      }
+    ]
   },
   "dashboard": {
-      "columns": {
-        "A Fazer": [
-          { "id": "1", "title": "Title 1" },
-          { "id": "4", "title": "Title 2" }
-        ],
-        "Concluido": [{ "id": "3", "title": "Titulo 4" }],
-        "Fazendo": [{ "id": "2", "title": "Titulo 3" }]
+    "columns": {
+      "A Fazer": [
+        { "id": "1", "title": "Title 1" },
+        { "id": "4", "title": "Title 2" }
+      ],
+      "Concluido": [{ "id": "3", "title": "Titulo 4" }],
+      "Fazendo": [{ "id": "2", "title": "Titulo 3" }]
+    },
+    "order": ["A Fazer", "Fazendo", "Concluido"]
+  },
+  "organizations": [
+      {
+        "id": "avantetech",
+        "name": "AvanteTech",
+        "pathname": "avantetech",
+        "imagePath": "https://media.licdn.com/dms/image/v2/D4E0BAQELxWY3RFWbIw/img-crop_100/img-crop_100/0/1738346828116?e=1758758400&v=beta&t=ejUH4bapiC19rfbZAw2NWULuYx9y4orRHgmK_klFv7U"
       },
-      "order": ["A Fazer", "Fazendo", "Concluido"]
-    }
+      {
+        "id": "tempero-da-baiana",
+        "name": "Tempero-da-Baiana",
+        "pathname": "tempero-da-baiana",
+        "imagePath": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmHqFWoVoG85Su1RedNZFdi5pI83o_rYas2A&s"
+      },
+      {
+        "id": "figma",
+        "name": "Figma",
+        "pathname": "figma",
+        "imagePath": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHVIL5HpOsOFQWomhpmB5b8lTVQ9rIVnV9fg&s"
+      }
+    ]
 }
