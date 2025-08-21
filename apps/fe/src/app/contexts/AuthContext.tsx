@@ -1,10 +1,12 @@
-import type { IUser } from '@app/entities/User';
+import { authService } from '@app/services/authService';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { createContext, useCallback, useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
-import { USER_QUERY_KEY } from '@app/config/constants';
+import { AUTH_QUERY_KEY } from '@app/config/constants';
 import { localStorageKeys } from '@app/config/localStorageKeys';
-import { usersService } from '@app/services/usersService';
+import type { IUser } from '@app/entities/User';
+import { capitalizeFirstLetter } from '@app/utils/capitalizeFirstLetter';
 import { LaunchScreen } from '@views/components/app/LaunchScreen';
 
 interface IAuthContextValue {
@@ -27,8 +29,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const queryClient = useQueryClient();
 
   const { isError, isFetching, isSuccess, data } = useQuery({
-    queryKey: USER_QUERY_KEY(),
-    queryFn: usersService.me,
+    queryKey: AUTH_QUERY_KEY(),
+    queryFn: () => authService.me(),
     staleTime: Infinity,
     enabled: signedIn,
   });
@@ -47,15 +49,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setSignedIn(false);
   }, [queryClient]);
 
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     toast.success(`Bem-vindo, ${capitalizeFirstLetter(data.name)}!`);
-  //   }
-  // }, [isSuccess, data]);
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(`Bem-vindo, ${capitalizeFirstLetter(data.name)}!`);
+    }
+  }, [isSuccess, data]);
 
   useEffect(() => {
     if (isError) {
-      // toast.error('Sua sessão expirou!');
+      toast.error('Sua sessão expirou!');
       signout();
     }
   }, [isError, signout]);

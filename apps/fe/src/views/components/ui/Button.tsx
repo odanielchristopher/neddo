@@ -4,6 +4,8 @@ import * as React from 'react';
 
 import { cn } from '@app/lib/utils';
 
+import { Spinner } from './Spinner';
+
 export const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
   {
@@ -22,9 +24,9 @@ export const buttonVariants = cva(
         link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {
-        default: 'h-12 px-4 py-2 has-[>svg]:px-3',
-        sm: 'h-10 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5',
-        lg: 'h-[52px] rounded-md px-6 has-[>svg]:px-4',
+        default: 'h-12 px-4 py-2 has-[>svg]:px-3 rounded-full',
+        sm: 'h-10 rounded-full gap-1.5 px-3 has-[>svg]:px-2.5',
+        lg: 'h-[52px] rounded-full px-6 has-[>svg]:px-4',
         icon: 'size-9',
       },
     },
@@ -40,21 +42,37 @@ export function Button({
   variant,
   size,
   asChild = false,
+  isLoading,
   type,
+  children,
   ...props
 }: React.ComponentProps<'button'> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean;
+    isLoading?: boolean;
     type: 'button' | 'submit' | 'reset';
   }) {
-  const Comp = asChild ? Slot : 'button';
+  if (asChild) {
+    return (
+      <Slot
+        data-slot="button"
+        className={cn(buttonVariants({ variant, size, className }))}
+        {...props}
+      >
+        {children}
+      </Slot>
+    );
+  }
 
   return (
-    <Comp
-      data-slot="button"
+    <button
       type={type}
+      data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
-    />
+    >
+      {!isLoading && children}
+      {isLoading && <Spinner className="h-6 w-6" />}
+    </button>
   );
 }
