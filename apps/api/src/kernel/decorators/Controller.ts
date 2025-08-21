@@ -1,10 +1,10 @@
 import { Constructor, CONTROLLER_METADATA_KEY, Method } from '../../shared';
 import { Container } from '../di/Container';
 
-export interface ControllerMetadata {
+export type ControllerMetadata = {
   http: Method;
   path?: string;
-}
+};
 
 export function Controller(options: ControllerMetadata): ClassDecorator {
   return (target) => {

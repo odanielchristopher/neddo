@@ -1,4 +1,5 @@
 import { RouteHandler } from 'fastify';
+
 import { IController } from '../../application/contracts/IController';
 
 type ControllerFactory = (organizationId: string) => IController;

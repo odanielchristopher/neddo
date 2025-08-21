@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unsafe-function-type */
 import { FastifyReply, FastifyRequest } from 'fastify';
+
 import { extractArgumentsFromRequest } from '../../kernel/helpers';
 import { getStatusCode } from '../../kernel/metadata';
 

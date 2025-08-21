@@ -22,6 +22,7 @@ export function Emit(event: string) {
 
         wsGateway.emitWithValidation(event, result, request);
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error('Failed to emit event:', error);
       }
 

@@ -1,5 +1,6 @@
 import { hash } from 'bcryptjs';
 import { z } from 'zod';
+
 import { PrismaClient } from '../../../../generated/prisma';
 import { db } from '../../../infra/lib/db';
 import { Body, Controller, Inject } from '../../../kernel/decorators';

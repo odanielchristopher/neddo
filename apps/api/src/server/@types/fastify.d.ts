@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import 'fastify';
 
 import { IController } from '../../application/contracts/IController';

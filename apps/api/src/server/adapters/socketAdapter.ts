@@ -1,4 +1,5 @@
 import { RawServerDefault } from 'fastify';
+
 import { WebSocketGateway } from '../../infra/gateways/WebSocketGateway';
 import { Container } from '../../kernel/di/Container';
 

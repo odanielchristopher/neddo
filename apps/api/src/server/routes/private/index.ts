@@ -1,5 +1,7 @@
 import { FastifyPluginAsync } from 'fastify';
+
 import { authenticationMiddleware } from '../../middlewares/authenticationMiddleware';
+
 import { leadsRoutes } from './leads';
 import { organizationRoutes } from './organizations';
 

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-function-type */
 import { FastifyRequest } from 'fastify';
 import { ZodSchema } from 'zod';
+
 import { getParamMetadata } from '../metadata';
 import { ArgMetadata } from '../types';
 
