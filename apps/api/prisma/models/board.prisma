@@ -1,0 +1,38 @@
+model Board {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  createdById    String   @map("created_by_id") @db.Uuid
+  name           String
+  imagePath      String?  @map("image_path")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  users   BoardUser[]
+  columns Column[]
+
+  createdBy    User         @relation(fields: [createdById], references: [id], onUpdate: Cascade)
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([id, organizationId])
+  @@map("boards")
+}
+
+model BoardUser {
+  boardId String    @map("board_id") @db.Uuid
+  userId  String    @map("user_id") @db.Uuid
+  role    BoardRole @default(READER)
+
+  board Board @relation(fields: [boardId], references: [id])
+  user  User  @relation(fields: [userId], references: [id])
+
+  @@id([boardId, userId])
+  @@map("board_user")
+}
+
+enum BoardRole {
+  OWNER
+  READER
+  WRITER
+
+  @@map("board_role")
+}

@@ -1,10 +1,15 @@
 model User {
-  id       String @id @default(uuid()) @db.Uuid
+  id       String  @id @default(uuid()) @db.Uuid
   name     String
-  email    String @unique
+  email    String  @unique
   password String
+  active   Boolean @default(true)
 
-  organizations OrganizationUser[]
+  boards         BoardUser[]
+  organizations  OrganizationUser[]
+  createdBoards  Board[]
+  createdColumns Column[]
+  tasks          TaskUser[]
 
   @@map("users")
 }

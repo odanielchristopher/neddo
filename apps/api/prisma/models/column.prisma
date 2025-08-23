@@ -1,0 +1,17 @@
+model Column {
+  id          String   @id @default(uuid()) @db.Uuid
+  boardId     String   @map("board_id") @db.Uuid
+  createdById String   @map("created_by_id") @db.Uuid
+  name        String
+  position    Int
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  tasks Task[]
+
+  createdBy User  @relation(fields: [createdById], references: [id], onUpdate: Cascade)
+  board     Board @relation(fields: [boardId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([id, boardId])
+  @@map("columns")
+}
