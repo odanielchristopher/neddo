@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import 'fastify';
 
-import { IController } from '../../application/contracts/IController';
-import { OrganizationRole } from '../../generated/prisma';
-import { Constructor, Middleware } from '../../shared/types';
+import { BaseController } from '@kernel/contracts';
+import { Constructor } from '@shared/types';
+import { OrganizationRole } from 'generated/prisma';
 
 declare module 'fastify' {
   interface FastifyRequest {
@@ -15,9 +15,6 @@ declare module 'fastify' {
   }
 
   interface FastifyInstance {
-    registerController(
-      controller: Constructor<IController>,
-      options?: { onRequest: Middleware[] },
-    ): void;
+    controller(controller: Constructor<BaseController>): void;
   }
 }

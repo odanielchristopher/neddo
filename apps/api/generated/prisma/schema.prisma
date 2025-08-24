@@ -1,36 +1,93 @@
-model Leads {
-  id             String @id @default(uuid()) @db.Uuid
-  organizationId String @map("organization_id") @db.Uuid
-  name           String
-  email          String
-  phone          String
-
-  organization Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  interactions Interactions[]
-
-  @@map("leads")
-}
-
-model Interactions {
+model Board {
   id             String   @id @default(uuid()) @db.Uuid
   organizationId String   @map("organization_id") @db.Uuid
-  leadId         String   @map("lead_id") @db.Uuid
-  message        String
-  createdAt      DateTime @map("created_at")
+  createdById    String   @map("created_by_id") @db.Uuid
+  name           String
+  imagePath      String?  @map("image_path")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
 
+  users   BoardUser[]
+  columns Column[]
+
+  createdBy    User         @relation(fields: [createdById], references: [id], onUpdate: Cascade)
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  lead         Leads        @relation(fields: [leadId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  @@map("Interactions")
+  @@index([id, organizationId])
+  @@map("boards")
+}
+
+model BoardUser {
+  boardId String    @map("board_id") @db.Uuid
+  userId  String    @map("user_id") @db.Uuid
+  role    BoardRole @default(READER)
+
+  board Board @relation(fields: [boardId], references: [id])
+  user  User  @relation(fields: [userId], references: [id])
+
+  @@id([boardId, userId])
+  @@map("board_user")
+}
+
+enum BoardRole {
+  OWNER
+  READER
+  WRITER
+
+  @@map("board_role")
+}
+
+model Column {
+  id          String   @id @default(uuid()) @db.Uuid
+  boardId     String   @map("board_id") @db.Uuid
+  createdById String   @map("created_by_id") @db.Uuid
+  name        String
+  position    Int
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  tasks Task[]
+
+  createdBy User  @relation(fields: [createdById], references: [id], onUpdate: Cascade)
+  board     Board @relation(fields: [boardId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([id, boardId])
+  @@map("columns")
+}
+
+model Invitation {
+  id             String           @id @default(uuid()) @db.Uuid
+  organizationId String           @map("organization_id") @db.Uuid
+  email          String
+  role           OrganizationRole @default(MEMBER) // papel que será atribuído quando aceitar
+  status         InvitationStatus @default(PENDING)
+  expiresAt      DateTime
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@map("invitations")
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  EXPIRED
+
+  @@map("invitation_status")
 }
 
 model Organization {
-  id   String @id @default(uuid()) @db.Uuid
-  name String
+  id        String  @id @default(uuid()) @db.Uuid
+  name      String
+  imagePath String? @map("image_path")
 
-  users        OrganizationUser[]
-  leads        Leads[]
-  interactions Interactions[]
+  users       OrganizationUser[]
+  boards      Board[]
+  tasks       Task[]
+  invitations Invitation[]
 
   @@map("organizations")
 }
@@ -39,7 +96,6 @@ enum OrganizationRole {
   OWNER
   ADMIN
   MEMBER
-  READONLY
 
   @@map("organization_role")
 }
@@ -48,6 +104,7 @@ model OrganizationUser {
   userId         String           @map("user_id") @db.Uuid
   organizationId String           @map("organization_id") @db.Uuid
   role           OrganizationRole @default(MEMBER)
+  archived       Boolean          @default(false)
 
   user         User         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -56,13 +113,62 @@ model OrganizationUser {
   @@map("user_organization")
 }
 
-model User {
-  id       String @id @default(uuid()) @db.Uuid
-  name     String
-  email    String @unique
-  password String
+model Task {
+  id             String       @id @default(uuid()) @db.Uuid
+  columnId       String       @map("column_id") @db.Uuid
+  organizationId String       @map("organization_id") @db.Uuid
+  parentTaskId   String?      @map("parent_task_id") @db.Uuid
+  createdById    String       @map("created_by_id") @db.Uuid
+  name           String
+  description    String?
+  position       Int
+  dueDate        DateTime?
+  priority       TaskPriority
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
 
-  organizations OrganizationUser[]
+  subTasks Task[]     @relation("task_subtask")
+  users    TaskUser[]
+
+  column       Column       @relation(fields: [columnId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  parentTask   Task?        @relation("task_subtask", fields: [parentTaskId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([id, organizationId])
+  @@map("tasks")
+}
+
+model TaskUser {
+  taskId String @map("task_id") @db.Uuid
+  userId String @map("user_id") @db.Uuid
+
+  task Task @relation(fields: [taskId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@id([taskId, userId])
+  @@map("task_user")
+}
+
+enum TaskPriority {
+  HIGH
+  MEDIUM
+  LOW
+
+  @@map("task_priority")
+}
+
+model User {
+  id       String  @id @default(uuid()) @db.Uuid
+  name     String
+  email    String  @unique
+  password String
+  active   Boolean @default(true)
+
+  boards         BoardUser[]
+  organizations  OrganizationUser[]
+  createdBoards  Board[]
+  createdColumns Column[]
+  tasks          TaskUser[]
 
   @@map("users")
 }

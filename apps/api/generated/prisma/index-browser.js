@@ -120,38 +120,82 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.LeadsScalarFieldEnum = {
+exports.Prisma.BoardScalarFieldEnum = {
   id: 'id',
   organizationId: 'organizationId',
+  createdById: 'createdById',
   name: 'name',
-  email: 'email',
-  phone: 'phone'
+  imagePath: 'imagePath',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
-exports.Prisma.InteractionsScalarFieldEnum = {
+exports.Prisma.BoardUserScalarFieldEnum = {
+  boardId: 'boardId',
+  userId: 'userId',
+  role: 'role'
+};
+
+exports.Prisma.ColumnScalarFieldEnum = {
+  id: 'id',
+  boardId: 'boardId',
+  createdById: 'createdById',
+  name: 'name',
+  position: 'position',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.InvitationScalarFieldEnum = {
   id: 'id',
   organizationId: 'organizationId',
-  leadId: 'leadId',
-  message: 'message',
-  createdAt: 'createdAt'
+  email: 'email',
+  role: 'role',
+  status: 'status',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.OrganizationScalarFieldEnum = {
   id: 'id',
-  name: 'name'
+  name: 'name',
+  imagePath: 'imagePath'
 };
 
 exports.Prisma.OrganizationUserScalarFieldEnum = {
   userId: 'userId',
   organizationId: 'organizationId',
-  role: 'role'
+  role: 'role',
+  archived: 'archived'
+};
+
+exports.Prisma.TaskScalarFieldEnum = {
+  id: 'id',
+  columnId: 'columnId',
+  organizationId: 'organizationId',
+  parentTaskId: 'parentTaskId',
+  createdById: 'createdById',
+  name: 'name',
+  description: 'description',
+  position: 'position',
+  dueDate: 'dueDate',
+  priority: 'priority',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TaskUserScalarFieldEnum = {
+  taskId: 'taskId',
+  userId: 'userId'
 };
 
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
   email: 'email',
-  password: 'password'
+  password: 'password',
+  active: 'active'
 };
 
 exports.Prisma.SortOrder = {
@@ -163,18 +207,45 @@ exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 };
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+exports.BoardRole = exports.$Enums.BoardRole = {
+  OWNER: 'OWNER',
+  READER: 'READER',
+  WRITER: 'WRITER'
+};
+
 exports.OrganizationRole = exports.$Enums.OrganizationRole = {
   OWNER: 'OWNER',
   ADMIN: 'ADMIN',
-  MEMBER: 'MEMBER',
-  READONLY: 'READONLY'
+  MEMBER: 'MEMBER'
+};
+
+exports.InvitationStatus = exports.$Enums.InvitationStatus = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  DECLINED: 'DECLINED',
+  EXPIRED: 'EXPIRED'
+};
+
+exports.TaskPriority = exports.$Enums.TaskPriority = {
+  HIGH: 'HIGH',
+  MEDIUM: 'MEDIUM',
+  LOW: 'LOW'
 };
 
 exports.Prisma.ModelName = {
-  Leads: 'Leads',
-  Interactions: 'Interactions',
+  Board: 'Board',
+  BoardUser: 'BoardUser',
+  Column: 'Column',
+  Invitation: 'Invitation',
   Organization: 'Organization',
   OrganizationUser: 'OrganizationUser',
+  Task: 'Task',
+  TaskUser: 'TaskUser',
   User: 'User'
 };
 

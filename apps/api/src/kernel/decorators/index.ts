@@ -1,4 +1,3 @@
-export * from './Controller';
-export * from './Inject';
-export * from './Injectable';
-export * from './request';
+/* eslint-disable prettier/prettier */
+export * from './core';
+export * from './http';

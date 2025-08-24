@@ -1,0 +1,29 @@
+{
+  "$schema": "https://swc.rs/schema.json",
+  "sourceMaps": false,
+  "jsc": {
+    "target": "es2022",
+    "parser": {
+      "syntax": "typescript",
+      "tsx": true,
+      "decorators": true,
+      "dynamicImport": true
+    },
+    "transform": {
+      "legacyDecorator": true,
+      "decoratorMetadata": true
+    },
+    "baseUrl": "./src",
+    "paths": {
+      "@server/*": ["server/*"],
+      "@application/*": ["application/*"],
+      "@kernel/*": ["kernel/*"],
+      "@infra/*": ["infra/*"],
+      "@shared/*": ["shared/*"]
+    }
+  },
+  "module": {
+    "type": "commonjs",
+    "strictMode": true
+  }
+}
