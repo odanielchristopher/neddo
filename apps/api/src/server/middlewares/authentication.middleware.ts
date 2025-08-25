@@ -1,12 +1,11 @@
-import { FastifyReply, FastifyRequest } from 'fastify';
+import { FastifyRequest } from 'fastify';
 
-export async function authenticationMiddleware(
-  request: FastifyRequest,
-  reply: FastifyReply,
-) {
+import { UnauthorizedException } from '@kernel/exceptions';
+
+export async function authenticationMiddleware(request: FastifyRequest) {
   try {
     await request.jwtVerify();
   } catch {
-    reply.code(401).send({ error: 'Invalid Access Token.' });
+    throw new UnauthorizedException('Invalid Access Token');
   }
 }
