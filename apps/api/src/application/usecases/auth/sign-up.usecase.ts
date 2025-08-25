@@ -1,12 +1,13 @@
-import { compare } from 'bcryptjs';
+import { hash } from 'bcryptjs';
 
 import { UsersRepository } from '@infra/database/repositories/users.repository';
 import { JwtService } from '@infra/lib/jwt.service';
 import { Inject, Injectable } from '@kernel/decorators';
-import { InvalidCredentialsException } from '@kernel/exceptions';
+import { EmailAlreadyInUseException } from '@kernel/exceptions';
+import { SAULT_ROUNDS } from '@shared/constants';
 
 @Injectable()
-export class SignInUseCase {
+export class SignUpUseCase {
   constructor(
     private readonly usersRepository: UsersRepository,
     @Inject(JwtService)
@@ -14,22 +15,27 @@ export class SignInUseCase {
   ) {}
 
   async execute({
+    name,
     email,
     password,
-  }: SignInUseCase.Input): Promise<SignInUseCase.Output> {
-    const user = await this.usersRepository.findUnique({
+  }: SignUpUseCase.Input): Promise<SignUpUseCase.Output> {
+    const emailAlreadyExists = await this.usersRepository.findUnique({
       where: { email },
     });
 
-    if (!user) {
-      throw new InvalidCredentialsException();
+    if (emailAlreadyExists) {
+      throw new EmailAlreadyInUseException();
     }
 
-    const isValidPassword = await compare(password, user.password);
+    const hashedPassword = await hash(password, SAULT_ROUNDS);
 
-    if (!isValidPassword) {
-      throw new InvalidCredentialsException();
-    }
+    const user = await this.usersRepository.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+      },
+    });
 
     const accessToken = this.jwtService.sign({
       sub: user.id,
@@ -41,8 +47,9 @@ export class SignInUseCase {
   }
 }
 
-export namespace SignInUseCase {
+export namespace SignUpUseCase {
   export type Input = {
+    name: string;
     email: string;
     password: string;
   };

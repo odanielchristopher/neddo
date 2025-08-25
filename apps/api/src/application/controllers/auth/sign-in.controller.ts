@@ -7,7 +7,7 @@ import { SignInDto, signInSchema } from './schemas/sign-in.schema';
 
 @Controller('/sign-in')
 @Post()
-@StatusCode(HttpStatus.CREATED)
+@StatusCode(HttpStatus.OK)
 export class SignInController extends BaseController<SignInController.Response> {
   constructor(private readonly signInUseCase: SignInUseCase) {
     super();

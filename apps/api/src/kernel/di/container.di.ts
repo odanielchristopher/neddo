@@ -52,7 +52,7 @@ export class Container {
 
   registerValue(token: string, value: any) {
     if (this.values.has(token)) {
-      throw new Error(`"${token}" is already registered in the registry.`);
+      return;
     }
 
     this.values.set(token, value);

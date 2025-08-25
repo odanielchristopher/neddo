@@ -4,6 +4,13 @@ import FastifyJwt from '@fastify/jwt';
 import Fastify from 'fastify';
 import { ZodError } from 'zod';
 
+import {
+  ApplicationException,
+  ErrorCode,
+  HttpException,
+} from '@kernel/exceptions';
+import { httpErrorResponse } from '@kernel/utils/http-error-response';
+
 import { routes } from './routes';
 
 const fastify = Fastify();
@@ -19,16 +26,34 @@ fastify.register(routes);
 
 fastify.setErrorHandler((error, request, reply) => {
   if (error instanceof ZodError) {
-    return reply.code(400).send({
-      error: error.issues.map((issue) => ({
-        field: issue.path?.join('.'),
-        message: issue.message,
-      })),
-    });
+    return reply.code(400).send(
+      httpErrorResponse({
+        code: ErrorCode.BAD_REQUEST,
+        message: error.issues.map((issue) => ({
+          field: issue.path?.join('.'),
+          message: issue.message,
+        })),
+      }),
+    );
   }
 
-  console.log(error);
-  return reply.code(500).send({ error: 'Internal Server Error' });
+  if (error instanceof HttpException) {
+    reply.status(error.statusCode).send(httpErrorResponse(error));
+    return;
+  }
+
+  if (error instanceof ApplicationException) {
+    reply.status(error.statusCode ?? 400).send(httpErrorResponse(error));
+    return;
+  }
+
+  console.error('Internal server error:', error);
+  reply.status(500).send(
+    httpErrorResponse({
+      code: ErrorCode.INTERNAL_SERVER_ERROR,
+      message: 'Internal server error',
+    }),
+  );
 });
 
 export function bootstrap() {

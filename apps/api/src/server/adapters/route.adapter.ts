@@ -1,4 +1,4 @@
-import { FastifyPluginAsync } from 'fastify';
+import { FastifyPluginAsync, RouteShorthandOptions } from 'fastify';
 
 import { BaseController } from '@kernel/contracts';
 import { Container } from '@kernel/di/container.di';
@@ -6,7 +6,8 @@ import { getControllerMetadata } from '@kernel/helpers';
 import { Constructor } from '@shared/types';
 
 export function routeAdapter(
-  controller: Constructor<BaseController>,
+  controller: Constructor<BaseController<any>>,
+  options: RouteShorthandOptions = {},
 ): FastifyPluginAsync {
   const metadata = getControllerMetadata(controller);
 
@@ -24,7 +25,7 @@ export function routeAdapter(
       `ROUTE > ${method.toUpperCase()} ${path} in ${controller.name}`,
     );
 
-    fastify[method](path, async (request, reply) => {
+    fastify[method](path, options, async (request, reply) => {
       const instance = Container.getInstance().resolve(
         controller.name,
       ) as BaseController;
