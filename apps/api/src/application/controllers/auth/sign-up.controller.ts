@@ -16,11 +16,9 @@ export class SignUpController extends BaseController<SignUpController.Response> 
   override async execute(
     @Body(signUpSchema) signInDto: SignUpDto,
   ): Promise<SignUpController.Response> {
-    const {
-      user: { name, email, password },
-    } = signInDto;
+    const { user, organization } = signInDto;
 
-    return this.signInUseCase.execute({ name, email, password });
+    return this.signInUseCase.execute({ user, organization });
   }
 }
 

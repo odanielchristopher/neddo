@@ -1,6 +1,6 @@
 import { ZodSchema } from 'zod';
 
-import { addParamMetadata } from '@kernel/utils/add-param-decorator';
+import { addParamMetadata } from '@kernel/utils';
 
 export function Body(data?: ZodSchema | string): ParameterDecorator {
   return (target, _key, index) => {

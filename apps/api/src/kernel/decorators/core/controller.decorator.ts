@@ -1,5 +1,6 @@
 import { HTTP_PATH_METADATA_KEY } from '@kernel/constants';
 import { Container } from '@kernel/di/container.di';
+import { normalizePath } from '@kernel/utils';
 import { Constructor } from '@shared/types';
 
 export function Controller(path: string): ClassDecorator {
@@ -9,6 +10,6 @@ export function Controller(path: string): ClassDecorator {
       useClass: target as unknown as Constructor,
     });
 
-    Reflect.defineMetadata(HTTP_PATH_METADATA_KEY, path, target);
+    Reflect.defineMetadata(HTTP_PATH_METADATA_KEY, normalizePath(path), target);
   };
 }

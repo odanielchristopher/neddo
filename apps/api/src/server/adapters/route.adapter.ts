@@ -1,9 +1,12 @@
 import { FastifyPluginAsync, RouteShorthandOptions } from 'fastify';
 
+import { ExecutionContext } from '@kernel/context';
 import { BaseController } from '@kernel/contracts';
 import { Container } from '@kernel/di/container.di';
 import { getControllerMetadata } from '@kernel/helpers';
 import { Constructor } from '@shared/types';
+
+const container = Container.getInstance();
 
 export function routeAdapter(
   controller: Constructor<BaseController<any>>,
@@ -19,20 +22,20 @@ export function routeAdapter(
     );
   }
 
+  // eslint-disable-next-line no-console
+  console.log(`ROUTE > ${method.toUpperCase()} ${path} in ${controller.name}`);
+
   return async (fastify) => {
-    // eslint-disable-next-line no-console
-    console.log(
-      `ROUTE > ${method.toUpperCase()} ${path} in ${controller.name}`,
-    );
-
     fastify[method](path, options, async (request, reply) => {
-      const instance = Container.getInstance().resolve(
-        controller.name,
-      ) as BaseController;
+      const userId = request.user?.sub;
+      const organizationId = request.headers['x-org-id'] as string;
 
-      const { code, body } = await instance.handler({ request });
+      return ExecutionContext.run({ userId, organizationId }, async () => {
+        const instance = container.resolve(controller.name) as BaseController;
 
-      return reply.code(code).send(body);
+        const { code, body } = await instance.handler({ request });
+        return reply.code(code).send(body);
+      });
     });
   };
 }

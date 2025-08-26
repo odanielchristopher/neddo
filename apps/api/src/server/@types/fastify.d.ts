@@ -2,11 +2,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import 'fastify';
 
+import { OrganizationRole } from '@prisma/client';
 import { RouteShorthandOptions } from 'fastify';
 
 import { BaseController } from '@kernel/contracts';
 import { Constructor } from '@shared/types';
-import { OrganizationRole } from 'generated/prisma';
 
 declare module 'fastify' {
   interface FastifyRequest {

@@ -1,14 +1,30 @@
+import { $Enums } from '@prisma/client';
+
+import { ListUserOrganizationsUseCase } from '@application/usecases/organizations/list-user-organizations.usecase';
 import { BaseController } from '@kernel/contracts';
-import { Controller, Get } from '@kernel/decorators';
+import { Controller, Get, Inject } from '@kernel/decorators';
 
 @Controller('')
 @Get()
-export class ListOrganizationUsersController extends BaseController {
-  override async execute(): Promise<ListOrganizationUsersController.Response> {
-    console.log('hello');
+export class ListUserOrganizationsController extends BaseController<ListUserOrganizationsController.Response> {
+  constructor(
+    @Inject('userId') private readonly userId: string,
+    private readonly listUserOrganizationsUseCase: ListUserOrganizationsUseCase,
+  ) {
+    super();
+  }
+
+  override async execute(): Promise<ListUserOrganizationsController.Response> {
+    return this.listUserOrganizationsUseCase.execute({ userId: this.userId });
   }
 }
 
-export namespace ListOrganizationUsersController {
-  export type Response = any;
+export namespace ListUserOrganizationsController {
+  export type Response = {
+    role: $Enums.OrganizationRole;
+    organization: {
+      id: string;
+      name: string;
+    };
+  }[];
 }

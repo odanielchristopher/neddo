@@ -1,10 +1,10 @@
+import { ExecutionContext } from '@kernel/context';
 import { isSingleton } from '@kernel/helpers';
 import { Constructor } from '@shared/types';
 
 export class Container {
   private static instance: Container;
 
-  private executionContext = new Map<string, any>();
   private providers = new Map<string, Container.Provider>();
   private values = new Map<string, any>();
 
@@ -59,38 +59,50 @@ export class Container {
     this.values.set(token, value);
   }
 
-  registerContext(input: Container.ExecutionContext) {
-    Object.entries(input).forEach(([token, value]) => {
-      this.executionContext.set(token, value);
-    });
-  }
+  resolve<TImpl extends Constructor>(
+    token: string,
+    options?: { isOptional?: false },
+  ): InstanceType<TImpl>;
 
-  resolve<TImpl extends Constructor>(token: string): InstanceType<TImpl> {
-    // // 1. Primeiro procura no contexto da requisição
-    if (this.executionContext.has(token)) {
-      return this.executionContext.get(token);
+  resolve<TImpl extends Constructor>(
+    token: string,
+    options: { isOptional: true },
+  ): InstanceType<TImpl> | undefined;
+
+  resolve<TImpl extends Constructor>(
+    token: string,
+    options: { isOptional?: boolean } = { isOptional: false },
+  ): InstanceType<TImpl> | undefined {
+    // 1. Tenta pegar do contexto de request
+    const ctxValue = ExecutionContext.getValue(token);
+    if (ctxValue) return ctxValue as any;
+
+    // 2. Tenta pegar instância singleton já criada
+    if (this.values.has(token)) {
+      return this.values.get(token);
     }
 
-    // 2. Depois verifica se é singleton já resolvido
-    const existingInstance = this.values.get(token);
-    if (existingInstance) {
-      return existingInstance;
-    }
-
-    // 3. Se não, instancia a partir dos providers
+    // 3. Procura provider registrado
     const provider = this.providers.get(token);
     if (!provider) {
-      throw new Error(`"${token}" not registered.`);
+      if (!options.isOptional) {
+        throw new Error(`"${token}" not registered.`);
+      }
+      return undefined;
     }
 
+    // 4. Resolve dependências recursivamente
     const deps = provider.deps.map((dep, index) => {
-      const token =
+      const depToken =
         Reflect.getMetadata(`inject:${index}`, provider.impl) || dep.name;
-      return this.resolve(token);
+      const isOptional =
+        Reflect.getMetadata(`optional:${index}`, provider.impl) ?? false;
+      return this.resolve(depToken, { isOptional });
     });
 
     const newInstance = new provider.impl(...deps);
 
+    // 5. Se for singleton, guarda em cache
     if (isSingleton(provider.impl)) {
       this.values.set(token, newInstance);
     }

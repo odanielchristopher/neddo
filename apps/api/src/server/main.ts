@@ -9,7 +9,7 @@ import {
   ErrorCode,
   HttpException,
 } from '@kernel/exceptions';
-import { httpErrorResponse } from '@kernel/utils/http-error-response';
+import { httpErrorResponse } from '@kernel/utils';
 
 import { routes } from './routes';
 

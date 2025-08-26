@@ -4,11 +4,11 @@ import { Constructor } from '@shared/types';
 
 export type Options = {
   token?: string;
-  scope?: 'singleton' | 'transient';
+  scope?: 'default' | 'request';
 };
 
 export function Injectable(
-  { token, scope }: Options = { token: undefined, scope: 'singleton' },
+  { token, scope }: Options = { token: undefined, scope: 'default' },
 ): ClassDecorator {
   return (target) => {
     Container.getInstance().register({
@@ -16,7 +16,7 @@ export function Injectable(
       useClass: target as unknown as Constructor,
     });
 
-    if (scope === 'singleton') {
+    if (scope === 'default') {
       Reflect.defineMetadata(SINGLETON_METADATA_KEY, true, target);
     }
   };

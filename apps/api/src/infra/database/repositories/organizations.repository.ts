@@ -1,22 +1,55 @@
-import { Prisma } from '@prisma/client';
-
-import { Injectable } from '@kernel/decorators';
+import { Injectable, OptionalInject } from '@kernel/decorators';
 
 import { PrismaService } from '../prisma.service';
 
-@Injectable()
+@Injectable({
+  scope: 'request',
+})
 export class OrganizationsRepository {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    @OptionalInject('organizationId')
+    private readonly organizationId?: string,
+  ) {}
 
-  findMany(findManyDto: Prisma.OrganizationFindManyArgs) {
-    return this.prismaService.organization.findMany(findManyDto);
+  findOrgUsers() {
+    if (!this.organizationId) {
+      throw new Error('Organization id not found.');
+    }
+
+    return this.prismaService.organizationUser.findMany({
+      where: { organizationId: this.organizationId },
+      select: {
+        role: true,
+        user: {
+          select: {
+            id: true,
+            email: true,
+            name: true,
+          },
+        },
+      },
+    });
   }
 
-  findUnique(findUniqueDto: Prisma.OrganizationFindUniqueArgs) {
-    return this.prismaService.organization.findUnique(findUniqueDto);
+  findOrgsByUserId(userId: string) {
+    return this.prismaService.organizationUser.findMany({
+      where: { userId },
+      select: {
+        role: true,
+        organization: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    });
   }
 
-  create(createOrganizationDto: Prisma.OrganizationCreateArgs) {
-    return this.prismaService.organization.create(createOrganizationDto);
+  findOrgByName(name: string) {
+    return this.prismaService.organization.findUnique({
+      where: { name },
+    });
   }
 }
