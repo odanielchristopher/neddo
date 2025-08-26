@@ -3,18 +3,12 @@ import { Controller, Get } from '@kernel/decorators';
 
 @Controller('')
 @Get()
-export class ListUserOrganizationsController extends BaseController<{
-  ok: true;
-}> {
-  override async execute(): Promise<ListUserOrganizationsController.Response> {
-    return {
-      ok: true,
-    };
+export class ListOrganizationUsersController extends BaseController {
+  override async execute(): Promise<ListOrganizationUsersController.Response> {
+    console.log('hello');
   }
 }
 
-export namespace ListUserOrganizationsController {
-  export type Response = {
-    ok: true;
-  };
+export namespace ListOrganizationUsersController {
+  export type Response = any;
 }

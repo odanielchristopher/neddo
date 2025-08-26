@@ -1,8 +1,8 @@
+import { OrganizationRole } from '@prisma/client';
 import { FastifyReply, FastifyRequest } from 'fastify';
 
 import { PrismaService } from '@infra/database/prisma.service';
 import { Container } from '@kernel/di/container.di';
-import { OrganizationRole } from 'generated/prisma';
 
 export function validatePermissionMiddleware(
   requiredRoles?: OrganizationRole[],

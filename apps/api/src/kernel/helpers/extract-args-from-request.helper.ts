@@ -1,5 +1,5 @@
 import { FastifyRequest } from 'fastify';
-import { ZodSchema } from 'zod';
+import { ZodType } from 'zod';
 
 import { ArgMetadata } from '@kernel/types';
 
@@ -15,7 +15,7 @@ export function extractArgsFromRequest(
   for (const { index, source, data } of params) {
     let value: any = request[source];
 
-    if (data instanceof ZodSchema) {
+    if (data instanceof ZodType) {
       value = data.parse(value);
     }
 

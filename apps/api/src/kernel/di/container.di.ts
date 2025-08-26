@@ -4,6 +4,7 @@ import { Constructor } from '@shared/types';
 export class Container {
   private static instance: Container;
 
+  private executionContext = new Map<string, any>();
   private providers = new Map<string, Container.Provider>();
   private values = new Map<string, any>();
 
@@ -58,11 +59,17 @@ export class Container {
     this.values.set(token, value);
   }
 
+  registerContext(input: Container.ExecutionContext) {
+    Object.entries(input).forEach(([token, value]) => {
+      this.executionContext.set(token, value);
+    });
+  }
+
   resolve<TImpl extends Constructor>(token: string): InstanceType<TImpl> {
     // // 1. Primeiro procura no contexto da requisição
-    //   if (this.executionContext.has(token)) {
-    //     return this.executionContext.get(token);
-    //   }
+    if (this.executionContext.has(token)) {
+      return this.executionContext.get(token);
+    }
 
     // 2. Depois verifica se é singleton já resolvido
     const existingInstance = this.values.get(token);
@@ -98,4 +105,9 @@ export namespace Container {
     | { provide: string; useValue: any };
 
   export type Provider<T = any> = { impl: Constructor<T>; deps: Constructor[] };
+
+  export type ExecutionContext = {
+    organizationId: string;
+    userId: string;
+  };
 }
