@@ -25,6 +25,8 @@ export namespace ListUserOrganizationsController {
     organization: {
       id: string;
       name: string;
+      slug: string;
+      imagePath: string | null;
     };
   }[];
 }

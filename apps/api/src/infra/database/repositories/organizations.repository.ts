@@ -41,6 +41,8 @@ export class OrganizationsRepository {
           select: {
             id: true,
             name: true,
+            imagePath: true,
+            slug: true,
           },
         },
       },
