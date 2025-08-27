@@ -35,11 +35,13 @@ export class SignUpUseCase {
       throw new EmailAlreadyInUseException();
     }
 
-    const organizationAlreadyExists =
-      await this.organizationsRepository.findOrgByName(organization.name);
+    if (organization) {
+      const organizationAlreadyExists =
+        await this.organizationsRepository.findOrgByName(organization.name);
 
-    if (organizationAlreadyExists) {
-      throw new ConflictException('Organization name already in use.');
+      if (organizationAlreadyExists) {
+        throw new ConflictException('Organization name already in use.');
+      }
     }
 
     const hashedPassword = await hash(password, SAULT_ROUNDS);
@@ -50,7 +52,7 @@ export class SignUpUseCase {
         email,
         password: hashedPassword,
         organizations: {
-          create: {
+          create: organization && {
             role: 'OWNER',
             organization: {
               create: {
