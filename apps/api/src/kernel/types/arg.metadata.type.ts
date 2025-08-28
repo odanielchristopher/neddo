@@ -1,7 +1,10 @@
-import { ZodSchema } from 'zod';
+import { ZodType } from 'zod';
+
+import { ParamFactory } from '@kernel/utils';
 
 export type ArgMetadata = {
-  data: ZodSchema | string | undefined;
+  data: ZodType | string | undefined;
+  parser?: ZodType;
+  factory: ParamFactory;
   index: number;
-  source: 'body' | 'query' | 'params';
 };

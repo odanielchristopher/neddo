@@ -1,13 +1,3 @@
-import { ZodSchema } from 'zod';
+import { createTypedParamDecorator } from '@kernel/utils';
 
-import { addParamMetadata } from '@kernel/utils';
-
-export function Param(data?: ZodSchema | string): ParameterDecorator {
-  return (target, _key, index) => {
-    addParamMetadata(target.constructor, {
-      index,
-      source: 'params',
-      data,
-    });
-  };
-}
+export const Param = createTypedParamDecorator('params');

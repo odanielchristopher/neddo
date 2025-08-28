@@ -1,13 +1,9 @@
-import { FastifyRequest } from 'fastify';
-
 import { getStatusCode } from '@kernel/helpers';
 import { extractArgsFromRequest } from '@kernel/helpers/extract-args-from-request.helper';
 
 export abstract class BaseController<TBody = undefined | void> {
-  public async handler({
-    request,
-  }: Controller.Input): Promise<Controller.Response<TBody>> {
-    const args = extractArgsFromRequest(this.constructor, request);
+  public async handler(): Promise<Controller.Response<TBody>> {
+    const args = extractArgsFromRequest(this.constructor, this.execute.name);
     const body = await this.execute(...args);
 
     return {
@@ -22,10 +18,6 @@ export abstract class BaseController<TBody = undefined | void> {
 }
 
 export namespace Controller {
-  export type Input = {
-    request: FastifyRequest;
-  };
-
   export type Response<T = undefined> = {
     code: number;
     body?: T;

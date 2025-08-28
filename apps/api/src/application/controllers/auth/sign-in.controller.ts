@@ -1,7 +1,7 @@
 import { SignInUseCase } from '@application/usecases/auth/sign-in.usecase';
 import { BaseController } from '@kernel/contracts';
 import { Body, Controller, Post, StatusCode } from '@kernel/decorators';
-import { HttpStatus } from '@kernel/enums/http-status.enum';
+import { HttpStatus } from '@kernel/enums';
 
 import { SignInDto, signInSchema } from './schemas/sign-in.schema';
 

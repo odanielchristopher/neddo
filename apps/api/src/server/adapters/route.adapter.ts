@@ -30,12 +30,21 @@ export function routeAdapter(
       const userId = request.user?.sub;
       const organizationId = request.headers['x-org-id'] as string;
 
-      return ExecutionContext.run({ userId, organizationId }, async () => {
-        const instance = container.resolve(controller.name) as BaseController;
+      return ExecutionContext.run(
+        {
+          userId,
+          organizationId,
+          request,
+          controller,
+          handler: 'execute',
+        },
+        async () => {
+          const instance = container.resolve(controller.name) as BaseController;
 
-        const { code, body } = await instance.handler({ request });
-        return reply.code(code).send(body);
-      });
+          const { code, body } = await instance.handler();
+          return reply.code(code).send(body);
+        },
+      );
     });
   };
 }
