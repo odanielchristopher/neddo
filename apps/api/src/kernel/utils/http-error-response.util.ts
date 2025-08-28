@@ -1,6 +1,6 @@
 import { ErrorCode } from '@kernel/exceptions';
 
-interface IHttpErrorResponseParams {
+export interface IHttpErrorResponseParams {
   code: ErrorCode;
   message: any;
   details?: {

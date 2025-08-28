@@ -19,4 +19,8 @@ export class UsersRepository {
   create(createUserDto: Prisma.UserCreateArgs) {
     return this.prismaService.user.create(createUserDto);
   }
+
+  count(countUserDto: Prisma.UserCountArgs) {
+    return this.prismaService.user.count(countUserDto);
+  }
 }

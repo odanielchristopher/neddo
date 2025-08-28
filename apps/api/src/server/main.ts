@@ -9,7 +9,8 @@ import {
   ErrorCode,
   HttpException,
 } from '@kernel/exceptions';
-import { httpErrorResponse } from '@kernel/utils';
+import { httpErrorResponse, IHttpErrorResponseParams } from '@kernel/utils';
+import { isFastifyError } from '@shared/utils';
 
 import { routes } from './routes';
 
@@ -45,6 +46,12 @@ fastify.setErrorHandler((error, request, reply) => {
   if (error instanceof ApplicationException) {
     reply.status(error.statusCode ?? 400).send(httpErrorResponse(error));
     return;
+  }
+
+  if (isFastifyError(error)) {
+    return reply
+      .status(error.statusCode ?? 400)
+      .send(httpErrorResponse(error as IHttpErrorResponseParams));
   }
 
   console.error('Internal server error:', error);

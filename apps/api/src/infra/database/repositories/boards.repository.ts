@@ -12,7 +12,7 @@ export class BoardsRepository {
   ) {}
 
   create(createBoardDto: BoardsRepository.CreateBoardDto) {
-    const { userId, name, columns, imagePath } = createBoardDto;
+    const { userId, name, columns, users, imagePath } = createBoardDto;
 
     return this.prismaService.board.create({
       data: {
@@ -26,6 +26,13 @@ export class BoardsRepository {
               name: column.name,
               createdById: userId,
               position,
+            })),
+          },
+        },
+        users: users && {
+          createMany: {
+            data: users.map(({ id: userId }) => ({
+              userId,
             })),
           },
         },
@@ -59,6 +66,9 @@ export namespace BoardsRepository {
     imagePath?: string;
     columns?: {
       name: string;
+    }[];
+    users?: {
+      id: string;
     }[];
   };
 }
