@@ -6,5 +6,6 @@ export const env = z
     DATABASE_URL: z.string().nonempty(),
     RESEND_KEY: z.string().nonempty(),
     RESEND_DOMAIN: z.string().nonempty(),
+    BASE_URL: z.string().nonempty(),
   })
   .parse(process.env);
