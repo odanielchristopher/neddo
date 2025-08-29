@@ -5,6 +5,7 @@ import 'fastify';
 import { OrganizationRole } from '@prisma/client';
 import { RouteShorthandOptions } from 'fastify';
 
+import { Organization } from '@application/entities/organization.entity';
 import { BaseController } from '@kernel/contracts';
 import { Constructor } from '@shared/types';
 
@@ -15,6 +16,7 @@ declare module 'fastify' {
       organizationId: string;
       role: OrganizationRole;
     };
+    organization: Organization;
   }
 
   interface FastifyInstance {

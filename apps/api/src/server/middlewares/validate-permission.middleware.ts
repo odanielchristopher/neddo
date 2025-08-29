@@ -28,6 +28,19 @@ export function validatePermissionMiddleware(
             userId: sub,
           },
         },
+        select: {
+          organizationId: true,
+          userId: true,
+          role: true,
+          organization: {
+            select: {
+              id: true,
+              name: true,
+              imagePath: true,
+              slug: true,
+            },
+          },
+        },
       });
 
       if (
@@ -39,7 +52,12 @@ export function validatePermissionMiddleware(
           .send({ error: "You don't have enough permissions." });
       }
 
-      request.organizationUser = organizationUser;
+      request.organizationUser = {
+        organizationId,
+        role: organizationUser.role,
+        userId: sub,
+      };
+      request.organization = organizationUser.organization;
     } catch {
       return reply
         .status(403)

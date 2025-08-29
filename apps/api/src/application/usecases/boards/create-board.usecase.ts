@@ -1,8 +1,7 @@
 import { CreateBoardDto } from '@application/controllers/boards/schemas/create-board.schema';
+import { ValidateUserOwnershipUseCase } from '@application/utils/validations';
 import { BoardsRepository } from '@infra/database/repositories/boards.repository';
 import { Injectable } from '@kernel/decorators';
-
-import { ValidateUserOwnershipUseCase } from '../users/validate-user-ownership.usecase';
 
 @Injectable()
 export class CreateBoardUseCase {

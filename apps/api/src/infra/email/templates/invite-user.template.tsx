@@ -34,9 +34,9 @@ interface IVercelInviteUserEmailProps {
   inviteDate?: string;
 }
 
-const baseUrl = env.BASE_URL;
+const baseUrl = env.API_URL;
 
-export const VercelInviteUserEmail = ({
+export const InviteUserEmail = ({
   username,
   userImage,
   invitedByUsername,
@@ -138,7 +138,7 @@ export const VercelInviteUserEmail = ({
   );
 };
 
-VercelInviteUserEmail.PreviewProps = {
+InviteUserEmail.PreviewProps = {
   username: 'Daniel Christopher',
   userImage: `https://github.com/odanielchristopher.png`,
   invitedByUsername: 'Baiana',
@@ -149,4 +149,4 @@ VercelInviteUserEmail.PreviewProps = {
   inviteDate: '12/04/2025',
 } as IVercelInviteUserEmailProps;
 
-export default VercelInviteUserEmail;
+export default InviteUserEmail;

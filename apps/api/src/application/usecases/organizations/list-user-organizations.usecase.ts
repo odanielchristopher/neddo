@@ -1,5 +1,4 @@
-import { $Enums } from '@prisma/client';
-
+import { OrganizationRole } from '@application/entities/organization.entity';
 import { OrganizationsRepository } from '@infra/database/repositories/organizations.repository';
 import { Injectable } from '@kernel/decorators';
 
@@ -12,7 +11,9 @@ export class ListUserOrganizationsUseCase {
   async execute({
     userId,
   }: ListUserOrganizationsUseCase.Input): Promise<ListUserOrganizationsUseCase.Output> {
-    return this.organizationsRepository.findOrgsByUserId(userId);
+    return this.organizationsRepository.findOrgsByUserId(
+      userId,
+    ) as unknown as ListUserOrganizationsUseCase.Output;
   }
 }
 
@@ -22,7 +23,7 @@ export namespace ListUserOrganizationsUseCase {
   };
 
   export type Output = {
-    role: $Enums.OrganizationRole;
+    role: OrganizationRole;
     organization: {
       id: string;
       name: string;

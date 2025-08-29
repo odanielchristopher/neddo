@@ -29,6 +29,6 @@ export const routes: FastifyPluginAsync = async (fastify) => {
     container.registerValue(JwtService, request.server.jwt);
   });
 
-  fastify.register(privateRoutes);
   fastify.register(publicRoutes);
+  fastify.register(privateRoutes);
 };

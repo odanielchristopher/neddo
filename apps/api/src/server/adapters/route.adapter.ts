@@ -28,12 +28,16 @@ export function routeAdapter(
   return async (fastify) => {
     fastify[method](path, options, async (request, reply) => {
       const userId = request.user?.sub;
+      const organizationUser = request.organizationUser;
+      const organization = request.organization;
       const organizationId = request.headers['x-org-id'] as string;
 
       return ExecutionContext.run(
         {
           userId,
           organizationId,
+          organizationUser,
+          organization,
           request,
           controller,
           handler: 'execute',

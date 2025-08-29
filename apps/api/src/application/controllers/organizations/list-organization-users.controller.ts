@@ -1,5 +1,4 @@
-import { $Enums } from '@prisma/client';
-
+import { OrganizationRole } from '@application/entities/organization.entity';
 import { ListOrganizationUsersUseCase } from '@application/usecases/organizations/list-organization-users.usecase';
 import { BaseController } from '@kernel/contracts';
 import { Controller, Get } from '@kernel/decorators';
@@ -20,7 +19,7 @@ export class ListOrganizationUsersController extends BaseController<ListOrganiza
 
 export namespace ListOrganizationUsersController {
   export type Response = {
-    role: $Enums.OrganizationRole;
+    role: OrganizationRole;
     user: {
       id: string;
       name: string;

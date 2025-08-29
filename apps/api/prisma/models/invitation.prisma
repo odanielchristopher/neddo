@@ -1,6 +1,7 @@
 model Invitation {
   id             String           @id @default(uuid()) @db.Uuid
   organizationId String           @map("organization_id") @db.Uuid
+  invitedById    String           @map("invited_by_id") @db.Uuid
   email          String
   role           OrganizationRole @default(MEMBER) // papel que será atribuído quando aceitar
   status         InvitationStatus @default(PENDING)
@@ -9,6 +10,7 @@ model Invitation {
   updatedAt      DateTime         @updatedAt
 
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  invitedBy    User         @relation(fields: [invitedById], references: [id])
 
   @@map("invitations")
 }
