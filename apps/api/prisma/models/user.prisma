@@ -5,11 +5,36 @@ model User {
   password String
   active   Boolean @default(true)
 
-  boards         BoardUser[]
-  organizations  OrganizationUser[]
-  createdBoards  Board[]
-  createdColumns Column[]
-  tasks          TaskUser[]
+  boards             BoardUser[]
+  organizations      OrganizationUser[]
+  createdBoards      Board[]
+  createdColumns     Column[]
+  tasks              TaskUser[]
+  refreshTokens      RefreshToken[]
+  forgotPasswordCode ForgotPasswordCode?
 
   @@map("users")
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  issuesAt  DateTime @default(now()) @map("issues_at")
+  expiresAt DateTime @map("expires_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("refresh_tokens")
+}
+
+model ForgotPasswordCode {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @unique @map("user_id") @db.Uuid
+  code      String
+  issuesAt  DateTime @default(now()) @map("issues_at")
+  expiresAt DateTime @map("expires_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("forgot_password_code")
 }

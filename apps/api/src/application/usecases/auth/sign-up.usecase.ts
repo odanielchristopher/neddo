@@ -3,8 +3,8 @@ import { hash } from 'bcryptjs';
 import { SignUpDto } from '@application/controllers/auth/schemas/sign-up.schema';
 import { OrganizationsRepository } from '@infra/database/repositories/organizations.repository';
 import { UsersRepository } from '@infra/database/repositories/users.repository';
-import { JwtService } from '@infra/lib/jwt.service';
-import { Inject, Injectable } from '@kernel/decorators';
+import { AuthGateway } from '@infra/gateways/auth.gateway';
+import { Injectable } from '@kernel/decorators';
 import {
   ConflictException,
   EmailAlreadyInUseException,
@@ -17,8 +17,7 @@ export class SignUpUseCase {
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly organizationsRepository: OrganizationsRepository,
-    @Inject(JwtService)
-    private readonly jwtService: JwtService,
+    private readonly authGateway: AuthGateway,
   ) {}
 
   async execute({
@@ -65,12 +64,14 @@ export class SignUpUseCase {
       },
     });
 
-    const accessToken = this.jwtService.sign({
-      sub: created.id,
-    });
+    const accessToken = this.authGateway.generateAccessToken(created.id);
+    const refreshToken = await this.authGateway.generateRefreshToken(
+      created.id,
+    );
 
     return {
       accessToken,
+      refreshToken: refreshToken.id,
     };
   }
 }
@@ -80,5 +81,6 @@ export namespace SignUpUseCase {
 
   export type Output = {
     accessToken: string;
+    refreshToken: string;
   };
 }

@@ -20,6 +20,14 @@ export class UsersRepository {
     return this.prismaService.user.create(createUserDto);
   }
 
+  update(updateUserDto: Prisma.UserUpdateArgs) {
+    return this.prismaService.user.update(updateUserDto);
+  }
+
+  delete(deleteUserDto: Prisma.UserDeleteArgs) {
+    return this.prismaService.user.delete(deleteUserDto);
+  }
+
   count(countUserDto: Prisma.UserCountArgs) {
     return this.prismaService.user.count(countUserDto);
   }

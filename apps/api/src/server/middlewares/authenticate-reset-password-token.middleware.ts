@@ -2,13 +2,15 @@ import { FastifyRequest } from 'fastify';
 
 import { UnauthorizedException } from '@kernel/exceptions';
 
-export async function authenticationMiddleware(request: FastifyRequest) {
+export async function authenticateResetPasswordTokenMiddleware(
+  request: FastifyRequest,
+) {
   try {
     await request.jwtVerify();
 
-    const { type } = request.user;
+    const type = request.user.type;
 
-    if (type !== 'DEFAULT') {
+    if (type !== 'RESET') {
       throw new UnauthorizedException();
     }
   } catch {

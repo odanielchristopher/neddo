@@ -10,6 +10,7 @@ import {
   HttpException,
 } from '@kernel/exceptions';
 import { httpErrorResponse, IHttpErrorResponseParams } from '@kernel/utils';
+import { env } from '@shared/config';
 import { isFastifyError } from '@shared/utils';
 
 import { routes } from './routes';
@@ -17,7 +18,7 @@ import { routes } from './routes';
 const fastify = Fastify();
 fastify.register(FastifyCors);
 fastify.register(FastifyJwt, {
-  secret: process.env.JWT_SECRET!,
+  secret: env.JWT_SECRET,
   sign: {
     expiresIn: '5h',
   },

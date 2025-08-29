@@ -1,16 +1,15 @@
 import { compare } from 'bcryptjs';
 
 import { UsersRepository } from '@infra/database/repositories/users.repository';
-import { JwtService } from '@infra/lib/jwt.service';
-import { Inject, Injectable } from '@kernel/decorators';
+import { AuthGateway } from '@infra/gateways/auth.gateway';
+import { Injectable } from '@kernel/decorators';
 import { InvalidCredentialsException } from '@kernel/exceptions';
 
 @Injectable()
 export class SignInUseCase {
   constructor(
     private readonly usersRepository: UsersRepository,
-    @Inject(JwtService)
-    private readonly jwtService: JwtService,
+    private readonly authGateway: AuthGateway,
   ) {}
 
   async execute({
@@ -31,12 +30,13 @@ export class SignInUseCase {
       throw new InvalidCredentialsException();
     }
 
-    const accessToken = this.jwtService.sign({
-      sub: user.id,
-    });
+    const accessToken = this.authGateway.generateAccessToken(user.id);
+
+    const refreshToken = await this.authGateway.generateRefreshToken(user.id);
 
     return {
       accessToken,
+      refreshToken: refreshToken.id,
     };
   }
 }
@@ -49,5 +49,6 @@ export namespace SignInUseCase {
 
   export type Output = {
     accessToken: string;
+    refreshToken: string;
   };
 }

@@ -4,6 +4,7 @@ import '@fastify/jwt';
 declare module '@fastify/jwt' {
   type Payload = {
     sub: string;
+    type: 'RESET' | 'DEFAULT';
   };
 
   interface FastifyJWT {
