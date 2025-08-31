@@ -1,7 +1,7 @@
 import { FastifyPluginAsync, RouteShorthandOptions } from 'fastify';
 
 import { ExecutionContext } from '@kernel/context';
-import { BaseController } from '@kernel/contracts';
+import { IController } from '@kernel/contracts';
 import { Container } from '@kernel/di/container.di';
 import { getControllerMetadata } from '@kernel/helpers';
 import { Constructor } from '@shared/types';
@@ -9,7 +9,7 @@ import { Constructor } from '@shared/types';
 const container = Container.getInstance();
 
 export function routeAdapter(
-  controller: Constructor<BaseController<any>>,
+  controller: Constructor<IController<any>>,
   options: RouteShorthandOptions = {},
 ): FastifyPluginAsync {
   const metadata = getControllerMetadata(controller);
@@ -43,7 +43,7 @@ export function routeAdapter(
           handler: 'execute',
         },
         async () => {
-          const instance = container.resolve(controller.name) as BaseController;
+          const instance = container.resolve(controller.name) as IController;
 
           const { code, body } = await instance.handler();
           return reply.code(code).send(body);

@@ -1,5 +1,5 @@
 import { SignInUseCase } from '@application/usecases/auth/sign-in.usecase';
-import { BaseController } from '@kernel/contracts';
+import { IController } from '@kernel/contracts';
 import { Body, Controller, Post, StatusCode } from '@kernel/decorators';
 import { HttpStatus } from '@kernel/enums';
 
@@ -8,7 +8,7 @@ import { SignInDto, signInSchema } from './schemas/sign-in.schema';
 @Controller('/sign-in')
 @Post()
 @StatusCode(HttpStatus.OK)
-export class SignInController extends BaseController<SignInController.Response> {
+export class SignInController extends IController<SignInController.Response> {
   constructor(private readonly signInUseCase: SignInUseCase) {
     super();
   }

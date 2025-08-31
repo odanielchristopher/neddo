@@ -1,5 +1,5 @@
 import { ResetPasswordUseCase } from '@application/usecases/auth/reset-password.usecase';
-import { BaseController } from '@kernel/contracts';
+import { IController } from '@kernel/contracts';
 import { Body, Controller, Post, StatusCode } from '@kernel/decorators';
 import { HttpStatus } from '@kernel/enums';
 import { ActiveUserId } from '@shared/decorators';
@@ -12,7 +12,7 @@ import {
 @Controller('/reset-password')
 @Post()
 @StatusCode(HttpStatus.OK)
-export class ResetPasswordController extends BaseController<ResetPasswordController.Response> {
+export class ResetPasswordController extends IController<ResetPasswordController.Response> {
   constructor(private readonly resetPasswordUseCase: ResetPasswordUseCase) {
     super();
   }

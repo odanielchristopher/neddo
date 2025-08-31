@@ -6,7 +6,7 @@ import { OrganizationRole } from '@prisma/client';
 import { RouteShorthandOptions } from 'fastify';
 
 import { Organization } from '@application/entities/organization.entity';
-import { BaseController } from '@kernel/contracts';
+import { IController } from '@kernel/contracts';
 import { Constructor } from '@shared/types';
 
 declare module 'fastify' {
@@ -21,7 +21,7 @@ declare module 'fastify' {
 
   interface FastifyInstance {
     adapter(
-      controller: Constructor<BaseController<any>>,
+      controller: Constructor<IController<any>>,
       options?: RouteShorthandOptions,
     ): void;
   }

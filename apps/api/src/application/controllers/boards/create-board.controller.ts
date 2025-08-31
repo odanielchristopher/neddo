@@ -1,5 +1,5 @@
 import { CreateBoardUseCase } from '@application/usecases/boards/create-board.usecase';
-import { BaseController } from '@kernel/contracts';
+import { IController } from '@kernel/contracts';
 import { Body, Controller, Post, StatusCode } from '@kernel/decorators';
 import { HttpStatus } from '@kernel/enums';
 import { ActiveUserId } from '@shared/decorators';
@@ -12,7 +12,7 @@ import {
 @Controller('')
 @Post()
 @StatusCode(HttpStatus.CREATED)
-export class CreateBoardController extends BaseController<CreateBoardController.Response> {
+export class CreateBoardController extends IController<CreateBoardController.Response> {
   constructor(private readonly createBoardUseCase: CreateBoardUseCase) {
     super();
   }

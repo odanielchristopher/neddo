@@ -1,11 +1,11 @@
 import { OrganizationRole } from '@application/entities/organization.entity';
 import { ListOrganizationUsersUseCase } from '@application/usecases/organizations/list-organization-users.usecase';
-import { BaseController } from '@kernel/contracts';
+import { IController } from '@kernel/contracts';
 import { Controller, Get } from '@kernel/decorators';
 
 @Controller('/users')
 @Get()
-export class ListOrganizationUsersController extends BaseController<ListOrganizationUsersController.Response> {
+export class ListOrganizationUsersController extends IController<ListOrganizationUsersController.Response> {
   constructor(
     private readonly listOrganizationUsersUseCase: ListOrganizationUsersUseCase,
   ) {

@@ -1,5 +1,5 @@
 import { RefreshTokenUseCase } from '@application/usecases/auth/refresh-token.usecase';
-import { BaseController } from '@kernel/contracts';
+import { IController } from '@kernel/contracts';
 import { Body, Controller, Post, StatusCode } from '@kernel/decorators';
 import { HttpStatus } from '@kernel/enums';
 
@@ -11,7 +11,7 @@ import {
 @Controller('/refresh-token')
 @Post()
 @StatusCode(HttpStatus.OK)
-export class RefreshTokenController extends BaseController<RefreshTokenController.Response> {
+export class RefreshTokenController extends IController<RefreshTokenController.Response> {
   constructor(private readonly refreshTokenUseCase: RefreshTokenUseCase) {
     super();
   }

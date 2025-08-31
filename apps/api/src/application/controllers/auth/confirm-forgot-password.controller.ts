@@ -1,5 +1,5 @@
 import { ConfirmForgotPasswordUseCase } from '@application/usecases/auth/confirm-forgot-password.usecase';
-import { BaseController } from '@kernel/contracts';
+import { IController } from '@kernel/contracts';
 import { Body, Controller, Post, StatusCode } from '@kernel/decorators';
 import { HttpStatus } from '@kernel/enums';
 
@@ -11,7 +11,7 @@ import {
 @Controller('/confirm-forgot-password')
 @Post()
 @StatusCode(HttpStatus.OK)
-export class ConfirmForgotPasswordController extends BaseController<ConfirmForgotPasswordController.Response> {
+export class ConfirmForgotPasswordController extends IController<ConfirmForgotPasswordController.Response> {
   constructor(
     private readonly confirmforgotPasswordUseCase: ConfirmForgotPasswordUseCase,
   ) {

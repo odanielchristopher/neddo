@@ -1,7 +1,7 @@
 import { getStatusCode } from '@kernel/helpers';
 import { extractArgsFromRequest } from '@kernel/helpers/extract-args-from-request.helper';
 
-export abstract class BaseController<TBody = undefined | void> {
+export abstract class IController<TBody = undefined | void> {
   public async handler(): Promise<Controller.Response<TBody>> {
     const args = extractArgsFromRequest(this.constructor, this.execute.name);
     const body = await this.execute(...args);

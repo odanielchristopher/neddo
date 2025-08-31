@@ -8,6 +8,8 @@ import FastifyStatic from '@fastify/static';
 import Fastify from 'fastify';
 import { ZodError } from 'zod';
 
+import { JwtService } from '@infra/lib/jwt.service';
+import { Container } from '@kernel/di/container.di';
 import {
   ApplicationException,
   ErrorCode,
@@ -73,9 +75,10 @@ fastify.setErrorHandler((error, request, reply) => {
   );
 });
 
-export function bootstrap() {
-  fastify
-    .listen({ port: 3001 })
-    .then(() => console.log('> Server started at http://localhost:3001'))
-    .catch((error) => console.log(error));
-}
+fastify.addHook('onReady', async () => {
+  const container = Container.getInstance();
+
+  container.registerValue(JwtService, fastify.jwt);
+});
+
+export default fastify;

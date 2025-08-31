@@ -1,5 +1,5 @@
 import { ForgotPasswordUseCase } from '@application/usecases/auth/forgot-password.usecase';
-import { BaseController } from '@kernel/contracts';
+import { IController } from '@kernel/contracts';
 import { Body, Controller, Post, StatusCode } from '@kernel/decorators';
 import { HttpStatus } from '@kernel/enums';
 
@@ -11,7 +11,7 @@ import {
 @Controller('/forgot-password')
 @Post()
 @StatusCode(HttpStatus.OK)
-export class ForgotPasswordController extends BaseController<ForgotPasswordController.Response> {
+export class ForgotPasswordController extends IController<ForgotPasswordController.Response> {
   constructor(private readonly forgotPasswordUseCase: ForgotPasswordUseCase) {
     super();
   }
