@@ -2,12 +2,17 @@ import { OrganizationRole } from '@prisma/client';
 import { FastifyReply, FastifyRequest } from 'fastify';
 
 import { PrismaService } from '@infra/database/prisma.service';
+import { IMiddleware } from '@kernel/contracts';
+import { Injectable } from '@kernel/decorators';
 import { Container } from '@kernel/di/container.di';
 
-export function validatePermissionMiddleware(
-  requiredRoles?: OrganizationRole[],
-) {
-  return async (request: FastifyRequest, reply: FastifyReply) => {
+@Injectable()
+export class ValidatePermissionMiddleware extends IMiddleware {
+  constructor(private readonly requiredRoles: OrganizationRole[]) {
+    super();
+  }
+
+  async execute(request: FastifyRequest, reply: FastifyReply) {
     try {
       const organizationId = request.headers['x-org-id'];
 
@@ -45,7 +50,8 @@ export function validatePermissionMiddleware(
 
       if (
         !organizationUser ||
-        (requiredRoles && !requiredRoles.includes(organizationUser.role))
+        (this.requiredRoles &&
+          !this.requiredRoles.includes(organizationUser.role))
       ) {
         return reply
           .status(403)
@@ -63,5 +69,5 @@ export function validatePermissionMiddleware(
         .status(403)
         .send({ error: "You don't have enough permissions." });
     }
-  };
+  }
 }

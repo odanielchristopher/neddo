@@ -1,19 +1,22 @@
 import { FastifyRequest } from 'fastify';
 
+import { IMiddleware } from '@kernel/contracts';
+import { Injectable } from '@kernel/decorators';
 import { UnauthorizedException } from '@kernel/exceptions';
 
-export async function authenticateResetPasswordTokenMiddleware(
-  request: FastifyRequest,
-) {
-  try {
-    await request.jwtVerify();
+@Injectable()
+export class AuthenticateResetPasswordTokenMiddleware extends IMiddleware {
+  async execute(request: FastifyRequest) {
+    try {
+      await request.jwtVerify();
 
-    const type = request.user.type;
+      const { type } = request.user;
 
-    if (type !== 'RESET') {
-      throw new UnauthorizedException();
+      if (type !== 'RESET') {
+        throw new UnauthorizedException();
+      }
+    } catch {
+      throw new UnauthorizedException('Invalid Access Token');
     }
-  } catch {
-    throw new UnauthorizedException('Invalid Access Token');
   }
 }

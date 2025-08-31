@@ -1,17 +1,22 @@
 import { FastifyRequest } from 'fastify';
 
+import { IMiddleware } from '@kernel/contracts';
+import { Injectable } from '@kernel/decorators';
 import { UnauthorizedException } from '@kernel/exceptions';
 
-export async function authenticationMiddleware(request: FastifyRequest) {
-  try {
-    await request.jwtVerify();
+@Injectable()
+export class AuthenticationMiddleware extends IMiddleware {
+  async execute(request: FastifyRequest) {
+    try {
+      await request.jwtVerify();
 
-    const { type } = request.user;
+      const { type } = request.user;
 
-    if (type !== 'DEFAULT') {
-      throw new UnauthorizedException();
+      if (type !== 'DEFAULT') {
+        throw new UnauthorizedException();
+      }
+    } catch {
+      throw new UnauthorizedException('Invalid Access Token');
     }
-  } catch {
-    throw new UnauthorizedException('Invalid Access Token');
   }
 }
