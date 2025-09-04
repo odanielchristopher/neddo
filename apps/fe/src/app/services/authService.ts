@@ -7,20 +7,22 @@ import { httpClient } from './httpClient';
 class AuthService {
   constructor(private readonly httpClient: AxiosInstance) {}
 
-  async me() {
-    const { data } = await this.httpClient.get<AuthService.MeOutput>('/me');
-
-    return data;
-  }
-
-  async signin({
+  signin = async ({
     email,
     password,
-  }: AuthService.SignInInput): Promise<AuthService.SignInOutPut> {
+  }: AuthService.SignInInput): Promise<AuthService.SignInOutPut> => {
+    const { data } = await this.httpClient.post<AuthService.SignInOutPut>(
+      '/auth/sign-in',
+      {
+        email,
+        password,
+      },
+    );
+
     return {
-      accessToken: `${email}-${password}`,
+      accessToken: data.accessToken,
     };
-  }
+  };
 }
 
 export const authService = new AuthService(httpClient);

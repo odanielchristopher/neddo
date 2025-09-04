@@ -1,10 +1,12 @@
+import { AnimatePresence } from 'motion/react';
 import { Suspense } from 'react';
-import { Navigate, Route, Routes } from 'react-router';
+import { Navigate, Route, Routes, useLocation } from 'react-router';
 
+import { AuthGuard } from '@app/guards/AuthGuard';
+import { OrganizationGuard } from '@app/guards/OrganizationGuard';
 import { lazyLoad } from '@app/utils/lazyLoad';
 import { LaunchScreen } from '@views/components/app/LaunchScreen';
 
-import { AuthGuard } from './AuthGuard';
 import { params } from './params';
 import { routes } from './routes';
 
@@ -18,46 +20,62 @@ const { BoardPage } = lazyLoad(() => import('@views/pages/BoardPage'));
 const { Boards } = lazyLoad(() => import('@views/pages/Boards'));
 const { Dashboard } = lazyLoad(() => import('@views/pages/Dashboard'));
 const { Login } = lazyLoad(() => import('@views/pages/Login'));
+const { Register } = lazyLoad(() => import('@views/pages/Register'));
 
 export function Router() {
+  const location = useLocation();
   return (
     <Suspense fallback={<LaunchScreen />}>
-      <Routes>
-        <Route index element={<Navigate to={routes.login} />} />
-        <Route element={<AuthGuard isPrivate />}>
-          <Route element={<AppLayout />}>
-            <Route path={routes.dashboard} element={<Dashboard />} />
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route index element={<Navigate to={routes.login} />} />
+          <Route element={<AuthGuard isPrivate />}>
+            <Route element={<AppLayout />}>
+              <Route path={routes.dashboard} element={<Dashboard />} />
 
-            <Route
-              path={`:${params.organizationName}${routes.boards}/:${params.boardId}`}
-              element={<BoardPage />}
-            />
+              <Route element={<OrganizationGuard permission="boards" />}>
+                <Route
+                  path={`:${params.organizationSlug}/${routes.boards}/:${params.boardId}`}
+                  element={<BoardPage />}
+                />
+              </Route>
 
-            <Route element={<OrgNavigationLayout />}>
-              <Route
-                path={`:${params.organizationName}${routes.boards}`}
-                element={<Boards />}
-              />
-              <Route
-                path={`:${params.organizationName}${routes.members}`}
-                element={<div>Tabela de membros</div>}
-              />
-              <Route
-                path={`:${params.organizationName}${routes.invites}`}
-                element={
-                  <div>Pagina de registro para acompanhar os convites</div>
-                }
-              />
+              <Route path={`:${params.organizationSlug}`}>
+                <Route element={<OrgNavigationLayout />}>
+                  <Route element={<OrganizationGuard permission="boards" />}>
+                    <Route path={routes.boards} element={<Boards />} />
+                  </Route>
+
+                  <Route element={<OrganizationGuard permission="members" />}>
+                    <Route
+                      path={routes.members}
+                      element={<div>Tabela de membros</div>}
+                    />
+                  </Route>
+
+                  <Route element={<OrganizationGuard permission="invites" />}>
+                    <Route
+                      path={routes.invitations}
+                      element={
+                        <div>
+                          Pagina de registro para acompanhar os convites
+                        </div>
+                      }
+                    />
+                  </Route>
+                </Route>
+              </Route>
             </Route>
           </Route>
-        </Route>
 
-        <Route element={<AuthGuard isPrivate={false} />}>
-          <Route element={<AuthLayout />}>
-            <Route path={routes.login} element={<Login />} />
+          <Route element={<AuthGuard isPrivate={false} />}>
+            <Route element={<AuthLayout />}>
+              <Route path={routes.login} element={<Login />} />
+              <Route path={routes.register} element={<Register />} />
+            </Route>
           </Route>
-        </Route>
-      </Routes>
+        </Routes>
+      </AnimatePresence>
     </Suspense>
   );
 }

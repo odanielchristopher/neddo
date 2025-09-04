@@ -1,4 +1,3 @@
-import { authService } from '@app/services/authService';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { createContext, useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -6,6 +5,7 @@ import { toast } from 'sonner';
 import { AUTH_QUERY_KEY } from '@app/config/constants';
 import { localStorageKeys } from '@app/config/localStorageKeys';
 import type { IUser } from '@app/entities/User';
+import { usersService } from '@app/services/usersService';
 import { capitalizeFirstLetter } from '@app/utils/capitalizeFirstLetter';
 import { LaunchScreen } from '@views/components/app/LaunchScreen';
 
@@ -30,7 +30,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const { isError, isFetching, isSuccess, data } = useQuery({
     queryKey: AUTH_QUERY_KEY(),
-    queryFn: () => authService.me(),
+    queryFn: usersService.me,
     staleTime: Infinity,
     enabled: signedIn,
   });

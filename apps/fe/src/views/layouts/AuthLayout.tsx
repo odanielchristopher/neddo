@@ -1,10 +1,17 @@
+import * as motion from 'motion/react-client';
 import { Outlet } from 'react-router';
 
 import { Logo } from '@views/components/ui/Logo';
 
 export function AuthLayout() {
   return (
-    <div className="relative flex h-full w-full">
+    <motion.div
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0 }}
+      transition={{ duration: 0.2, ease: 'easeInOut' }}
+      className="relative flex h-full w-full"
+    >
       <div className="flex h-full w-full flex-col items-center justify-center gap-16">
         <Logo
           classNames={{
@@ -32,6 +39,6 @@ export function AuthLayout() {
           </p>
         </div>
       </div> */}
-    </div>
+    </motion.div>
   );
 }

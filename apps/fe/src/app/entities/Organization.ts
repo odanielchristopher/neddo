@@ -1,6 +1,8 @@
+export type OrganizationRole = 'ADMIN' | 'OWNER' | 'MEMBER';
+
 export interface IOrganization {
   id: string;
   name: string;
-  pathname: string;
+  slug: string;
   imagePath?: string;
 }

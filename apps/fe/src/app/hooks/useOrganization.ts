@@ -5,19 +5,22 @@ import {
   organizationsService,
   type OrganizationsService,
 } from '@app/services/organizationsService';
+import { minutes } from '@app/utils/minutes';
 
 export function useOrganization({
   id,
-  pathname,
+  slug,
 }: OrganizationsService.GetOneInput = {}) {
-  const { data: organization, isLoading } = useQuery({
-    queryKey: ORGS_QUERY_KEY({ pathname, id }),
-    queryFn: () => organizationsService.getOne({ pathname }),
-    enabled: !!pathname || !!id,
+  const { data, isLoading } = useQuery({
+    queryKey: ORGS_QUERY_KEY({ slug, id }),
+    queryFn: () => organizationsService.getOne({ slug: slug }),
+    enabled: !!slug || !!id,
+    staleTime: minutes(10),
   });
 
   return {
-    organization,
+    organization: data?.organization,
+    role: data?.role,
     isLoading,
   };
 }

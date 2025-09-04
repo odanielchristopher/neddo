@@ -1,7 +1,5 @@
-import type { IOrganization } from './Organization';
-
 export interface IUser {
+  id: string;
   name: string;
   email: string;
-  organizations: IOrganization[];
 }

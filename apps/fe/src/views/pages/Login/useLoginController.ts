@@ -1,12 +1,12 @@
 // import { randomUUID } from 'node:crypto';
 
-import { authService } from '@app/services/authService';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { useAuth } from '@app/hooks/useAuth';
+import { authService } from '@app/services/authService';
 
 import { type LoginData, loginSchema } from './schema';
 

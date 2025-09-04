@@ -1,5 +1,5 @@
 export const params = {
-  organizationName: 'organizationName',
+  organizationSlug: 'organizationSlug',
   boardId: 'boardId',
 };
 

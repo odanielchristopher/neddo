@@ -3,7 +3,6 @@ import { Link, useSearchParams } from 'react-router';
 
 import { useAuth } from '@app/hooks/useAuth';
 import { boards } from '@app/mocks/boards';
-import { routes } from '@app/Router/routes';
 import { capitalizeFirstLetter } from '@app/utils/capitalizeFirstLetter';
 import {
   Avatar,
@@ -34,7 +33,7 @@ export function Boards() {
       {filteredBoards.map((board) => (
         <Link
           key={board.id}
-          to={`/${board.organization.name.toLowerCase()}${routes.boards}/${board.id}`}
+          to={board.id}
           className="bg-card hover:border-primary flex h-40 w-full flex-col rounded-2xl border transition-all hover:scale-[101%]"
         >
           <Avatar className="bg-primary size-full flex-1 rounded-none rounded-t-2xl">
