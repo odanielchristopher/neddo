@@ -1,33 +1,21 @@
 import { User } from '@application/entities/user';
 import { UsersRepository } from '@infra/database/repositories/users.repository';
-import { Inject, Injectable } from '@kernel/decorators';
+import { Injectable } from '@kernel/decorators';
 import { NotFoundException } from '@kernel/exceptions';
 
-@Injectable({
-  scope: 'request',
-})
-export class ValidateUserOwnershipUseCase {
-  constructor(
-    private readonly usersRepository: UsersRepository,
-    @Inject('organizationId') private readonly organizationId: string,
-  ) {}
+@Injectable()
+export class ValidateUserExistenceUseCase {
+  constructor(private readonly usersRepository: UsersRepository) {}
 
   // Genérico para tuplas de qualquer tamanho
   async validate<TUserIds extends string[]>(
-    input: ValidateUserOwnershipUseCase.Input<TUserIds>,
-  ): Promise<ValidateUserOwnershipUseCase.Output<TUserIds>> {
+    input: ValidateUserExistenceUseCase.Input<TUserIds>,
+  ): Promise<ValidateUserExistenceUseCase.Output<TUserIds>> {
     const userIds = [...input];
 
     const users = await this.usersRepository.findMany({
       where: {
         id: { in: userIds },
-        active: true,
-        organizations: {
-          some: {
-            organizationId: this.organizationId,
-            archived: false,
-          },
-        },
       },
     });
 
@@ -41,11 +29,11 @@ export class ValidateUserOwnershipUseCase {
     // Retorna na mesma ordem do input
     return userIds.map(
       (id) => userMap.get(id)!,
-    ) as ValidateUserOwnershipUseCase.Output<TUserIds>;
+    ) as ValidateUserExistenceUseCase.Output<TUserIds>;
   }
 }
 
-export namespace ValidateUserOwnershipUseCase {
+export namespace ValidateUserExistenceUseCase {
   // Input agora precisa ser tupla literal para inferência
   export type Input<T extends string[]> = readonly [...T];
 

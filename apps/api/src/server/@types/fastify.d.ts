@@ -1,9 +1,7 @@
-/* eslint-disable no-duplicate-imports */
 /* eslint-disable @typescript-eslint/naming-convention */
 import 'fastify';
 
 import { OrganizationRole } from '@prisma/client';
-import { RouteShorthandOptions } from 'fastify';
 
 import { Organization } from '@application/entities/organization.entity';
 import { IController } from '@kernel/contracts';
@@ -24,5 +22,9 @@ declare module 'fastify' {
       controller: Constructor<IController<any>>,
       options?: RouteShorthandOptions,
     ): void;
+  }
+
+  interface RouteShorthandOptions {
+    controller?: string;
   }
 }

@@ -1,13 +1,13 @@
 import { InviteUserUseCase } from '@application/usecases/invites/invite-user.usecase';
 import { IController } from '@kernel/contracts';
-import { Body, Controller, Get, StatusCode } from '@kernel/decorators';
+import { Body, Controller, Post, StatusCode } from '@kernel/decorators';
 import { HttpStatus } from '@kernel/enums';
 import { ActiveUserId } from '@shared/decorators';
 
 import { InviteUserDto, inviteUserSchema } from './schemas/invite-user.schema';
 
 @Controller('/invite-user')
-@Get()
+@Post()
 @StatusCode(HttpStatus.OK)
 export class InviteUserController extends IController<InviteUserController.Response> {
   constructor(private readonly inviteUserUseCase: InviteUserUseCase) {

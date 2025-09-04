@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { Server as HttpServer } from 'node:http';
 
 import { Server } from 'socket.io';
@@ -52,16 +51,15 @@ export class SocketProvider {
     });
 
     this.io.on('connection', (socket) => {
-      console.log(`🔌 Socket conectado: ${socket.id}`);
+      // console.log(`🔌 Socket conectado: ${socket.id}`);
 
       socket.on('joinUser', (userId: string) => {
         socket.join(`user:${userId}`);
-        console.log(`👤 Usuário ${userId} entrou na sala user:${userId}`);
       });
 
-      socket.on('disconnect', () => {
-        console.log(`❌ Socket desconectado: ${socket.id}`);
-      });
+      // socket.on('disconnect', () => {
+      //   console.log(`❌ Socket desconectado: ${socket.id}`);
+      // });
     });
   }
 
@@ -72,21 +70,4 @@ export class SocketProvider {
 
     return this.io;
   }
-
-  emitToUser({ userId, event, data }: SocketProvider.EmitTo<'user'>) {
-    this.getIO().to(`user:${userId}`).emit(event, data);
-  }
-
-  emitToBoard({ boardId, event, data }: SocketProvider.EmitTo<'board'>) {
-    this.getIO().to(`board:${boardId}`).emit(event, data);
-  }
-}
-
-export namespace SocketProvider {
-  export type EmitTo<T extends string> = {
-    [K in `${T}Id`]: string;
-  } & {
-    event: string;
-    data: any;
-  };
 }

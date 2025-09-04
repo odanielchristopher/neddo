@@ -1,12 +1,11 @@
 import { InviteUserDto } from '@application/controllers/invites/schemas/invite-user.schema';
 import { Organization } from '@application/entities/organization.entity';
-import { ValidateUserOwnershipUseCase } from '@application/utils/validations';
+import { ValidateUserExistenceUseCase } from '@application/utils/validations/validate-user-existence.usecase';
 import { InvitationsRepository } from '@infra/database/repositories/invitations.repository';
-import InviteUserEmail from '@infra/email/templates/invite-user.template';
 import { MailGateway } from '@infra/gateways/mail.gateway';
+import { NotificationsGateway } from '@infra/gateways/notifications.gateway';
 import { Inject, Injectable } from '@kernel/decorators';
 import { env } from '@shared/config';
-import { formatDate } from '@shared/utils';
 
 @Injectable({
   scope: 'request',
@@ -16,8 +15,9 @@ export class InviteUserUseCase {
     @Inject('organization')
     private readonly organization: Organization,
     private readonly mailGateway: MailGateway,
+    private readonly notificationsGateway: NotificationsGateway,
     private readonly invitationsRepository: InvitationsRepository,
-    private readonly validateUserOwnershipUseCase: ValidateUserOwnershipUseCase,
+    private readonly validateUserExistenceUseCase: ValidateUserExistenceUseCase,
   ) {}
 
   async execute({
@@ -27,7 +27,7 @@ export class InviteUserUseCase {
     role,
   }: InviteUserUseCase.Input): Promise<InviteUserUseCase.Output> {
     const [invited, invitedBy] =
-      await this.validateUserOwnershipUseCase.validate([invitedId, userId]);
+      await this.validateUserExistenceUseCase.validate([invitedId, userId]);
 
     const invitation = await this.invitationsRepository.create({
       data: {
@@ -39,19 +39,32 @@ export class InviteUserUseCase {
       },
     });
 
-    await this.mailGateway.send({
-      subject: 'Convite',
-      to: invited.email,
-      template: InviteUserEmail({
-        inviteDate: formatDate(invitation.createdAt),
-        invitedByEmail: invitedBy.email,
-        invitedByUsername: invitedBy.name,
-        userImage: invited.imagePath ?? undefined,
-        username: invited.name,
-        teamImage: this.organization.imagePath ?? undefined,
-        teamName: this.organization.name,
-        inviteLink: `${env.WEB_URL}/invites/${invitation.id}`,
-      }),
+    // await this.mailGateway.send({
+    //   subject: 'Convite',
+    //   to: invited.email,
+    //   template: InviteUserEmail({
+    //     inviteDate: formatDate(invitation.createdAt),
+    //     invitedByEmail: invitedBy.email,
+    //     invitedByUsername: invitedBy.name,
+    //     userImage: invited.imagePath ?? undefined,
+    //     username: invited.name,
+    //     teamImage: this.organization.imagePath ?? undefined,
+    //     teamName: this.organization.name,
+    //     inviteLink: `${env.WEB_URL}/invites/${invitation.id}`,
+    //   }),
+    // });
+
+    this.notificationsGateway.notifyUser({
+      userId: invited.id,
+      event: 'invitation',
+      payload: {
+        id: invitation.id,
+        link: `${env.WEB_URL}/invites/${invitation.id}`,
+        organization: {
+          imagePath: this.organization.imagePath,
+          name: this.organization.name,
+        },
+      },
     });
   }
 }

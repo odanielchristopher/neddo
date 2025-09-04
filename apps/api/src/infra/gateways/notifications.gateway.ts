@@ -6,10 +6,19 @@ import { USER_SOCKET_CONNECTION_KEY } from '@shared/constants';
 export class NotificationsGateway {
   constructor(private readonly socketProvider: SocketProvider) {}
 
-  notifyUser(userId: string, event: string, payload: any) {
+  notifyUser({ userId, event, payload }: NotificationsGateway.Notify<'user'>) {
     this.socketProvider
       .getIO()
       .to(USER_SOCKET_CONNECTION_KEY(userId))
       .emit(event, payload);
   }
+}
+
+export namespace NotificationsGateway {
+  export type Notify<T extends string> = {
+    [K in `${T}Id`]: string;
+  } & {
+    event: string;
+    payload: any;
+  };
 }

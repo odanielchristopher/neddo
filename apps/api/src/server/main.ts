@@ -8,8 +8,6 @@ import FastifyStatic from '@fastify/static';
 import Fastify from 'fastify';
 import { ZodError } from 'zod';
 
-import { JwtService } from '@infra/lib/jwt.service';
-import { Container } from '@kernel/di/container.di';
 import {
   ApplicationException,
   ErrorCode,
@@ -75,10 +73,18 @@ fastify.setErrorHandler((error, request, reply) => {
   );
 });
 
-fastify.addHook('onReady', async () => {
-  const container = Container.getInstance();
+fastify.addHook('onRoute', (route) => {
+  if (route.method === 'HEAD') {
+    return;
+  }
 
-  container.registerValue(JwtService, fastify.jwt);
+  if (route.controller) {
+    const method = String(route.method).padEnd(6, ' '); // GET, POST, etc.
+    const url = String(route.url).padEnd(30, ' '); // ajusta tamanho da coluna
+    const controller = `[${route.controller}]`;
+
+    console.log(`ROUTE > ${method} ${url} ${controller}`);
+  }
 });
 
 export default fastify;

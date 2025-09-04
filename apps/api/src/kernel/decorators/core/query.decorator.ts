@@ -1,3 +1,3 @@
 import { createTypedParamDecorator } from '@kernel/utils';
 
-export const Query = createTypedParamDecorator('query');
+export const Query = createTypedParamDecorator('params');

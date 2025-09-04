@@ -32,6 +32,28 @@ export class OrganizationsRepository {
     });
   }
 
+  findOrgBySlug({ slug, userId }: { slug: string; userId: string }) {
+    return this.prismaService.organizationUser.findFirst({
+      where: {
+        userId,
+        organization: {
+          slug,
+        },
+      },
+      select: {
+        role: true,
+        organization: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+            imagePath: true,
+          },
+        },
+      },
+    });
+  }
+
   findOrgsByUserId(userId: string) {
     return this.prismaService.organizationUser.findMany({
       where: { userId },

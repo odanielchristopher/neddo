@@ -22,33 +22,34 @@ export function routeAdapter(
     );
   }
 
-  // eslint-disable-next-line no-console
-  console.log(`ROUTE > ${method.toUpperCase()} ${path} in ${controller.name}`);
-
   return async (fastify) => {
-    fastify[method](path, options, async (request, reply) => {
-      const userId = request.user?.sub;
-      const organizationUser = request.organizationUser;
-      const organization = request.organization;
-      const organizationId = request.headers['x-org-id'] as string;
+    fastify[method](
+      path,
+      { ...options, controller: controller.name },
+      async (request, reply) => {
+        const userId = request.user?.sub;
+        const organizationUser = request.organizationUser;
+        const organization = request.organization;
+        const organizationId = request.headers['x-org-id'] as string;
 
-      return ExecutionContext.run(
-        {
-          userId,
-          organizationId,
-          organizationUser,
-          organization,
-          request,
-          controller,
-          handler: 'execute',
-        },
-        async () => {
-          const instance = container.resolve(controller.name) as IController;
+        return ExecutionContext.run(
+          {
+            userId,
+            organizationId,
+            organizationUser,
+            organization,
+            request,
+            controller,
+            handler: 'execute',
+          },
+          async () => {
+            const instance = container.resolve(controller.name) as IController;
 
-          const { code, body } = await instance.handler();
-          return reply.code(code).send(body);
-        },
-      );
-    });
+            const { code, body } = await instance.handler();
+            return reply.code(code).send(body);
+          },
+        );
+      },
+    );
   };
 }

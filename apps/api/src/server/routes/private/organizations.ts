@@ -1,5 +1,6 @@
 import { FastifyPluginAsync } from 'fastify';
 
+import { FindOrganizationBySlugController } from '@application/controllers/organizations/find-organization-by-slug.controller';
 import { ListOrganizationUsersController } from '@application/controllers/organizations/list-organization-users.controller';
 import { ListUserOrganizationsController } from '@application/controllers/organizations/list-user-organizations.controller';
 import { middlewareAdapter } from '@server/adapters/middleware.adapter';
@@ -12,4 +13,5 @@ export const organizationRoutes: FastifyPluginAsync = async (fastify) => {
     ],
   });
   fastify.adapter(ListUserOrganizationsController);
+  fastify.adapter(FindOrganizationBySlugController);
 };
