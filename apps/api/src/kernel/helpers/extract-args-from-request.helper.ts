@@ -4,16 +4,16 @@ import { PARAMS_METADATA_KEY } from '@kernel/constants';
 import { ExecutionContext } from '@kernel/context';
 import { ArgMetadata } from '@kernel/types';
 
-export function extractArgsFromRequest(
+export async function extractArgsFromRequest(
   controllerClass: any,
   key: string,
-): any[] {
+): Promise<any[]> {
   const params: ArgMetadata[] =
     Reflect.getMetadata(PARAMS_METADATA_KEY, controllerClass, key!) || [];
   const args: any[] = [];
 
   for (const { data, factory, index, parser } of params) {
-    let value = factory(data, ExecutionContext.get(), index);
+    let value = await factory(data, ExecutionContext.get(), index);
 
     if (parser instanceof ZodType) {
       value = parser.parse(value);

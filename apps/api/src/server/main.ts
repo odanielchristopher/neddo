@@ -4,6 +4,7 @@ import path from 'node:path';
 
 import FastifyCors from '@fastify/cors';
 import FastifyJwt from '@fastify/jwt';
+import FastifyMultipart from '@fastify/multipart';
 import FastifyStatic from '@fastify/static';
 import Fastify from 'fastify';
 import { ZodError } from 'zod';
@@ -32,6 +33,8 @@ fastify.register(FastifyStatic, {
   root: path.join(__dirname, '..', '..', '..', 'public'),
   prefix: '/public',
 });
+
+fastify.register(FastifyMultipart);
 
 fastify.register(routes);
 

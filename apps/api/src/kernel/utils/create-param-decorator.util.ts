@@ -10,7 +10,7 @@ export type ParamFactory<TData = any, TOutput = any> = (
   data: TData,
   context: ExecutionContext.Store,
   index: number,
-) => TOutput;
+) => TOutput | Promise<TOutput>;
 
 export function createParamDecorator<FactoryData = any, FactoryOutput = any>(
   factory: ParamFactory<FactoryData, FactoryOutput>,

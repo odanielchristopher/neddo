@@ -3,7 +3,10 @@ import { extractArgsFromRequest } from '@kernel/helpers/extract-args-from-reques
 
 export abstract class IController<TBody = undefined | void> {
   public async handler(): Promise<Controller.Response<TBody>> {
-    const args = extractArgsFromRequest(this.constructor, this.execute.name);
+    const args = await extractArgsFromRequest(
+      this.constructor,
+      this.execute.name,
+    );
     const body = await this.execute(...args);
 
     return {
