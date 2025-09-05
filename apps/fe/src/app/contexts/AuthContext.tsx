@@ -122,7 +122,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success(`Bem-vindo, ${capitalizeFirstLetter(data.name)}!`);
+      toast.success(`Bem-vindo, ${capitalizeFirstLetter(data.firstName)}!`);
     }
   }, [isSuccess, data]);
 

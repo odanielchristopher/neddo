@@ -7,7 +7,7 @@ import { InputAvatar } from '@views/components/ui/InputAvatar';
 
 import type { RegisterFormData } from '../../useRegisterController';
 
-export function OrganizationInfo() {
+export function OrganizationInfo({ isLoading }: { isLoading?: boolean }) {
   const { register, formState, ...form } = useFormContext<RegisterFormData>();
 
   return (
@@ -34,7 +34,12 @@ export function OrganizationInfo() {
         <StepperPreviousButton type="button" className="flex-1/2">
           Anterior
         </StepperPreviousButton>
-        <Button type="submit" className="flex-1/2 rounded-md">
+        <Button
+          type="submit"
+          className="flex-1/2 rounded-md"
+          disabled={!formState.isValid || isLoading}
+          isLoading={isLoading}
+        >
           Criar conta
         </Button>
       </div>

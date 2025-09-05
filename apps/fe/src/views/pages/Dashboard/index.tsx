@@ -33,7 +33,7 @@ export function Dashboard() {
     <div>
       <header className="flex h-20 w-full items-center justify-between border-b p-6">
         <h1 className="text-2xl font-bold">
-          Bem-vindo(a), {capitalizeFirstLetter(user.name)}!
+          Bem-vindo(a), {capitalizeFirstLetter(user.firstName)}!
         </h1>
       </header>
 

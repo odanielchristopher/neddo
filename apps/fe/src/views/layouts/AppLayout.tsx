@@ -1,17 +1,10 @@
 import { PlusIcon, Power } from 'lucide-react';
-import { useEffect } from 'react';
 import { Link, Outlet, useParams } from 'react-router';
-import socketIo from 'socket.io-client';
-import { toast } from 'sonner';
 
-import { env } from '@app/config/env';
-import { localStorageKeys } from '@app/config/localStorageKeys';
 import { useAuth } from '@app/hooks/useAuth';
 import { useOrganizations } from '@app/hooks/useOrganizations';
 import { cn } from '@app/lib/utils';
 import { routes } from '@app/Router/routes';
-import type { Invitation } from '@app/types';
-import { InvitationToast } from '@views/components/app/InvitationToast';
 import {
   Avatar,
   AvatarFallback,
@@ -27,35 +20,6 @@ export function AppLayout() {
     organizationName: string;
   }>();
   const { organizations, isLoading } = useOrganizations();
-
-  useEffect(() => {
-    const token = localStorage.getItem(localStorageKeys.ACCESS_TOKEN);
-
-    if (!user || !token) return;
-
-    const socket = socketIo(env.VITE_API_URL, {
-      transports: ['websocket'],
-      auth: {
-        token: `Bearer ${token}`,
-      },
-    });
-
-    socket.on('connect', () => {
-      socket.emit('joinUser', user.id);
-    });
-
-    socket.on('invitation', (invitation: Invitation) => {
-      toast.custom((toastId) => (
-        <InvitationToast invitation={invitation} toastId={toastId} />
-      ));
-    });
-
-    return () => {
-      if (user && token) {
-        socket.disconnect();
-      }
-    };
-  }, [user]);
 
   if (!user) return null;
 

@@ -9,13 +9,13 @@ import { Input } from '@views/components/ui/Input';
 
 import type { RegisterFormData } from '../../useRegisterController';
 
-export function Password() {
+export function AccountInfo() {
   const { register, formState, ...form } = useFormContext<RegisterFormData>();
 
   const { nextStep } = useStepper();
 
   async function handleNextStep() {
-    const isValid = await form.trigger('passwordInfo', {
+    const isValid = await form.trigger('accountInfo', {
       shouldFocus: true,
     });
 
@@ -28,15 +28,26 @@ export function Password() {
     <div className="flex flex-col p-4">
       <div className="space-y-3">
         <Input
+          placeholder="E-mail*"
+          {...register('accountInfo.email')}
+          error={formState.errors.accountInfo?.email?.message}
+        />
+        <Input
+          placeholder="Confirme seu email*"
+          {...register('accountInfo.confirmEmail')}
+          error={formState.errors.accountInfo?.confirmEmail?.message}
+        />
+
+        <Input
           placeholder="Senha*"
-          {...register('passwordInfo.password')}
-          error={formState.errors.passwordInfo?.password?.message}
+          {...register('accountInfo.password')}
+          error={formState.errors.accountInfo?.password?.message}
         />
 
         <Input
           placeholder="Confirme sua senha*"
-          {...register('passwordInfo.confirmPassword')}
-          error={formState.errors.passwordInfo?.confirmPassword?.message}
+          {...register('accountInfo.confirmPassword')}
+          error={formState.errors.accountInfo?.confirmPassword?.message}
         />
       </div>
 

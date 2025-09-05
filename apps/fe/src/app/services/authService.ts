@@ -41,7 +41,9 @@ class AuthService {
     } = await this.httpClient.post<AuthService.SignUpOutPut>('/auth/sign-up', {
       user: {
         avatarPath: userAvatarPath,
-        name: user.name,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        age: user.age,
         email: user.email,
         password: user.password,
       },
@@ -87,7 +89,9 @@ export namespace AuthService {
   export type SignUpInput = {
     user: {
       avatar?: File;
-      name: string;
+      firstName: string;
+      lastName: string;
+      age: number;
       email: string;
       password: string;
     };

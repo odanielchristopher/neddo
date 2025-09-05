@@ -35,19 +35,20 @@ export function PersonalInfo() {
 
         <div className="mt-8 w-full space-y-3">
           <Input
-            placeholder="Nome do usuário*"
-            {...register('personalInfo.name')}
-            error={formState.errors.personalInfo?.name?.message}
+            placeholder="Nome*"
+            {...register('personalInfo.firstName')}
+            error={formState.errors.personalInfo?.firstName?.message}
           />
           <Input
-            placeholder="E-mail*"
-            {...register('personalInfo.email')}
-            error={formState.errors.personalInfo?.email?.message}
+            placeholder="Sobrenome*"
+            {...register('personalInfo.lastName')}
+            error={formState.errors.personalInfo?.lastName?.message}
           />
           <Input
-            placeholder="Confirme seu email*"
-            {...register('personalInfo.confirmEmail')}
-            error={formState.errors.personalInfo?.confirmEmail?.message}
+            type="number"
+            placeholder="Idade*"
+            {...register('personalInfo.age')}
+            error={formState.errors.personalInfo?.age?.message}
           />
         </div>
       </div>

@@ -7,13 +7,13 @@ import z from 'zod';
 import { useAuth } from '@app/hooks/useAuth';
 import { authService } from '@app/services/authService';
 
+import { accountInfoSchema as accountSchema } from './steps/AccountInfo/schema';
 import { organizationSchema } from './steps/OrganizationInfo/schema';
-import { passwordSchema } from './steps/Password/schema';
 import { personalSchema } from './steps/PersonalInfo/schema';
 
 const registerSchema = z.object({
   personalInfo: personalSchema,
-  passwordInfo: passwordSchema,
+  accountInfo: accountSchema,
   organizationInfo: organizationSchema,
 });
 
@@ -22,6 +22,7 @@ export type RegisterFormData = z.infer<typeof registerSchema>;
 export function useRegisterController() {
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
+    mode: 'onChange',
   });
 
   const { signin } = useAuth();
@@ -31,13 +32,15 @@ export function useRegisterController() {
   });
 
   const handleSubmit = form.handleSubmit(
-    async ({ personalInfo, passwordInfo, organizationInfo }) => {
+    async ({ personalInfo, accountInfo, organizationInfo }) => {
       try {
         const user = {
           avatar: personalInfo.avatar,
-          name: personalInfo.name,
-          email: personalInfo.email,
-          password: passwordInfo.password,
+          firstName: personalInfo.firstName,
+          lastName: personalInfo.lastName,
+          age: personalInfo.age,
+          email: accountInfo.email,
+          password: accountInfo.password,
         };
         const organization = organizationInfo;
 

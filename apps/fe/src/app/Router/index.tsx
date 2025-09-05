@@ -1,6 +1,6 @@
 import { AnimatePresence } from 'motion/react';
 import { Suspense } from 'react';
-import { Navigate, Route, Routes, useLocation } from 'react-router';
+import { Navigate, Route, Routes } from 'react-router';
 
 import { AuthGuard } from '@app/guards/AuthGuard';
 import { OrganizationGuard } from '@app/guards/OrganizationGuard';
@@ -23,11 +23,10 @@ const { Login } = lazyLoad(() => import('@views/pages/Login'));
 const { Register } = lazyLoad(() => import('@views/pages/Register'));
 
 export function Router() {
-  const location = useLocation();
   return (
     <AnimatePresence mode="wait">
       <Suspense fallback={<LaunchScreen />}>
-        <Routes location={location} key={location.pathname}>
+        <Routes>
           <Route index element={<Navigate to={routes.login} />} />
           <Route element={<AuthGuard isPrivate />}>
             <Route element={<AppLayout />}>

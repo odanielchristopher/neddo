@@ -4,13 +4,13 @@ import { Link } from 'react-router';
 import { routes } from '@app/Router/routes';
 import { Stepper } from '@views/components/app/Stepper';
 
+import { AccountInfo } from './steps/AccountInfo';
 import { OrganizationInfo } from './steps/OrganizationInfo';
-import { Password } from './steps/Password';
 import { PersonalInfo } from './steps/PersonalInfo';
 import { useRegisterController } from './useRegisterController';
 
 export function Register() {
-  const { form, handleSubmit } = useRegisterController();
+  const { form, isLoading, handleSubmit } = useRegisterController();
 
   return (
     <div>
@@ -31,12 +31,12 @@ export function Register() {
                 content: <PersonalInfo />,
               },
               {
-                label: 'Senha',
-                content: <Password />,
+                label: 'Informações de login',
+                content: <AccountInfo />,
               },
               {
                 label: 'Organização',
-                content: <OrganizationInfo />,
+                content: <OrganizationInfo isLoading={isLoading} />,
               },
             ]}
           />
