@@ -1,36 +1,37 @@
 import { CircleXIcon, PencilIcon, SquareChartGanttIcon } from 'lucide-react';
-import { useState } from 'react';
 import Dropzone from 'react-dropzone';
 
 import { cn } from '@app/lib/utils';
+import { megabytes } from '@app/utils/megabytes';
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from '@views/components/ui/Avatar';
 
+import { Spinner } from './Spinner';
+
 interface IInputAvatarProps {
   value?: string | File;
   onChange?(value: File | undefined): void;
   className?: string;
+  isLoading?: boolean;
 }
 
-export function InputAvatar({ value, onChange, className }: IInputAvatarProps) {
-  const [imageUrlPreview, setImageUrlPreview] = useState(() => {
-    if (value && typeof value !== 'string') {
-      return URL.createObjectURL(value);
-    }
-
-    return value;
-  });
+export function InputAvatar({
+  value,
+  className,
+  isLoading,
+  onChange,
+}: IInputAvatarProps) {
+  const imageUrlPreview =
+    value && typeof value !== 'string' ? URL.createObjectURL(value) : value;
 
   function handleValue(file: File) {
-    setImageUrlPreview(URL.createObjectURL(file));
     onChange?.(file);
   }
 
   function handleRemoveImage() {
-    setImageUrlPreview(undefined);
     onChange?.(undefined);
   }
 
@@ -43,9 +44,10 @@ export function InputAvatar({ value, onChange, className }: IInputAvatarProps) {
         }}
         onDropAccepted={([file]) => handleValue(file)}
         maxFiles={1}
+        maxSize={megabytes(1)}
         noClick
       >
-        {({ getRootProps, getInputProps, open }) => (
+        {({ getRootProps, getInputProps, open, isDragActive }) => (
           <div {...getRootProps()}>
             <input {...getInputProps()} />
 
@@ -55,8 +57,15 @@ export function InputAvatar({ value, onChange, className }: IInputAvatarProps) {
                 alt="Imagem do produto"
                 className="object-cover"
               />
-              <AvatarFallback className="bg-primary">
-                <SquareChartGanttIcon className="size-7" />
+              <AvatarFallback
+                className={cn(
+                  'bg-primary transition-colors',
+                  isDragActive && 'bg-violet-400',
+                )}
+              >
+                {!isLoading && <SquareChartGanttIcon className="size-7" />}
+
+                {isLoading && <Spinner />}
               </AvatarFallback>
             </Avatar>
 
