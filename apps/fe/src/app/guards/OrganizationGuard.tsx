@@ -5,6 +5,7 @@ import {
   canAccess,
 } from '@app/guards/permissions';
 import { useOrganization } from '@app/hooks/useOrganization';
+import { LaunchScreen } from '@views/components/app/LaunchScreen';
 
 interface IOrganizationGuardProps {
   permission: OrganizationPermission;
@@ -21,7 +22,7 @@ export function OrganizationGuard({ permission }: IOrganizationGuardProps) {
   return (
     <>
       {/* Fazer um loading... */}
-      {/* <LaunchScreen isLoading={isLoading} /> */}
+      <LaunchScreen isLoading={isLoading} />
 
       <Outlet />
     </>

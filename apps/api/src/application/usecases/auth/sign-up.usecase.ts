@@ -24,7 +24,7 @@ export class SignUpUseCase {
     user,
     organization,
   }: SignUpUseCase.Input): Promise<SignUpUseCase.Output> {
-    const { name, email, password } = user;
+    const { avatarPath, name, email, password } = user;
 
     const emailAlreadyExists = await this.usersRepository.findUnique({
       where: { email },
@@ -47,6 +47,7 @@ export class SignUpUseCase {
 
     const created = await this.usersRepository.create({
       data: {
+        avatarPath,
         name,
         email,
         password: hashedPassword,

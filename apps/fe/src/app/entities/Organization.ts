@@ -4,5 +4,5 @@ export interface IOrganization {
   id: string;
   name: string;
   slug: string;
-  imagePath?: string;
+  avatarPath?: string;
 }

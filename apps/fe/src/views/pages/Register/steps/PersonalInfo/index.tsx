@@ -1,11 +1,11 @@
-import { useStepper } from '@app/hooks/useStepper';
 import { Controller, useFormContext } from 'react-hook-form';
 
+import { useStepper } from '@app/hooks/useStepper';
 import { StepperNextButton } from '@views/components/app/Stepper';
 import { Input } from '@views/components/ui/Input';
 import { InputAvatar } from '@views/components/ui/InputAvatar';
 
-import type { RegisterFormData } from '../..';
+import type { RegisterFormData } from '../../useRegisterController';
 
 export function PersonalInfo() {
   const { register, formState, ...form } = useFormContext<RegisterFormData>();
@@ -27,7 +27,7 @@ export function PersonalInfo() {
       <div className="flex w-full flex-col items-center">
         <Controller
           control={form.control}
-          name="personalInfo.imagePath"
+          name="personalInfo.avatar"
           render={({ field: { onChange, value } }) => (
             <InputAvatar value={value} onChange={onChange} />
           )}

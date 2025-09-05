@@ -1,34 +1,16 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider } from 'react-hook-form';
 import { Link } from 'react-router';
-import z from 'zod';
 
 import { routes } from '@app/Router/routes';
 import { Stepper } from '@views/components/app/Stepper';
 
 import { OrganizationInfo } from './steps/OrganizationInfo';
-import { organizationSchema } from './steps/OrganizationInfo/schema';
 import { Password } from './steps/Password';
-import { passwordSchema } from './steps/Password/schema';
 import { PersonalInfo } from './steps/PersonalInfo';
-import { personalSchema } from './steps/PersonalInfo/schema';
-
-const registerSchema = z.object({
-  personalInfo: personalSchema,
-  passwordInfo: passwordSchema,
-  organizationInfo: organizationSchema,
-});
-
-export type RegisterFormData = z.infer<typeof registerSchema>;
+import { useRegisterController } from './useRegisterController';
 
 export function Register() {
-  const form = useForm<RegisterFormData>({
-    resolver: zodResolver(registerSchema),
-  });
-
-  const handleSubmit = form.handleSubmit(async (formData) =>
-    console.log(formData),
-  );
+  const { form, handleSubmit } = useRegisterController();
 
   return (
     <div>

@@ -5,7 +5,7 @@ import { Button } from '@views/components/ui/Button';
 import { Input } from '@views/components/ui/Input';
 import { InputAvatar } from '@views/components/ui/InputAvatar';
 
-import type { RegisterFormData } from '../..';
+import type { RegisterFormData } from '../../useRegisterController';
 
 export function OrganizationInfo() {
   const { register, formState, ...form } = useFormContext<RegisterFormData>();
@@ -15,7 +15,7 @@ export function OrganizationInfo() {
       <div className="flex w-full flex-col items-center">
         <Controller
           control={form.control}
-          name="organizationInfo.imagePath"
+          name="organizationInfo.avatar"
           render={({ field: { onChange, value } }) => (
             <InputAvatar value={value} onChange={onChange} />
           )}

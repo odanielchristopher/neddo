@@ -1,13 +1,13 @@
-import { useStepper } from '@app/hooks/useStepper';
 import { useFormContext } from 'react-hook-form';
 
+import { useStepper } from '@app/hooks/useStepper';
 import {
   StepperNextButton,
   StepperPreviousButton,
 } from '@views/components/app/Stepper';
 import { Input } from '@views/components/ui/Input';
 
-import type { RegisterFormData } from '../..';
+import type { RegisterFormData } from '../../useRegisterController';
 
 export function Password() {
   const { register, formState, ...form } = useFormContext<RegisterFormData>();

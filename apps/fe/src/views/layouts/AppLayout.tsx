@@ -99,7 +99,10 @@ export function AppLayout() {
               >
                 <Link to={`${org.slug}/${routes.boards}`}>
                   <Avatar className="size-12">
-                    <AvatarImage className="object-cover" src={org.imagePath} />
+                    <AvatarImage
+                      className="object-cover"
+                      src={org.avatarPath}
+                    />
                     <AvatarFallback className="size-12 bg-transparent">
                       {org.name.slice(0, 2).toUpperCase()}
                     </AvatarFallback>

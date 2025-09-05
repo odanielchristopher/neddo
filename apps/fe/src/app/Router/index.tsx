@@ -25,8 +25,8 @@ const { Register } = lazyLoad(() => import('@views/pages/Register'));
 export function Router() {
   const location = useLocation();
   return (
-    <Suspense fallback={<LaunchScreen />}>
-      <AnimatePresence mode="wait">
+    <AnimatePresence mode="wait">
+      <Suspense fallback={<LaunchScreen />}>
         <Routes location={location} key={location.pathname}>
           <Route index element={<Navigate to={routes.login} />} />
           <Route element={<AuthGuard isPrivate />}>
@@ -75,7 +75,7 @@ export function Router() {
             </Route>
           </Route>
         </Routes>
-      </AnimatePresence>
-    </Suspense>
+      </Suspense>
+    </AnimatePresence>
   );
 }

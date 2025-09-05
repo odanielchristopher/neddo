@@ -35,7 +35,7 @@ export function OrgNavigationLayout() {
             <Avatar className="size-12">
               <AvatarImage
                 className="object-cover"
-                src={organization.imagePath}
+                src={organization.avatarPath}
               />
               <AvatarFallback className="bg-primary size-12">
                 {organization.name.slice(0, 2).toUpperCase()}
