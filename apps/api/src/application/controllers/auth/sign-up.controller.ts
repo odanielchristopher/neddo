@@ -25,5 +25,6 @@ export class SignUpController extends IController<SignUpController.Response> {
 export namespace SignUpController {
   export type Response = {
     accessToken: string;
+    refreshToken: string;
   };
 }

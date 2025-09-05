@@ -24,8 +24,10 @@ export class OrganizationsRepository {
         user: {
           select: {
             id: true,
+            firstName: true,
+            lastName: true,
+            age: true,
             email: true,
-            name: true,
           },
         },
       },

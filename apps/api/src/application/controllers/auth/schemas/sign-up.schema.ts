@@ -3,7 +3,9 @@ import z from 'zod';
 export const signUpSchema = z.object({
   user: z.object({
     avatarPath: z.string().optional(),
-    name: z.string().nonempty(),
+    firstName: z.string().nonempty(),
+    lastName: z.string().nonempty(),
+    age: z.number().int().min(18),
     email: z.email().nonempty(),
     password: z.string().nonempty().min(6),
   }),

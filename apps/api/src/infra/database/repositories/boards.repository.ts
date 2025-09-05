@@ -45,7 +45,6 @@ export class BoardsRepository {
         createdBy: {
           select: {
             id: true,
-            name: true,
             email: true,
           },
         },

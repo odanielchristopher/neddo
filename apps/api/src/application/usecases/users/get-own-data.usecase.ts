@@ -1,3 +1,4 @@
+import { User } from '@application/entities/user';
 import { UsersRepository } from '@infra/database/repositories/users.repository';
 import { Injectable } from '@kernel/decorators';
 import { NotFoundException } from '@kernel/exceptions';
@@ -14,7 +15,9 @@ export class GetOwnDataUseCase {
       select: {
         id: true,
         avatarPath: true,
-        name: true,
+        firstName: true,
+        lastName: true,
+        age: true,
         email: true,
       },
     });
@@ -23,12 +26,7 @@ export class GetOwnDataUseCase {
       throw new NotFoundException('User not found.');
     }
 
-    return {
-      id: user.id,
-      avatarPath: user.avatarPath,
-      name: user.name,
-      email: user.email,
-    };
+    return user;
   }
 }
 
@@ -37,10 +35,5 @@ export namespace GetOwnDataUseCase {
     userId: string;
   };
 
-  export type Output = {
-    id: string;
-    avatarPath: string | null;
-    name: string;
-    email: string;
-  };
+  export type Output = Omit<User, 'active'>;
 }
