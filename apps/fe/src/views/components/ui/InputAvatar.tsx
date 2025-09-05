@@ -1,5 +1,6 @@
 import { CircleXIcon, PencilIcon, SquareChartGanttIcon } from 'lucide-react';
 import Dropzone from 'react-dropzone';
+import { toast } from 'sonner';
 
 import { cn } from '@app/lib/utils';
 import { megabytes } from '@app/utils/megabytes';
@@ -43,6 +44,8 @@ export function InputAvatar({
           'image/png': [],
         }}
         onDropAccepted={([file]) => handleValue(file)}
+        onDropRejected={() => toast.error('Imagem inválida!')}
+        onError={() => toast.error('Erro desconhecido!')}
         maxFiles={1}
         maxSize={megabytes(1)}
         noClick
