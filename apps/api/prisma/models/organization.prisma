@@ -1,8 +1,8 @@
 model Organization {
-  id        String  @id @default(uuid()) @db.Uuid
-  name      String  @unique
-  slug      String  @unique
-  imagePath String? @map("image_path")
+  id         String  @id @default(uuid()) @db.Uuid
+  name       String  @unique
+  slug       String  @unique
+  avatarPath String? @map("avatar_path")
 
   users       OrganizationUser[]
   boards      Board[]

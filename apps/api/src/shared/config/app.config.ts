@@ -7,6 +7,7 @@ export class AppConfig {
   readonly auth: AppConfig.Auth;
   readonly mail: AppConfig.Mail;
   readonly db: AppConfig.Database;
+  readonly storage: AppConfig.Storage;
 
   constructor() {
     this.mail = {
@@ -25,6 +26,13 @@ export class AppConfig {
     this.auth = {
       jwt: {
         secret: env.JWT_SECRET,
+      },
+    };
+
+    this.storage = {
+      s3: {
+        bucket: env.S3_BUCKET,
+        region: env.S3_REGION,
       },
     };
   }
@@ -47,6 +55,13 @@ export namespace AppConfig {
   export type Auth = {
     jwt: {
       secret: string;
+    };
+  };
+
+  export type Storage = {
+    s3: {
+      bucket: string;
+      region: string;
     };
   };
 }

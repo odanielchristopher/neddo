@@ -47,7 +47,7 @@ export class OrganizationsRepository {
             id: true,
             name: true,
             slug: true,
-            imagePath: true,
+            avatarPath: true,
           },
         },
       },
@@ -63,7 +63,7 @@ export class OrganizationsRepository {
           select: {
             id: true,
             name: true,
-            imagePath: true,
+            avatarPath: true,
             slug: true,
           },
         },

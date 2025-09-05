@@ -13,6 +13,7 @@ export class GetOwnDataUseCase {
       where: { id: userId, active: true },
       select: {
         id: true,
+        avatarPath: true,
         name: true,
         email: true,
       },
@@ -24,6 +25,7 @@ export class GetOwnDataUseCase {
 
     return {
       id: user.id,
+      avatarPath: user.avatarPath,
       name: user.name,
       email: user.email,
     };
@@ -37,6 +39,7 @@ export namespace GetOwnDataUseCase {
 
   export type Output = {
     id: string;
+    avatarPath: string | null;
     name: string;
     email: string;
   };

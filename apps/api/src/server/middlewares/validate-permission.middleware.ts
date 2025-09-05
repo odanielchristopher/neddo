@@ -41,7 +41,7 @@ export class ValidatePermissionMiddleware extends IMiddleware {
             select: {
               id: true,
               name: true,
-              imagePath: true,
+              avatarPath: true,
               slug: true,
             },
           },

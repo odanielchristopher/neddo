@@ -28,7 +28,7 @@ export namespace ListUserOrganizationsUseCase {
       id: string;
       name: string;
       slug: string;
-      imagePath: string | null;
+      avatarPath: string | null;
     };
   }[];
 }

@@ -61,7 +61,7 @@ export class InviteUserUseCase {
         id: invitation.id,
         link: `${env.WEB_URL}/invites/${invitation.id}`,
         organization: {
-          imagePath: this.organization.imagePath,
+          imagePath: this.organization.avatarPath,
           name: this.organization.name,
         },
       },

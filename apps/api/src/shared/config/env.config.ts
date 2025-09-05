@@ -8,5 +8,7 @@ export const env = z
     RESEND_DOMAIN: z.string().nonempty(),
     API_URL: z.string().nonempty(),
     WEB_URL: z.string().nonempty(),
+    S3_BUCKET: z.string().nonempty(),
+    S3_REGION: z.string().nonempty(),
   })
   .parse(process.env);

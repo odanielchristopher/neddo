@@ -8,5 +8,5 @@ export type Organization = {
   id: string;
   name: string;
   slug: string;
-  imagePath: string | null;
+  avatarPath: string | null;
 };
